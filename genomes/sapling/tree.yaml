@@ -1,0 +1,26 @@
+# Tree configuration — Sapling
+# Amendable per Guideline 6. Null values are open decisions (see DECISIONS.md).
+
+tree:
+  id: sapling
+  title: "Sapling"          # working title — open decision D6
+  author: founder
+  taste_file: taste/sapling.founder.v0.2.md
+  seeded: 2026-07-10
+  framework: banyan-city    # a fork of this tree copies this whole genome directory
+
+format:
+  aspect_ratio: "9:16"
+  episode_seconds_min: 60
+  episode_seconds_max: 90
+  cliffhanger_required: true   # taste rule R5
+
+lifecycle:                     # Guideline 7 — defaults are open decision D4
+  hot_duration_days: null      # D4: how long a node runs hot before hardening is considered
+  hardening_threshold: null    # D4: winning-leaf criterion (sap margin over siblings)
+  dormancy_season_days: null   # D4: unwatered period after which a branch goes dormant
+
+watering_split:                # Guideline 2 — percentages are open decision D5
+  author_pct: null             # D5: must be resolved before Phase 3 (first real watering)
+  generation_pct: null
+  commons_pct: null

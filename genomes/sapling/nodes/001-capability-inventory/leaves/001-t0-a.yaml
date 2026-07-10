@@ -1,0 +1,13 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 001-t0-a
+node: "001"
+tier: T0                # text script — a real render, cheapest tier
+form: text-script
+content: ../node.md
+author: founder (human-written)
+model: none
+prompt: none
+seed: none
+cost_usd: 0.00
+status: live            # live | ring (archived)
+platform_urls: []       # T0 leaves live in Layer 1 only

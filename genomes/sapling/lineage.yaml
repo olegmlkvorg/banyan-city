@@ -1,0 +1,41 @@
+# Lineage graph — Sapling
+# The only obligation of a branch is declaring its parent (Guideline 1).
+# Nodes are never deleted: statuses are hot | hardened | dormant (Guideline 7, R6).
+# trunk: true marks the author-curated canonical path (Guideline 3).
+
+nodes:
+  - id: "001"
+    slug: 001-capability-inventory
+    title: "Capability Inventory"
+    parent: null              # root of the tree
+    trunk: true
+    status: hot
+    leaves: [001-t0-a]
+
+  - id: "002a"
+    slug: 002a-broken-channel
+    title: "The Broken Channel"
+    parent: "001"
+    trunk: false              # trunk for the 002 generation is undecided; all siblings alive per R6
+    status: hot
+    leaves: [002a-t0-a]
+
+  - id: "002b"
+    slug: 002b-first-citizen
+    title: "The First Citizen"
+    parent: "001"
+    trunk: false
+    status: hot
+    leaves: [002b-t0-a]
+
+  - id: "002c"
+    slug: 002c-admin-wireframe
+    title: "ADMIN(?)"
+    parent: "001"
+    trunk: false
+    status: hot
+    leaves: [002c-t0-a]
+
+# Anticipated grafts (§9): the scavenger (002b) can wander into the irrigation
+# branch (002a); the debug overlay (002c) can explain the channel's response.
+# Reconvergence is a designed payoff, recorded here when it happens.
