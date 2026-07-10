@@ -15,7 +15,11 @@ python3 pipeline/lint_genome.py
 python3 pipeline/build_site.py   # → _site/
 ```
 
+- **`render_t1.py`** — Phase 2 first rung: compiles a node's T0 script into a 9:16 storyboard filmstrip leaf at $0, with full published provenance, and registers it in `lineage.yaml`. `python3 pipeline/render_t1.py sapling --all`
+- **`harvest_sap.py`** — the reaction loop: pulls each node's issue reactions and screening-form ratings into `sap/summary.yaml` / `sap/screening.yaml`. Runs daily in CI (`.github/workflows/sap.yml`).
+- **`author_agent.py`** — Phase 4: applies the taste file to a node's competing leaves (`select`) or scores agent-vs-author agreement on a blind set (`blindset`, the taste-fidelity harness — see [taste/blindsets/](../taste/blindsets/)). Cites rule IDs on every decision; deferrals per R6, never deletions; wince notes feed taste-file amendments. Needs `ANTHROPIC_API_KEY`; both modes support `--dry-run`.
+
 ## Coming (see PRD §11)
 
-- **Phase 2** — T1/T2 render scripts (image + TTS + assembly), public render queue publishing prompt/seed/cost per candidate, simple screening UI
-- **Phase 4** — the author-agent: applies the taste file to screened shortlists, opens PRs to trunk with rule-cited reasons, plus the blind-set validation harness
+- **Phase 2 rest** — paid render tiers (T2 animatic: image + TTS + assembly; T3 video) behind a published per-render budget, and the public render queue
+- **Phase 4 rest** — the agent opening PRs to trunk automatically; CI wiring once a real (author-scored) blind set exists

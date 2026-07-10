@@ -64,7 +64,7 @@ No permission, no notice, no shame. A fork is how the forest spreads.
 
 ## Money
 
-Citizens fund **specific renders**, not vague content ("Node 002b, 8 candidates, ~$14"). Every render publishes its prompt, model, seed, and cost. Every dollar lands in [`ledger/watering.csv`](ledger/watering.csv) with its published split. The ledger is empty right now — watering opens in Phase 3 ([PRD.md §11](PRD.md)).
+Citizens fund **specific renders**, not vague content ("Node 002b, 8 candidates, ~$14"). Every render publishes its prompt, model, seed, and cost. Every dollar lands in [`ledger/watering.csv`](ledger/watering.csv) with its published split. The ledger is empty right now — watering (money **and** compute) is documented in [WATERING.md](WATERING.md) and opens in Phase 3, blocked on the split decision ([D5](DECISIONS.md)).
 
 ## Read it without git
 

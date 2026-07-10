@@ -1,0 +1,37 @@
+# Example blind set — demonstrates the format only (see README.md).
+# Real blind sets record the author's actual blind choices; these two toy
+# items are constructed so the taste file has a clearly derivable answer.
+taste_file: taste/sapling.founder.v0.2.md
+target_pct: 90
+items:
+  - id: bs-ex-001
+    candidates:
+      - id: a
+        text: |
+          The guard captain sneers, kicking the scavenger into the mud.
+          "Vermin like you exist to be stepped on. I enjoy this part."
+          He raises his boot again as the scene ends.
+      - id: b
+        text: |
+          The guard captain sighs at his clipboard. "Look, I don't make the
+          tariff schedule. You ate the evidence, which the form genuinely
+          does not anticipate." He turns the clipboard around, defeated by
+          his own bureaucracy. The scavenger, despite himself, snorts.
+          They both stare at the absurd form. Beat. The captain quietly
+          crosses out the charge. Hook: a second set of boots approaches.
+    author_pick: b   # R2 (no innate malice), R3 (laughter as resolution), R5 (real hook)
+  - id: bs-ex-002
+    candidates:
+      - id: a
+        text: |
+          A quiet interlude: the sapling admires three consecutive sunsets.
+          Nothing changes; nobody arrives; nothing is learned. Beautiful
+          descriptions of light on leaves. Ends where it began.
+      - id: b
+        text: |
+          The sapling spends the sunset testing whether the debug overlay
+          responds to root patterns. It doesn't — but a mole eating the
+          test pattern reveals the overlay tags the MOLE, and the tag
+          changes as it digs: the labels update in real time. He now knows
+          the system watches continuously. Hook: his own label just changed.
+    author_pick: b   # R1 (scene must change something; candidate a is deletable)
