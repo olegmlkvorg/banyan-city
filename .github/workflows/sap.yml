@@ -1,0 +1,34 @@
+# The reaction loop (Guideline 4): reactions are open data. Daily,
+# harvest each node's issue reactions into sap/summary.yaml and commit
+# the diff — the tree's public vital signs, versioned like everything else.
+name: harvest-sap
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: read
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      - run: python pipeline/harvest_sap.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit sap summaries
+        run: |
+          git config user.name "sap-harvester"
+          git config user.email "actions@github.com"
+          git add genomes/*/nodes/*/sap/summary.yaml
+          if git diff --cached --quiet; then
+            echo "no new sap"
+          else
+            git commit -m "sap: daily harvest ($(date -u +%Y-%m-%d))"
+            git push
+          fi

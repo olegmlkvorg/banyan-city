@@ -137,6 +137,8 @@ def load_genome(genome_dir: Path) -> dict:
                 n["leaf_meta"].append(yaml.safe_load(f.read_text()))
         reactions = node_dir / "sap" / "reactions.yaml"
         n["reactions"] = yaml.safe_load(reactions.read_text()) if reactions.exists() else None
+        summary = node_dir / "sap" / "summary.yaml"
+        n["sap"] = yaml.safe_load(summary.read_text()) if summary.exists() else None
         nodes[n["id"]] = n
     for n in nodes.values():
         if n.get("parent"):
@@ -186,9 +188,18 @@ Higher-tier leaves (storyboard, animatic, video) arrive in Phase 2+.</p>"""
 
     react_html = ""
     if n.get("reactions"):
+        vitals = ""
+        if n.get("sap"):
+            s = n["sap"]
+            emoji = {"+1": "👍", "-1": "👎", "laugh": "😄", "confused": "😕", "heart": "❤️", "hooray": "🎉", "rocket": "🚀", "eyes": "👀"}
+            counts = " ".join(f"{emoji[k]} {v}" for k, v in s["reactions"].items() if v) or "no reactions yet — be the first drop"
+            vitals = f"""<p><span class="chip">{counts}</span> <span class="chip">💬 {s['comments']} comments</span>
+<span class="chip">harvested {html.escape(str(s['harvested_at'])[:10])}</span></p>"""
         react_html = f"""<h2>Sap (your reactions)</h2>
+{vitals}
 <p><a class="btn" href="{html.escape(n['reactions']['url'])}">💧 React / comment on this node</a></p>
 <p class="notice">Reactions are open data (Guideline 4): they order this branch against its siblings.
+Harvested daily into this node's <code>sap/summary.yaml</code> by CI.
 No account? Just tell someone about it — word of mouth is sap too.</p>"""
 
     kids = ""
