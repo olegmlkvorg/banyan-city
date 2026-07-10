@@ -66,9 +66,15 @@ No permission, no notice, no shame. A fork is how the forest spreads.
 
 Citizens fund **specific renders**, not vague content ("Node 002b, 8 candidates, ~$14"). Every render publishes its prompt, model, seed, and cost. Every dollar lands in [`ledger/watering.csv`](ledger/watering.csv) with its published split. The ledger is empty right now — watering opens in Phase 3 ([PRD.md §11](PRD.md)).
 
+## Read it without git
+
+The tree is rendered as a website for non-git citizens: **<https://olegmlkvorg.github.io/banyan-city/>** — the lineage as an explorable tree, every node's script, every leaf's cost, and a 💧 react link per node.
+
+Reactions are mapped to GitHub issues (one per node — [#1](https://github.com/olegmlkvorg/banyan-city/issues/1) [#2](https://github.com/olegmlkvorg/banyan-city/issues/2) [#3](https://github.com/olegmlkvorg/banyan-city/issues/3) [#4](https://github.com/olegmlkvorg/banyan-city/issues/4)); each node's `sap/reactions.yaml` records its channel canonically.
+
 ## Status
 
-**Phase 0** — the repo is the product. Four T0 leaves (full scripts) are live, the taste file is at v0.2, the ledger is empty, and the tree is one node deep with three branches. Next: a static site that renders the lineage as an explorable tree (Phase 1).
+**Phase 1** — the tree is visible. Four T0 leaves (full scripts) are live, the taste file is at v0.2, the ledger is empty, the site builds and deploys from `pipeline/build_site.py` on every push, and `pipeline/lint_genome.py` guards the tree's structure in CI (parents declared, R1/R5 sections present, leaf provenance complete). Next: the render pipeline — T1/T2 leaves, public render queue, screening (Phase 2).
 
 ## Licenses
 
