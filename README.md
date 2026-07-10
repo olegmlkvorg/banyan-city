@@ -46,14 +46,13 @@ Your branch may contradict, subvert, or outgrow its parent. The tree polices lin
 
 ## How to fork the city
 
-Take everything — guidelines, structure, vocabulary, pipeline. Rename it. Go.
+Take everything — guidelines, structure, vocabulary, pipeline. Rename it. Go. The concrete checklist is **[SEED.md](SEED.md)**, and the taste-extraction interview (the framework's front door, [PRD.md §7.3](PRD.md)) is runnable:
 
-1. Fork/copy this repository.
-2. Drop the name "Banyan City" (Guideline 5 — the only thing a fork must leave behind).
-3. Write your own genome (or carry a branch of *Sapling* with you — the content license permits it with attribution).
-4. Extract your own taste file — the interview loop is described in [PRD.md §7.3](PRD.md). One tree, one tending author, your rules.
+```sh
+python3 pipeline/extract_taste.py --tree <your-tree> --author <you>
+```
 
-No permission, no notice, no shame. A fork is how the forest spreads.
+No permission, no notice, no shame. A fork is how the forest spreads. Contributions to *this* tree — reacting, screening, branching, building — are covered in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## How curation works (the short version)
 

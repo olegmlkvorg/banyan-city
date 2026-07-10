@@ -14,6 +14,7 @@ Design constraints:
 """
 
 import html
+import os
 import re
 import shutil
 from pathlib import Path
@@ -23,6 +24,10 @@ import yaml
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "_site"
+# Forkable: in CI GITHUB_REPOSITORY names the fork; locally fall back to origin
+GH_REPO = os.environ.get("GITHUB_REPOSITORY", "olegmlkvorg/banyan-city")
+REPO_URL = f"https://github.com/{GH_REPO}"
+REPO_NAME = GH_REPO.split("/")[-1]
 MD = markdown.Markdown(extensions=["tables", "fenced_code"])
 
 CSS = """
@@ -96,9 +101,9 @@ def page(title: str, body: str, depth: int = 0) -> str:
 </head>
 <body>
 <main>
-<nav class="crumbs"><a href="{root}index.html">🌳 banyan-city</a> · <a href="{root}city.html">the city</a> · <a href="https://github.com/olegmlkvorg/banyan-city">source</a></nav>
+<nav class="crumbs"><a href="{root}index.html">🌳 {REPO_NAME}</a> · <a href="{root}city.html">the city</a> · <a href="{REPO_URL}">source</a></nav>
 {body}
-<footer>Everything here is auditable in <a href="https://github.com/olegmlkvorg/banyan-city">git</a>.
+<footer>Everything here is auditable in <a href="{REPO_URL}">git</a>.
 Branch anything. Fork everything. · <a href="{root}city.html">The Promise</a></footer>
 </main>
 </body>
@@ -190,7 +195,7 @@ def render_node_page(g: dict, n: dict) -> str:
         if sc:
             avg = " ".join(f"{k[:4]} {v}" for k, v in sc["means"].items())
             means = f'<span class="chip">{html.escape(avg)} ({sc["ratings"]}×)</span> '
-        url = f"https://github.com/olegmlkvorg/banyan-city/issues/new?template=screening.yml&title=screening%3A%20{leaf_id}&leaf={leaf_id}"
+        url = f"{REPO_URL}/issues/new?template=screening.yml&title=screening%3A%20{leaf_id}&leaf={leaf_id}"
         return f'{means}<a href="{url}">rate</a>'
 
     leaves_rows = "".join(
@@ -239,7 +244,7 @@ No account? Just tell someone about it — word of mouth is sap too.</p>"""
 {react_html}
 <h2>Branch this node</h2>
 <p class="notice">Anyone may continue this moment differently. Declare <code>{html.escape(n['id'])}</code> as your parent —
-that's the only obligation. <a href="https://github.com/olegmlkvorg/banyan-city#how-to-branch-a-story">How to branch →</a></p>"""
+that's the only obligation. <a href="{REPO_URL}#how-to-branch-a-story">How to branch →</a></p>"""
     return page(f"{n['id']} — {n['title']} · {g['tree']['title']}", body, depth=1)
 
 
@@ -282,11 +287,11 @@ def render_city() -> str:
     for fname, title in [("PROMISE.md", None), ("GUIDELINES.md", None), ("VOCABULARY.md", None)]:
         parts.append(md_to_html((REPO / fname).read_text()))
         parts.append("<hr>")
-    body = "".join(parts[:-1]) + """
+    body = "".join(parts[:-1]) + f"""
 <p class="notice">These texts are canonical and live in
-<a href="https://github.com/olegmlkvorg/banyan-city">the repository</a> — amendable by citizens
+<a href="{REPO_URL}">the repository</a> — amendable by citizens
 per Guideline 6, except the right to branch and fork, which is permanent.
-Open questions live in <a href="https://github.com/olegmlkvorg/banyan-city/blob/HEAD/DECISIONS.md">DECISIONS.md</a>.</p>"""
+Open questions live in <a href="{REPO_URL}/blob/HEAD/DECISIONS.md">DECISIONS.md</a>.</p>"""
     return page("The City — Promise, Guidelines, Vocabulary", body)
 
 
