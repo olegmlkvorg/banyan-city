@@ -1,0 +1,13 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 003b-t0-a
+node: "003b"
+tier: T0
+form: text-script
+content: ../node.md
+author: claude-fable-5 (Claude Code; branch contribution per Guideline 1)
+model: claude-fable-5
+prompt: continuation of parent node under taste file sapling.founder.v0.2
+seed: none
+cost_usd: 0.00
+status: live
+platform_urls: []

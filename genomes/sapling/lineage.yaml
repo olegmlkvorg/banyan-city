@@ -36,6 +36,30 @@ nodes:
     status: hot
     leaves: [002c-t0-a, 002c-t1-a]
 
+  - id: "003a"
+    slug: 003a-oncall-rotation
+    title: "The On-Call Rotation"
+    parent: "002a"
+    trunk: false
+    status: hot
+    leaves: [003a-t0-a, 003a-t1-a]
+
+  - id: "003b"
+    slug: 003b-one-leaf-for-yes
+    title: "One Leaf for Yes"
+    parent: "002b"
+    trunk: false
+    status: hot
+    leaves: [003b-t0-a, 003b-t1-a]
+
+  - id: "003c"
+    slug: 003c-y-slash-n
+    title: "Y/N"
+    parent: "002c"
+    trunk: false
+    status: hot
+    leaves: [003c-t0-a, 003c-t1-a]
+
 # Anticipated grafts (§9): the scavenger (002b) can wander into the irrigation
 # branch (002a); the debug overlay (002c) can explain the channel's response.
 # Reconvergence is a designed payoff, recorded here when it happens.

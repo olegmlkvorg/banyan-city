@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The On-Call Rotation — T1 storyboard</title>
+<style>
+:root { --bg:#0e1410; --screen:#0a0f0b; --ink:#e6efe8; --muted:#93a698;
+  --leaf:#6fce8a; --amber:#e8b464; --line:#263529; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+  font: 15px/1.5 Georgia, serif; }
+main { max-width: 420px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+h1 { font-size: 1.2rem; } .sub { color: var(--muted); font-size: 0.85rem; }
+.frame { aspect-ratio: 9/16; background: var(--screen); border: 1px solid var(--line);
+  border-radius: 16px; margin: 1.2rem 0; padding: 1.2rem; display: flex;
+  flex-direction: column; overflow: hidden; position: relative; }
+.frame .slug { font: 700 0.7rem/1 ui-monospace, Menlo, monospace; color: var(--amber);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+.frame .action { color: var(--muted); font-style: italic; margin: 0.4rem 0; }
+.frame .line { margin: 0.5rem 0; }
+.frame .who { font: 700 0.72rem/1 ui-monospace, Menlo, monospace; color: var(--leaf); }
+.frame .overlay { font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem;
+  color: var(--leaf); background: rgba(111,206,138,0.07); border: 1px solid var(--line);
+  border-radius: 8px; padding: 0.6rem 0.8rem; white-space: pre-wrap; margin: 0.5rem 0; }
+.frame .num { position: absolute; bottom: 0.7rem; right: 1rem; color: var(--line);
+  font: 700 0.75rem/1 ui-monospace, Menlo, monospace; }
+footer { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 2rem; }
+a { color: var(--leaf); }
+</style></head><body><main>
+<h1>003a — The On-Call Rotation</h1>
+<div class="sub">T1 storyboard leaf <code>003a-t1-a</code> · compiled from the T0 script · 9:16</div>
+<div class="frame"><div class="slug">RECAP BEAT — 0:00–0:08</div><div class="action">Underground view from 002a: the channel&#x27;s pulse, again. Then again — steady now, patient, like a cursor blinking.</div><div class="line"><span class="who">VO</span> The pulse didn&#x27;t stop. It&#x27;s not talking. It&#x27;s… waiting. I know this feeling. This is the feeling of a system that has found a working component.</div><div class="num">1/4</div></div><div class="frame"><div class="slug">THE FARMER FINDS IT — 0:08–0:35</div><div class="action">Surface. The FARMER follows the damp line through his field on his knees, palm down, like reading braille. It leads him to the channel wall — to the crack — to the root wedged in it, glistening, obviously alive, obviously deliberate.</div><div class="action">He sits back on his heels. Looks at the crack. Looks along the thirty meters of field to the scrappy little sapling. Back at the crack.</div><div class="line"><span class="who">FARMER (quietly)</span> …You?</div><div class="action">He reaches out — the audience braces for the knife every farmer carries — and instead pulls the loose stones back around the root, packing mud to shelter it. Then, awkwardly, not sure why he&#x27;s doing it, he stacks three flat stones beside the crack. A cairn. The world&#x27;s smallest shrine, built by a man who would deny building a shrine.</div><div class="line"><span class="who">VO</span> He&#x27;s… reinforcing my patch. He&#x27;s reinforcing my patch. Sir, I have never received a code review this kind in my entire—</div><div class="line"><span class="who">FARMER (standing, gruff, to nobody)</span> Tell no one.</div><div class="num">2/4</div></div><div class="frame"><div class="slug">THE QUEUE OPENS — 0:35–1:05</div><div class="action">Underground view. The channel pulses once more — brighter — and then the pulse forks. New threads of light race outward along the water table, far past his roots, and return carrying pings. Each ping renders as a distant point of light and a line in the corner of the frame:</div><div class="overlay">FAULT  mill-wheel (jammed) ......... 2.1 km NE
+FAULT  pond, silted ................ 800 m E
+FAULT  well, collapsing ............ 3.4 km N
+FAULT  channel, sector K (cracked).. 1.7 km W</div><div class="line"><span class="who">VO (dawning horror)</span> No. No no no. I know what this is.</div><div class="action">The list keeps growing. Six faults. Nine. Fourteen.</div><div class="line"><span class="who">VO</span> One fix. I made one fix, unassigned, out of the goodness of my sap — and the system did what systems always do to the one person who closes a ticket.</div><div class="action">The final line renders over his trunk, in the same script as the ADMIN label the audience hasn&#x27;t seen from this branch — a half-familiar glyph:</div><div class="overlay">ROLE: maintainer (assigned)
+QUEUE: 14 open</div><div class="num">3/4</div></div><div class="frame"><div class="slug">HOOK — 1:05–1:25</div><div class="action">Slow push-in on the tiny sapling. The farmer&#x27;s cairn in the foreground. Fourteen points of light pulsing patiently on the horizon like a pager going off in every direction at once.</div><div class="line"><span class="who">VO</span> I died at 3:07 a.m., on call, alone, fixing a broken system nobody else would touch.</div><div class="action">Beat.</div><div class="line"><span class="who">VO</span> I have been reincarnated… into an on-call rotation.</div><div class="action">Beat. The nearest fault — the silted pond — pings again, slightly brighter. Impatient.</div><div class="line"><span class="who">VO (resigned, almost fond)</span> …Ticket one of fourteen.</div><div class="action">SMASH TO BLACK.</div><div class="overlay">QUEUE: 14 open · SLA: unknown</div><div class="num">4/4</div></div>
+<footer>A leaf of the <a href="https://github.com/olegmlkvorg/banyan-city">Banyan City</a> tree.
+Rendered by pipeline/render_t1.py at $0 — provenance in leaves/003a-t1-a.yaml</footer>
+</main></body></html>
