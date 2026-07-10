@@ -139,6 +139,8 @@ def load_genome(genome_dir: Path) -> dict:
         n["reactions"] = yaml.safe_load(reactions.read_text()) if reactions.exists() else None
         summary = node_dir / "sap" / "summary.yaml"
         n["sap"] = yaml.safe_load(summary.read_text()) if summary.exists() else None
+        screening = node_dir / "sap" / "screening.yaml"
+        n["screening"] = yaml.safe_load(screening.read_text()) if screening.exists() else None
         nodes[n["id"]] = n
     for n in nodes.values():
         if n.get("parent"):
@@ -181,16 +183,28 @@ def render_node_page(g: dict, n: dict) -> str:
             return f'<a href="leaves/{html.escape(content)}"><code>{html.escape(str(l["leaf"]))}</code></a>'
         return f'<code>{html.escape(str(l["leaf"]))}</code>'
 
+    def screen_cell(l):
+        leaf_id = str(l["leaf"])
+        means = ""
+        sc = (n.get("screening") or {}).get("leaves", {}).get(leaf_id)
+        if sc:
+            avg = " ".join(f"{k[:4]} {v}" for k, v in sc["means"].items())
+            means = f'<span class="chip">{html.escape(avg)} ({sc["ratings"]}×)</span> '
+        url = f"https://github.com/olegmlkvorg/banyan-city/issues/new?template=screening.yml&title=screening%3A%20{leaf_id}&leaf={leaf_id}"
+        return f'{means}<a href="{url}">rate</a>'
+
     leaves_rows = "".join(
         f"<tr><td>{leaf_cell(l)}</td><td>{html.escape(str(l['tier']))}</td>"
         f"<td>{html.escape(str(l['form']))}</td><td>${l['cost_usd']:.2f}</td>"
-        f"<td>{html.escape(str(l['status']))}</td></tr>"
+        f"<td>{html.escape(str(l['status']))}</td><td>{screen_cell(l)}</td></tr>"
         for l in n["leaf_meta"]
     )
     leaves_html = f"""<h2>Leaves (renders of this node)</h2>
-<table><tr><th>leaf</th><th>tier</th><th>form</th><th>cost</th><th>status</th></tr>{leaves_rows}</table>
+<table><tr><th>leaf</th><th>tier</th><th>form</th><th>cost</th><th>status</th><th>screening</th></tr>{leaves_rows}</table>
 <p class="notice">Every render publishes its prompt, model, seed, and cost — this table is the audit trail.
-Higher-tier leaves (storyboard, animatic, video) arrive in Phase 2+.</p>"""
+<strong>Screening:</strong> rate any leaf (continuity, character, vibe) — the crowd narrows the shortlist,
+the taste file decides. Ratings are harvested into this node's <code>sap/screening.yaml</code>.
+Higher-tier leaves (animatic, video) arrive with a published per-render budget.</p>"""
 
     react_html = ""
     if n.get("reactions"):

@@ -11,6 +11,7 @@ Auth: GITHUB_TOKEN env var (provided automatically in Actions).
 
 import json
 import os
+import re
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -71,17 +72,85 @@ def harvest_node(node_dir: Path) -> bool:
     return True
 
 
+def parse_screening_issue(body: str):
+    """Parse a screening issue-form body into (leaf_id, scores, note)."""
+    sections = dict(re.findall(r"### ([^\n]+)\n\n(.*?)(?=\n### |\Z)", body or "", re.S))
+    leaf = None
+    scores = {}
+    note = ""
+    for label, answer in sections.items():
+        answer = answer.strip()
+        if label.startswith("Leaf ID"):
+            leaf = answer.split()[0] if answer else None
+        elif label.startswith("The wince"):
+            note = "" if answer == "_No response_" else answer
+        else:
+            m = re.match(r"([1-5])", answer)
+            if m:
+                key = label.split(" (")[0].strip().lower().replace(" ", "_")
+                scores[key] = int(m.group(1))
+    return leaf, scores, note
+
+
+def harvest_screening(genome_dirs: list) -> int:
+    """Tally screening-form issues into each node's sap/screening.yaml."""
+    issues = gh(f"/repos/{GH_REPO}/issues?labels=screening&state=all&per_page=100")
+    by_leaf = {}
+    for issue in issues:
+        leaf, scores, note = parse_screening_issue(issue.get("body", ""))
+        if not leaf or not scores:
+            continue
+        entry = by_leaf.setdefault(leaf, {"ratings": 0, "sums": {}, "winces": []})
+        entry["ratings"] += 1
+        for k, v in scores.items():
+            entry["sums"][k] = entry["sums"].get(k, 0) + v
+        if note:
+            entry["winces"].append({"issue": issue["number"], "note": note[:500]})
+
+    changed = 0
+    for genome_dir in genome_dirs:
+        lineage = yaml.safe_load((genome_dir / "lineage.yaml").read_text())
+        for node in lineage["nodes"]:
+            leaves = {l: by_leaf[l] for l in (node.get("leaves") or []) if l in by_leaf}
+            if not leaves:
+                continue
+            summary = {
+                "harvested_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "leaves": {
+                    leaf: {
+                        "ratings": e["ratings"],
+                        "means": {k: round(s / e["ratings"], 2) for k, s in e["sums"].items()},
+                        "winces": e["winces"],
+                    }
+                    for leaf, e in leaves.items()
+                },
+            }
+            out = genome_dir / "nodes" / node["slug"] / "sap" / "screening.yaml"
+            header = "# Screening summary — open data, written by pipeline/harvest_sap.py\n"
+            if out.exists():
+                old = yaml.safe_load(out.read_text())
+                old.pop("harvested_at", None)
+                cmp = dict(summary)
+                cmp.pop("harvested_at")
+                if old == cmp:
+                    continue
+            out.write_text(header + yaml.safe_dump(summary, sort_keys=False))
+            print(f"screening: {out.relative_to(REPO_DIR)}")
+            changed += 1
+    return changed
+
+
 def main() -> int:
     changed = 0
-    for genome_dir in sorted((REPO_DIR / "genomes").iterdir()):
+    genome_dirs = [p for p in sorted((REPO_DIR / "genomes").iterdir()) if (p / "lineage.yaml").exists()]
+    for genome_dir in genome_dirs:
         nodes_dir = genome_dir / "nodes"
-        if not nodes_dir.is_dir():
-            continue
         for node_dir in sorted(nodes_dir.iterdir()):
             if node_dir.is_dir() and harvest_node(node_dir):
                 print(f"harvested: {node_dir.relative_to(REPO_DIR)}")
                 changed += 1
-    print(f"✓ sap harvest complete — {changed} node(s) updated")
+    changed += harvest_screening(genome_dirs)
+    print(f"✓ sap harvest complete — {changed} file(s) updated")
     return 0
 
 
