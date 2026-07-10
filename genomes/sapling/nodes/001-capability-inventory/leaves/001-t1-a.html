@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capability Inventory — T1 storyboard</title>
+<style>
+:root { --bg:#0e1410; --screen:#0a0f0b; --ink:#e6efe8; --muted:#93a698;
+  --leaf:#6fce8a; --amber:#e8b464; --line:#263529; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--ink);
+  font: 15px/1.5 Georgia, serif; }
+main { max-width: 420px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+h1 { font-size: 1.2rem; } .sub { color: var(--muted); font-size: 0.85rem; }
+.frame { aspect-ratio: 9/16; background: var(--screen); border: 1px solid var(--line);
+  border-radius: 16px; margin: 1.2rem 0; padding: 1.2rem; display: flex;
+  flex-direction: column; overflow: hidden; position: relative; }
+.frame .slug { font: 700 0.7rem/1 ui-monospace, Menlo, monospace; color: var(--amber);
+  text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+.frame .action { color: var(--muted); font-style: italic; margin: 0.4rem 0; }
+.frame .line { margin: 0.5rem 0; }
+.frame .who { font: 700 0.72rem/1 ui-monospace, Menlo, monospace; color: var(--leaf); }
+.frame .overlay { font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem;
+  color: var(--leaf); background: rgba(111,206,138,0.07); border: 1px solid var(--line);
+  border-radius: 8px; padding: 0.6rem 0.8rem; white-space: pre-wrap; margin: 0.5rem 0; }
+.frame .num { position: absolute; bottom: 0.7rem; right: 1rem; color: var(--line);
+  font: 700 0.75rem/1 ui-monospace, Menlo, monospace; }
+footer { color: var(--muted); font-size: 0.8rem; text-align: center; margin-top: 2rem; }
+a { color: var(--leaf); }
+</style></head><body><main>
+<h1>001 — Capability Inventory</h1>
+<div class="sub">T1 storyboard leaf <code>001-t1-a</code> · compiled from the T0 script · 9:16</div>
+<div class="frame"><div class="slug">COLD OPEN — 0:00–0:12</div><div class="action">BLACK. The sound of one mechanical keyboard, very fast, then stopping.</div><div class="action">CLOSE: a monitor in a dark apartment. A terminal. deploy --prod --force. A spinner. 3:07 a.m.</div><div class="line"><span class="who">VO (tired, flat)</span> Production went down at 2:41. It&#x27;s the retry loop. It&#x27;s always the retry loop.</div><div class="action">The spinner resolves: ✓ deploy succeeded. A sharp breath in — the frame tips sideways — the mug hits the floor before he does.</div><div class="line"><span class="who">VO</span> Huh. Green.</div><div class="action">Cut to black on the sound of a cooling fan spinning down.</div><div class="num">1/5</div></div><div class="frame"><div class="slug">WAKE — 0:12–0:28</div><div class="action">Blinding green blur. Focus pulls: we are two centimeters off the ground, looking up through one trembling leaf at a sky that is too blue. Wind. Birdsong compiled by someone who never heard a bird.</div><div class="line"><span class="who">VO</span> Okay. Hospital ceiling. That&#x27;s fine. Hospitals are green now.</div><div class="action">The leaf — his leaf — twitches when he panics. The camera shakes with it.</div><div class="line"><span class="who">VO</span> Scream. — No mouth. Run. — No legs. Flail?? — …I appear to be flailing one (1) leaf.</div><div class="num">2/5</div></div><div class="frame"><div class="slug">INCIDENT RESPONSE — 0:28–0:40</div><div class="action">The trembling stops. Beat of stillness.</div><div class="line"><span class="who">VO</span> Right. Sev-1. You know the drill. Nobody panics on my incidents, including me. Step one: stop screaming — done, involuntarily. Step two: what do we actually know?</div><div class="action">On-screen text, rendered like a terminal, types over the shot:</div><div class="overlay">$ whoami
+sapling (ficus. probably.)</div><div class="num">3/5</div></div><div class="frame"><div class="slug">THE INVENTORY — 0:40–1:05</div><div class="action">Quick rhythmic sequence, one capability per beat, terminal lines stacking up the side of the frame:</div><div class="action">He pushes attention downward. The image blooms: an underground root-map, veins of dark water, mineral glitter, and — far off — a rhythmic thump felt as rings of light through soil.</div><div class="line"><span class="who">VO</span> Sense. I can taste the water table. I can feel the ground. Something with feet is walking, about… four hundred meters northeast. Noted.</div><div class="overlay">SENSE   ✓  roots / air / vibration</div><div class="action">He pushes outward. Nothing. He pushes harder — timelapse: sun arcs three times — one (1) new leaf unfurls, smug and bright.</div><div class="line"><span class="who">VO</span> Grow. Works. Latency: three days. Throughput: one leaf. I&#x27;ve shipped on worse.</div><div class="overlay">GROW    ✓  slow. directional.</div><div class="action">He tries everything else. Each attempt is one hard cut and one line:</div><div class="overlay">MOVE    ✗  undefined
+FIGHT   ✗  undefined
+FLEE    ✗  undefined
+SPEAK   ✗  undefined</div><div class="line"><span class="who">VO</span> …That&#x27;s the whole API.</div><div class="num">4/5</div></div><div class="frame"><div class="slug">REALIZATION / HOOK — 1:05–1:25</div><div class="action">Slow push-in on the tiny sapling, alone in an enormous field. The terminal lines fade until only two remain: SENSE ✓ and GROW ✓.</div><div class="line"><span class="who">VO</span> Every problem I ever had — the job, the pager, the retry loop — I solved it the same way, eventually. I walked away.</div><div class="action">Beat.</div><div class="line"><span class="who">VO</span> New constraint. Whatever comes over that hill — a storm, an axe, a war, a conversation — I will be here for all of it. I can&#x27;t leave. I can only make this spot… worth staying in.</div><div class="action">Underground: the far-off thump-thump of footsteps, closer now. The rings of light through the soil grow brighter, faster —</div><div class="line"><span class="who">VO (quiet)</span> Something&#x27;s coming.</div><div class="action">SMASH TO BLACK.</div><div class="overlay">GROW    ✓</div><div class="num">5/5</div></div>
+<footer>A leaf of the <a href="https://github.com/olegmlkvorg/banyan-city">Banyan City</a> tree.
+Rendered by pipeline/render_t1.py at $0 — provenance in leaves/001-t1-a.yaml</footer>
+</main></body></html>

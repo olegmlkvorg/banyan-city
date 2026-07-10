@@ -175,8 +175,14 @@ def render_node_page(g: dict, n: dict) -> str:
     # rewrite sibling links (../<slug>/node.md) to site pages
     body_html = re.sub(r'href="\.\./([^/"]+)/node\.md"', r'href="\1.html"', body_html)
 
+    def leaf_cell(l):
+        content = str(l.get("content", ""))
+        if content.endswith(".html"):
+            return f'<a href="leaves/{html.escape(content)}"><code>{html.escape(str(l["leaf"]))}</code></a>'
+        return f'<code>{html.escape(str(l["leaf"]))}</code>'
+
     leaves_rows = "".join(
-        f"<tr><td><code>{html.escape(str(l['leaf']))}</code></td><td>{html.escape(str(l['tier']))}</td>"
+        f"<tr><td>{leaf_cell(l)}</td><td>{html.escape(str(l['tier']))}</td>"
         f"<td>{html.escape(str(l['form']))}</td><td>${l['cost_usd']:.2f}</td>"
         f"<td>{html.escape(str(l['status']))}</td></tr>"
         for l in n["leaf_meta"]
@@ -284,6 +290,14 @@ def main() -> None:
         gdir.mkdir()
         for n in g["nodes"].values():
             (gdir / f"{n['slug']}.html").write_text(render_node_page(g, n))
+            # publish renderable leaf artifacts (html storyboards, animatics…)
+            for l in n["leaf_meta"]:
+                content = str(l.get("content", ""))
+                if content.endswith(".html"):
+                    src = g["dir"] / "nodes" / n["slug"] / "leaves" / content
+                    if src.exists():
+                        (gdir / "leaves").mkdir(exist_ok=True)
+                        shutil.copy(src, gdir / "leaves" / content)
 
     total = sum(len(g["nodes"]) for g in genomes)
     print(f"✓ built _site/ — {len(genomes)} genome(s), {total} node pages")

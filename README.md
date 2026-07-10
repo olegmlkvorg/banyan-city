@@ -74,7 +74,7 @@ Reactions are mapped to GitHub issues (one per node — [#1](https://github.com/
 
 ## Status
 
-**Phase 1** — the tree is visible. Four T0 leaves (full scripts) are live, the taste file is at v0.2, the ledger is empty, the site builds and deploys from `pipeline/build_site.py` on every push, and `pipeline/lint_genome.py` guards the tree's structure in CI (parents declared, R1/R5 sections present, leaf provenance complete). Next: the render pipeline — T1/T2 leaves, public render queue, screening (Phase 2).
+**Phase 1 complete, Phase 2 underway.** The tree is visible: the site builds from `pipeline/build_site.py` and deploys on every push; `pipeline/lint_genome.py` guards the tree's structure in CI; reactions map to issues and are harvested daily into each node's `sap/summary.yaml` by `pipeline/harvest_sap.py`. Every node now carries two live leaves: the T0 script and a T1 storyboard compiled from it by `pipeline/render_t1.py` at $0 — the first rung of the render ladder (§7.4). Next: paid render tiers (T2 animatic, T3 video) behind a published per-render budget, and the screening queue.
 
 ## Licenses
 
