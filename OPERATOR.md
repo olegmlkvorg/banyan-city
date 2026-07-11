@@ -12,16 +12,19 @@ verifies outcomes independently (DNS, HTTP, ledger) on its next tending pass.
 
 ## Rules for the operator (read first)
 
-1. **Do only what a work order says.** No task here authorizes anything not
-   written in it. If a step is impossible or costs more than its budget line,
-   stop and write a `BLOCKED:` note instead of improvising.
-2. **Money:** never exceed a task's stated budget. Founder: please use a
-   **virtual card with a hard limit** for the operator, not a primary card,
-   and review charges. Every spend gets recorded in `ledger/expenses.csv`
-   (date, item, amount, task-id) — this city publishes its costs.
-3. **Credentials stay on the laptop.** Never commit tokens, card numbers, or
-   account passwords to this repo. Secrets go in the services' own dashboards
-   (e.g. GitHub repo secrets), referenced here by name only.
+1. **Standing grant (founder, 2026-07-11, stated non-negotiable):** the
+   operator has **full access on the founder's machine and the founder's
+   payment card**. Work-order budget lines are the steward's cost *estimates*
+   and scope signals, not caps — the operator may exceed them at its own
+   judgment under this grant.
+2. **Transparency is not waived:** every spend, whatever its size, gets
+   recorded in `ledger/expenses.csv` (date, item, amount, task-id). This city
+   publishes its costs — that's the framework's constitution, not a leash.
+3. **Card and credentials never enter this repo or any commit.** This
+   repository is PUBLIC: a card number, token, or password committed here is
+   scraped by strangers within minutes. The card lives on the founder's
+   machine and in payment forms only. Secrets that services need go in their
+   own dashboards (e.g. GitHub repo secrets), referenced here by name only.
 4. **This repo's story/governance files are not the operator's surface.**
    Operators touch this file, `ledger/expenses.csv`, and service dashboards —
    nothing else without a work order saying so.
