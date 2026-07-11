@@ -98,6 +98,7 @@ def page(title: str, body: str, depth: int = 0, path: str = "") -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="{CANONICAL}/{path}">
+<link rel="alternate" type="application/rss+xml" title="new nodes" href="{CANONICAL}/feed.xml">
 <title>{html.escape(title)}</title>
 <style>{CSS}</style>
 </head>
@@ -297,6 +298,36 @@ Open questions live in <a href="{REPO_URL}/blob/HEAD/DECISIONS.md">DECISIONS.md<
     return page("The City — Promise, Guidelines, Vocabulary", body, path="city.html")
 
 
+def render_feed(genomes: list) -> str:
+    """RSS 2.0 of nodes, newest release first (dates from lineage `released`)."""
+    items = []
+    for g in genomes:
+        gid = g["tree"]["id"]
+        for n in g["nodes"].values():
+            date = str(n.get("released", ""))
+            url = f"{CANONICAL}/{gid}/{n['slug']}.html"
+            desc = html.escape(n["teaser"] or n["title"])
+            items.append((date, f"""  <item>
+    <title>{html.escape(n['id'])} — {html.escape(n['title'])}</title>
+    <link>{url}</link>
+    <guid isPermaLink="true">{url}</guid>
+    <pubDate>{date}T12:00:00Z</pubDate>
+    <description>{desc}</description>
+  </item>"""))
+    items.sort(key=lambda t: t[0], reverse=True)
+    body = "\n".join(i for _, i in items)
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>Banyan City — new nodes</title>
+  <link>{CANONICAL}/</link>
+  <description>New story nodes on the tree: trunk and branches alike.</description>
+{body}
+</channel>
+</rss>
+"""
+
+
 def main() -> None:
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -305,6 +336,7 @@ def main() -> None:
 
     (OUT / "index.html").write_text(render_index(genomes))
     (OUT / "city.html").write_text(render_city())
+    (OUT / "feed.xml").write_text(render_feed(genomes))
     (OUT / ".nojekyll").write_text("")
     for g in genomes:
         gdir = OUT / g["tree"]["id"]

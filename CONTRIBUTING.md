@@ -18,7 +18,12 @@ Ratings land in the node's `sap/screening.yaml`.
 
 ## Branch (an evening)
 
-Continue any node differently. The full walkthrough is in the
+Continue any node differently. **No git knowledge needed:** use the
+[🌿 Submit a branch](../../issues/new?template=branch-submission.yml) form —
+paste your story, name your parent node, and the steward files it as a real
+branch credited to you on the next tending pass.
+
+If you're comfortable with git, the full walkthrough is in the
 [README](README.md#how-to-branch-a-story); the contract for a branch PR is:
 
 - [ ] node directory under `genomes/<tree>/nodes/<id>-<slug>/` with `node.md`,

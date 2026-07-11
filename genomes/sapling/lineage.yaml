@@ -5,6 +5,7 @@
 
 nodes:
   - id: "001"
+    released: 2026-07-10
     slug: 001-capability-inventory
     title: "Capability Inventory"
     parent: null              # root of the tree
@@ -13,6 +14,7 @@ nodes:
     leaves: [001-t0-a, 001-t1-a]
 
   - id: "002a"
+    released: 2026-07-10
     slug: 002a-broken-channel
     title: "The Broken Channel"
     parent: "001"
@@ -21,6 +23,7 @@ nodes:
     leaves: [002a-t0-a, 002a-t1-a]
 
   - id: "002b"
+    released: 2026-07-10
     slug: 002b-first-citizen
     title: "The First Citizen"
     parent: "001"
@@ -29,6 +32,7 @@ nodes:
     leaves: [002b-t0-a, 002b-t1-a]
 
   - id: "002c"
+    released: 2026-07-10
     slug: 002c-admin-wireframe
     title: "ADMIN(?)"
     parent: "001"
@@ -37,6 +41,7 @@ nodes:
     leaves: [002c-t0-a, 002c-t1-a]
 
   - id: "003a"
+    released: 2026-07-11
     slug: 003a-oncall-rotation
     title: "The On-Call Rotation"
     parent: "002a"
@@ -45,6 +50,7 @@ nodes:
     leaves: [003a-t0-a, 003a-t1-a]
 
   - id: "003b"
+    released: 2026-07-11
     slug: 003b-one-leaf-for-yes
     title: "One Leaf for Yes"
     parent: "002b"
@@ -53,6 +59,7 @@ nodes:
     leaves: [003b-t0-a, 003b-t1-a]
 
   - id: "003c"
+    released: 2026-07-11
     slug: 003c-y-slash-n
     title: "Y/N"
     parent: "002c"
@@ -61,6 +68,7 @@ nodes:
     leaves: [003c-t0-a, 003c-t1-a]
 
   - id: "004"
+    released: 2026-07-11
     slug: 004-shade
     title: "Shade"
     parent: "003b"
