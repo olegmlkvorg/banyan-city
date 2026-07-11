@@ -76,6 +76,15 @@ nodes:
     status: hot
     leaves: [004-t0-a, 004-t1-a]
 
+  - id: "005"
+    released: 2026-07-11
+    slug: 005-the-assessor
+    title: "The Assessor"
+    parent: "004"
+    trunk: true               # steward trunk continuation — see edl.md
+    status: hot
+    leaves: [005-t0-a, 005-t1-a]
+
 # Grafts performed: 004 absorbs the mended-water/cairn motifs of the 002a/003a
 # line and the sunset-overlay registration of the 002c/003c line (branches stay
 # alive per R6 — grafting is absorption, not closure). See edl.md.

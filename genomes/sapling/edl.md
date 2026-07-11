@@ -33,3 +33,10 @@ protocol scene is R3-as-mechanism (the interrogation montage resolves "am I
 mad?" by making both parties laugh), and residency is the next irreversible
 state change after contact (R1). 003a and 003c remain hot siblings; their
 motifs (the fault queue, the Y/N prompt) are anticipated grafts into the trunk.
+
+## 2026-07-11 — Trunk continuation → **005 "The Assessor"**
+
+Pays off 004's hook on schedule (R5: hooks are debts). The antagonism model
+stays R2-pure: the threat is a schema, personified by a diligent man. The
+unseen ledger line is left as a deliberate branch slot. Wince check: none —
+the taste file covered every call this episode.
