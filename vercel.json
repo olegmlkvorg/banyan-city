@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pip3 install pyyaml markdown",
+  "buildCommand": "python3 pipeline/build_site.py",
+  "outputDirectory": "_site",
+  "framework": null,
+  "github": {
+    "silent": true
+  }
+}
