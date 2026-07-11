@@ -10,9 +10,11 @@ split. This document is the front door for Phase 3; nothing here accepts money y
 **Money.** Phase 3 opens with an individual Ko-fi/Patreon (pre-incorporation),
 mapped manually into the ledger. Citizens water a *specific* line item — e.g.
 "Node 002b, 8 candidates, ~$14" — and the resulting renders publish their full
-provenance. **Blocked on [D5](DECISIONS.md):** the split (author share /
-generation costs / city commons) must be resolved and published before the first
-dollar is accepted.
+provenance. **The split is resolved** ([D5](DECISIONS.md)): each watered render
+reimburses its published generation cost first; the remainder splits **70%
+author / 30% city commons** (`costs-first-70-30-v1`). One human step remains
+before funds can flow: the founder confirms the split and opens the payment
+rail (STEWARDSHIP.md §4).
 
 **Compute.** The pipeline is designed so citizens can run renders with their own
 API keys and submit the results — compute as watering:

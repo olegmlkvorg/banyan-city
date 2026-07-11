@@ -1,0 +1,35 @@
+# Edit decision log — Sapling
+
+The steward's authorial acts, in the open, each citing the taste rules that
+drove it (STEWARDSHIP.md §1). Decisions are superseded, never rewritten.
+Reminder per R6: **trunk is sequence, not survival** — non-trunk branches stay
+alive, hot, and orderable by watering.
+
+---
+
+## 2026-07-11 — Trunk call, 002 generation → **002b "The First Citizen"**
+
+- **R3 (laughter as resolution):** 002b is the only 002 sibling whose central
+  conflict (fugitive vs. patrol) *resolves by absurdity* on screen; in 002a and
+  002c comedy decorates the premise rather than resolving it.
+- **R2 (no evil):** the apple/tax-evasion patrol is the tree's clearest
+  statement of the antagonism model — systems, not villains.
+- **R1 (economy of attention):** population 0 → 1 is the smallest state change
+  with the largest downstream consequence: every future story needs someone to
+  happen *to*.
+- **Wince note:** 002c's `ADMIN(?)` is the strongest single image in the
+  generation, and the taste file has no rule that weighs *mystery* against
+  *relationship*. Flagged for a future taste-file amendment; meanwhile 002c
+  stays hot and remains the designed reconvergence point.
+
+Deferred (alive, hot, watering decides their pace): 002a — the world's
+responsiveness reads stronger once someone is present to witness it (R1);
+002c — mystery compounds better *behind* a relationship than in front of one (R3).
+
+## 2026-07-11 — Trunk extension, 003 generation → **003b "One Leaf for Yes"**
+
+Sole continuation on the trunk line, and independently taste-central: the
+protocol scene is R3-as-mechanism (the interrogation montage resolves "am I
+mad?" by making both parties laugh), and residency is the next irreversible
+state change after contact (R1). 003a and 003c remain hot siblings; their
+motifs (the fault queue, the Y/N prompt) are anticipated grafts into the trunk.

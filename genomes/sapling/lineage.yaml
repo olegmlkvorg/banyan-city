@@ -16,7 +16,7 @@ nodes:
     slug: 002a-broken-channel
     title: "The Broken Channel"
     parent: "001"
-    trunk: false              # trunk for the 002 generation is undecided; all siblings alive per R6
+    trunk: false              # alive per R6; trunk for 002 generation is 002b (see edl.md)
     status: hot
     leaves: [002a-t0-a, 002a-t1-a]
 
@@ -24,7 +24,7 @@ nodes:
     slug: 002b-first-citizen
     title: "The First Citizen"
     parent: "001"
-    trunk: false
+    trunk: true               # steward trunk call 2026-07-11 — see genomes/sapling/edl.md
     status: hot
     leaves: [002b-t0-a, 002b-t1-a]
 
@@ -48,7 +48,7 @@ nodes:
     slug: 003b-one-leaf-for-yes
     title: "One Leaf for Yes"
     parent: "002b"
-    trunk: false
+    trunk: true               # steward trunk extension 2026-07-11 — see edl.md
     status: hot
     leaves: [003b-t0-a, 003b-t1-a]
 
@@ -60,6 +60,14 @@ nodes:
     status: hot
     leaves: [003c-t0-a, 003c-t1-a]
 
-# Anticipated grafts (§9): the scavenger (002b) can wander into the irrigation
-# branch (002a); the debug overlay (002c) can explain the channel's response.
-# Reconvergence is a designed payoff, recorded here when it happens.
+  - id: "004"
+    slug: 004-shade
+    title: "Shade"
+    parent: "003b"
+    trunk: true               # steward trunk continuation 2026-07-11 — see edl.md
+    status: hot
+    leaves: [004-t0-a, 004-t1-a]
+
+# Grafts performed: 004 absorbs the mended-water/cairn motifs of the 002a/003a
+# line and the sunset-overlay registration of the 002c/003c line (branches stay
+# alive per R6 — grafting is absorption, not closure). See edl.md.

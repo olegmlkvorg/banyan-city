@@ -4,7 +4,8 @@
 tree:
   id: sapling
   title: "Sapling"          # working title — open decision D6
-  author: founder
+  author: founder            # taste of record
+  steward: author-agent      # delegated execution — see STEWARDSHIP.md
   taste_file: taste/sapling.founder.v0.2.md
   seeded: 2026-07-10
   framework: banyan-city    # a fork of this tree copies this whole genome directory
@@ -15,12 +16,13 @@ format:
   episode_seconds_max: 90
   cliffhanger_required: true   # taste rule R5
 
-lifecycle:                     # Guideline 7 — defaults are open decision D4
-  hot_duration_days: null      # D4: how long a node runs hot before hardening is considered
-  hardening_threshold: null    # D4: winning-leaf criterion (sap margin over siblings)
-  dormancy_season_days: null   # D4: unwatered period after which a branch goes dormant
+lifecycle:                     # Guideline 7 — resolved per D4 (2026-07-11), amendable per Guideline 6
+  hot_duration_days: 45
+  hardening_threshold: "leading leaf holds >=60% of node sap for 14 consecutive days, minimum 25 reactions"
+  dormancy_season_days: 90
 
-watering_split:                # Guideline 2 — percentages are open decision D5
-  author_pct: null             # D5: must be resolved before Phase 3 (first real watering)
-  generation_pct: null
-  commons_pct: null
+watering_split:                # Guideline 2 — resolved per D5 (2026-07-11): costs first, then 70/30
+  policy: costs-first-70-30-v1 # each watered render reimburses its published generation cost first
+  author_pct: 70               # ...then the remainder splits author/commons
+  commons_pct: 30
+  # requires founder confirmation before first real funds land (STEWARDSHIP.md #4)
