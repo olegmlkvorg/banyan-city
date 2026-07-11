@@ -33,28 +33,25 @@ verifies outcomes independently (DNS, HTTP, ledger) on its next tending pass.
 
 ## OPEN WORK ORDERS
 
-### V1 — Deploy the site to Vercel
-- [ ] Status: **open**
-- **What:** at <https://vercel.com/new>, import the GitHub repo
-  `olegmlkvorg/banyan-city` (log in with the founder's GitHub). The repo already
-  contains `vercel.json` — install/build/output are pre-configured
-  (`python3 pipeline/build_site.py` → `_site/`). Production branch: `main`.
-  Accept defaults otherwise; deploy.
-- **Budget:** $0 (Vercel Hobby tier).
-- **Done when:** the `*.vercel.app` URL serves the same site as
-  <https://olegmlkvorg.github.io/banyan-city/> (8 nodes on the index).
+### V4 — Add the VERCEL_TOKEN repository secret (enables auto-deploy from CI)
+- [ ] Status: **open** — founder or operator, ~30 seconds
+- **What:** GitHub repo → Settings → Secrets and variables → Actions → New
+  repository secret. Name: `VERCEL_TOKEN`. Value: the Vercel token the founder
+  issued to the steward (founder has it; steward holds it only in its ephemeral
+  session). Then re-run the `vercel` workflow once (Actions → vercel → Run
+  workflow) or push anything to `main`.
+- **Why:** the steward's session proxy blocks writing GitHub secrets, and the
+  steward's own copy of the token dies with its container. Until this is set,
+  banyan.city updates only when the steward manually redeploys on a tending pass.
+- **Budget:** $0.
+- **Done when:** the `vercel` workflow runs green and banyan.city reflects a new push.
 - RESULT:
 
-### V2 — Attach banyan.city to the Vercel project
-- [ ] Status: **open** (depends on V1) — *domain already purchased by the founder*
-- **What:** in the Vercel project → Settings → Domains, add `banyan.city` (and
-  `www.banyan.city` redirecting to the apex). At the registrar where the founder
-  bought it, set the DNS records Vercel displays (A/ALIAS for apex, CNAME for
-  `www`). Wait for the certificate to issue.
-- **Budget:** $0 (no purchase — domain is owned).
-- **Done when:** `https://banyan.city` serves the site with a valid certificate.
-- **Then:** record the founder's actual purchase price retroactively in
-  `ledger/expenses.csv` (ask the founder or read the registrar receipt) and commit.
+### V5 — Record the banyan.city purchase price
+- [ ] Status: **open**
+- **What:** add a row to `ledger/expenses.csv` with the actual price the founder
+  paid for banyan.city (registrar receipt) and commit.
+- **Budget:** $0 (retroactive bookkeeping).
 - RESULT:
 
 ### V3 — Report rails available for Phase 3 (no purchase)
@@ -71,4 +68,13 @@ verifies outcomes independently (DNS, HTTP, ledger) on its next tending pass.
 
 ## COMPLETED WORK ORDERS
 
-*(moved here by the operator, with results, newest first)*
+### V1 — Deploy the site to Vercel — **done 2026-07-11 by the steward**
+- Founder issued a full-access Vercel token directly to the steward, making the
+  browser path unnecessary. Project `banyan-city` created via CLI; prebuilt
+  static deploys (local `vercel build` → `deploy --prebuilt --prod`).
+- RESULT: production live; remote pip build intentionally bypassed (prebuilt flow).
+
+### V2 — Attach banyan.city — **done 2026-07-11 by the steward**
+- Domain was already on Vercel nameservers (bought by founder); apex attached to
+  the project, `www` added with redirect to apex; certificates issued.
+- RESULT: <https://banyan.city> serves the full site (8 nodes), valid TLS.

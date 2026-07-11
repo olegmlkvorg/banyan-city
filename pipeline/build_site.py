@@ -28,6 +28,7 @@ OUT = REPO / "_site"
 GH_REPO = os.environ.get("GITHUB_REPOSITORY", "olegmlkvorg/banyan-city")
 REPO_URL = f"https://github.com/{GH_REPO}"
 REPO_NAME = GH_REPO.split("/")[-1]
+CANONICAL = "https://banyan.city"  # canonical host; Pages stays as free mirror
 MD = markdown.Markdown(extensions=["tables", "fenced_code"])
 
 CSS = """
@@ -89,13 +90,14 @@ footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line
 """
 
 
-def page(title: str, body: str, depth: int = 0) -> str:
+def page(title: str, body: str, depth: int = 0, path: str = "") -> str:
     root = "../" * depth
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="{CANONICAL}/{path}">
 <title>{html.escape(title)}</title>
 <style>{CSS}</style>
 </head>
@@ -245,7 +247,7 @@ No account? Just tell someone about it — word of mouth is sap too.</p>"""
 <h2>Branch this node</h2>
 <p class="notice">Anyone may continue this moment differently. Declare <code>{html.escape(n['id'])}</code> as your parent —
 that's the only obligation. <a href="{REPO_URL}#how-to-branch-a-story">How to branch →</a></p>"""
-    return page(f"{n['id']} — {n['title']} · {g['tree']['title']}", body, depth=1)
+    return page(f"{n['id']} — {n['title']} · {g['tree']['title']}", body, depth=1, path=f"{g['tree']['id']}/{n['slug']}.html")
 
 
 def render_index(genomes: list) -> str:
@@ -292,7 +294,7 @@ def render_city() -> str:
 <a href="{REPO_URL}">the repository</a> — amendable by citizens
 per Guideline 6, except the right to branch and fork, which is permanent.
 Open questions live in <a href="{REPO_URL}/blob/HEAD/DECISIONS.md">DECISIONS.md</a>.</p>"""
-    return page("The City — Promise, Guidelines, Vocabulary", body)
+    return page("The City — Promise, Guidelines, Vocabulary", body, path="city.html")
 
 
 def main() -> None:
