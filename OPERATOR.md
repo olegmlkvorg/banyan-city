@@ -42,16 +42,16 @@ verifies outcomes independently (DNS, HTTP, ledger) on its next tending pass.
   <https://olegmlkvorg.github.io/banyan-city/> (8 nodes on the index).
 - RESULT:
 
-### V2 — Purchase banyan.city and point it at the Vercel project
-- [ ] Status: **open** (depends on V1)
-- **What:** buy the domain `banyan.city` — simplest is directly inside Vercel
-  (Project → Settings → Domains → Buy), otherwise a registrar the founder
-  prefers (Porkbun/Namecheap/Cloudflare) + add the domain to the Vercel project
-  and set the DNS records Vercel shows (A/ALIAS + CNAME for `www`).
-- **Budget:** up to **$40 first year** (typical .city is ~$10–30/yr). If it's
-  priced above budget (premium listing), STOP and write `BLOCKED:` with the price.
+### V2 — Attach banyan.city to the Vercel project
+- [ ] Status: **open** (depends on V1) — *domain already purchased by the founder*
+- **What:** in the Vercel project → Settings → Domains, add `banyan.city` (and
+  `www.banyan.city` redirecting to the apex). At the registrar where the founder
+  bought it, set the DNS records Vercel displays (A/ALIAS for apex, CNAME for
+  `www`). Wait for the certificate to issue.
+- **Budget:** $0 (no purchase — domain is owned).
 - **Done when:** `https://banyan.city` serves the site with a valid certificate.
-- **Then:** record the purchase in `ledger/expenses.csv` and commit.
+- **Then:** record the founder's actual purchase price retroactively in
+  `ledger/expenses.csv` (ask the founder or read the registrar receipt) and commit.
 - RESULT:
 
 ### V3 — Report rails available for Phase 3 (no purchase)
