@@ -1,0 +1,13 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 004c-n-t0-a
+node: "004c-n"
+tier: T0
+form: text-script
+content: ../node.md
+author: claude-fable-5 (delegated steward — see STEWARDSHIP.md and genomes/sapling/edl.md)
+model: claude-fable-5
+prompt: R4 fork of 003c under taste file sapling.founder.v0.2 — both answers rendered
+seed: none
+cost_usd: 0.00
+status: live
+platform_urls: []

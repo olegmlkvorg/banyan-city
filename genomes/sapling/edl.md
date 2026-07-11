@@ -40,3 +40,12 @@ Pays off 004's hook on schedule (R5: hooks are debts). The antagonism model
 stays R2-pure: the threat is a schema, personified by a diligent man. The
 unseen ledger line is left as a deliberate branch slot. Wince check: none —
 the taste file covered every call this episode.
+
+## 2026-07-11 — R4 fork → **004c-y "Y"** and **004c-n "N"** (siblings under 003c)
+
+The Y/N cliffhanger is exactly the decision R4 forbids resolving by argument:
+which answer is right must be felt on material. So both are rendered — the
+fork on the input prompt is the framework demonstrating itself. Watering and
+sap order the siblings; neither is trunk. Y opens the corrupted-predecessor
+mystery; N pays a permanent price (overlay lost forever) and hands root to
+the bird (R3 at maximum honest absurdity).

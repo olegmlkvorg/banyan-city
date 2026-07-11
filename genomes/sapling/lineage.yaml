@@ -85,6 +85,24 @@ nodes:
     status: hot
     leaves: [005-t0-a, 005-t1-a]
 
+  - id: "004c-y"
+    released: 2026-07-11
+    slug: 004c-y
+    title: "Y"
+    parent: "003c"
+    trunk: false              # R4 fork: sibling answers, watering orders them
+    status: hot
+    leaves: [004c-y-t0-a, 004c-y-t1-a]
+
+  - id: "004c-n"
+    released: 2026-07-11
+    slug: 004c-n
+    title: "N"
+    parent: "003c"
+    trunk: false              # R4 fork: sibling answers, watering orders them
+    status: hot
+    leaves: [004c-n-t0-a, 004c-n-t1-a]
+
 # Grafts performed: 004 absorbs the mended-water/cairn motifs of the 002a/003a
 # line and the sunset-overlay registration of the 002c/003c line (branches stay
 # alive per R6 — grafting is absorption, not closure). See edl.md.
