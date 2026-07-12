@@ -207,7 +207,13 @@ def render_node_page(g: dict, n: dict) -> str:
         f"<td>{html.escape(str(l['status']))}</td><td>{screen_cell(l)}</td></tr>"
         for l in n["leaf_meta"]
     )
-    leaves_html = f"""<h2>Leaves (renders of this node)</h2>
+    players = "".join(
+        f'<video controls playsinline preload="metadata" style="width:100%;max-width:360px;border-radius:12px;border:1px solid var(--line)" '
+        f'src="leaves/{html.escape(str(l["content"]))}"></video>'
+        for l in n["leaf_meta"] if str(l.get("content", "")).endswith(".mp4") and l.get("status") == "live"
+    )
+    player_html = f"<h2>Watch (T2 animatic)</h2>{players}" if players else ""
+    leaves_html = f"""{player_html}<h2>Leaves (renders of this node)</h2>
 <table><tr><th>leaf</th><th>tier</th><th>form</th><th>cost</th><th>status</th><th>screening</th></tr>{leaves_rows}</table>
 <p class="notice">Every render publishes its prompt, model, seed, and cost — this table is the audit trail.
 <strong>Screening:</strong> rate any leaf (continuity, character, vibe) — the crowd narrows the shortlist,
@@ -346,7 +352,7 @@ def main() -> None:
             # publish renderable leaf artifacts (html storyboards, animatics…)
             for l in n["leaf_meta"]:
                 content = str(l.get("content", ""))
-                if content.endswith(".html"):
+                if content.endswith((".html", ".mp4")):
                     src = g["dir"] / "nodes" / n["slug"] / "leaves" / content
                     if src.exists():
                         (gdir / "leaves").mkdir(exist_ok=True)

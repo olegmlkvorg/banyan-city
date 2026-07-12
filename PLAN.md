@@ -12,9 +12,9 @@ in memory.
 - [x] **Block 2 — Y/N fork rendered (R4)** — done 2026-07-11: 004c-y "Y"
       (corrupted predecessor record) and 004c-n "N" (the bird gets root),
       issues #10/#11, edl entry; 11 nodes live.
-- [ ] **Block 3 — T2 animatic renderer.** `pipeline/render_t2.py`:
-      stills+TTS+assembly, bring-your-own-key providers, `--dry-run` tested,
-      $0 spent tonight. Update pipeline/README.
+- [x] **Block 3 — T2 animatic renderer** — done 2026-07-11: render_t2.py
+      (chromium stills + ffmpeg + optional TTS); first real video leaf
+      001-t2-a.mp4 (60s, 364KB, $0.00) live with inline player on the site.
 - [ ] **Block 4 — Housekeeping.** CI runs green? Daily sap harvest landed?
       Any branch submissions / screening issues to process? VERCEL_TOKEN
       secret added (V4) → verify vercel workflow; if content changed, redeploy.
