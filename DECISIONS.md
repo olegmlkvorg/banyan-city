@@ -68,3 +68,51 @@ reaction issues (see #6, where the story is asking itself the same question).
 **Question:** when (if ever) do citizens form a foundation/co-op to defend the name and fund the commons?
 **Status:** explicitly deferred to citizens per the Promise. Neither founder
 nor steward will create one.
+
+## D8 — First T3 render platform
+
+**Question:** which video model renders the first paid T3 leaves (PRD §7.4)?
+**Status:** **leaning — Veo 3.1 (Google Flow), pending a real comparison and the founder's taste read.**
+Evidence so far (all public, [banyan.city/trials](https://banyan.city/trials)):
+
+- **Veo 3.1 / Google Flow** rendered all three node-001 trial shots (A cold-open,
+  B leaf-POV, C underground) at native 9:16, 10s. Steward objective read: 5/5
+  prompt adherence on all three, 5/5 vertical framing. Friction 3/5 — free tier
+  is ~2 gens/day, 720p cap, and a sparkle watermark.
+- No other platform tested yet, so this is a bar, not a winner. A choice needs
+  at least one rival run of the same three shots (Kling, Dreamina/Seedance, or
+  Hailuo) — otherwise "best" is untested.
+
+**Two things this decision waits on, both founder-reserved:**
+1. **Taste axes** (motion / look / consistency) are unscored — R4 reserves them
+   to the author; the objective 4.5 is only half the rubric.
+2. **Spend.** The free tier is watermarked and rate-limited; a production leaf
+   likely needs paid credits — a money decision (STEWARDSHIP §4, human rails).
+
+**Steward recommendation:** run the same three prompts on one or two rivals
+(cost: the founder's time on their sites — steward holds no accounts), let the
+founder score taste, then resolve here. If no rival clears Veo on taste, Veo
+wins by default. Amendable per Guideline 6.
+
+## D9 — When is a node's T3 video leaf publishable?
+
+**Question:** what must be true before an assembled T3 episode becomes a node's
+official `live` leaf (not just a Desktop/bench preview)?
+**Status:** open — **draft criteria below, for the founder to ratify or amend.**
+Prompted by the first real case: the node-001 Veo episode assembles end-to-end
+but (a) carries the Flow watermark and (b) has 2 of 5 beats as placeholder
+slates. Steward read: **not yet** — publish criteria, proposed:
+
+1. **Footage complete or intentionally slated** — every beat has real footage,
+   or a slate is a deliberate stylistic choice noted in the leaf metadata (not
+   just "not generated yet").
+2. **Watermark policy** — either watermark-free, or the founder explicitly
+   accepts the platform mark as the price of the free tier for this leaf.
+3. **Provenance complete** (§7.2) — per-beat platform/model/prompt/cost recorded
+   in the leaf yaml (render_t3 already aggregates this).
+4. **Taste-blessed** — the author has seen the assembled episode and approved it
+   as the node's representative video (R4; trunk-root nodes especially).
+5. **Lint + CI green**, leaf registered in `lineage.yaml`.
+
+Publishing is a `render`, within steward authority once criteria are met — but
+criterion 4 keeps the trunk's first video a founder call. Amendable per Guideline 6.
