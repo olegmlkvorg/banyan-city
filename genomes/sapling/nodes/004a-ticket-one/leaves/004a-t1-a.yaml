@@ -1,0 +1,13 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 004a-t1-a
+node: "004a"
+tier: T1
+form: storyboard-html
+content: 004a-t1-a.html
+author: pipeline/render_t1.py (deterministic compile of ../node.md)
+model: none
+prompt: none            # deterministic — the T0 leaf is the prompt
+seed: none
+cost_usd: 0.00
+status: live
+platform_urls: []

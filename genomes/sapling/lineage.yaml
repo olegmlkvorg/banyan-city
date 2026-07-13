@@ -85,6 +85,15 @@ nodes:
     status: hot
     leaves: [005-t0-a, 005-t1-a]
 
+  - id: "004a"
+    released: 2026-07-13
+    slug: 004a-ticket-one
+    title: "Ticket One"
+    parent: "003a"
+    trunk: false
+    status: hot
+    leaves: [004a-t0-a, 004a-t1-a]
+
   - id: "004c-y"
     released: 2026-07-11
     slug: 004c-y

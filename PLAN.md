@@ -20,12 +20,12 @@ Previous night plan (07-11→12): blocks 1–3 shipped that night; blocks 4–5
       node.md, concat to 60–90s 9:16 mp4. Prove it end-to-end using the T2
       stills (or any trial clips present) as stand-in footage — the point is
       that whichever platform wins, its clips slot in unchanged.
-- [ ] **Block 3 — scores.yaml + trials page.** Scoring template per rubric;
+- [x] **Block 3 — done 2026-07-13:** scores.yaml template + /trials/ page (outputs, provenance chips, weighted rubric scores, protocol+prompts folded in), linked from the city gate; smoke-tested populated + empty states. **Block 3 —** Scoring template per rubric;
       build_site.py renders a public /trials/ comparison page (per-platform,
       per-shot, embedded clips where present). Steward pre-scores objective
       axes (adherence, 9:16 nativeness, friction); taste axes left blank for
       the founder.
-- [ ] **Block 4 — Grow the tree (T0+T1).** One new branch node under a
+- [x] **Block 4 — done 2026-07-13:** 004a "Ticket One" under 003a (the on-call line continues: dispatch via damp line, farmer+Marn recruited, maintainer→owner, dam hook). T0+T1, issue #12, lineage, lint green. **Block 4 —** One new branch node under a
       sibling that currently has no continuation (mind R1/R5; cite taste
       rules; provenance: model-written, steward-committed). Lint, issue,
       lineage.yaml, T1 storyboard, deploy.
