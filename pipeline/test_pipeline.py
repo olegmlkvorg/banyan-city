@@ -67,6 +67,31 @@ def test_node_001_beats_parse():
     check("all beats have slugs", all(b["slug"].strip() for b in beats))
 
 
+def test_shot_prompt_extraction():
+    # intake pulls the verbatim prompt for a shot out of prompts.md; shot C's
+    # prompt contains a colon ("stylized shot:") — the bug that broke the
+    # hand-built meta YAML. Assert it round-trips through yaml cleanly.
+    import yaml
+    sys.path.insert(0, str(REPO / "pipeline" / "t3-trials"))
+    import intake
+    for shot in ("A", "B", "C"):
+        prompt = intake.shot_prompt(shot)
+        check(f"shot {shot} prompt nonempty", len(prompt) > 40)
+        # emulate intake's serialization and confirm it parses back
+        dumped = yaml.safe_dump({"prompt": prompt})
+        check(f"shot {shot} prompt survives YAML", yaml.safe_load(dumped)["prompt"] == prompt)
+
+
+def test_trials_page_renders():
+    # build_site.render_trials must not crash (populated or empty) and must
+    # carry the core sections (regression guard for the /trials/ page)
+    sys.path.insert(0, str(REPO / "pipeline"))
+    import build_site
+    html = build_site.render_trials()
+    check("trials page renders", "T3 platform trials" in html)
+    check("trials page has prompts section", "three prompts" in html)
+
+
 def main():
     import tempfile
     test_beat_duration_from_timecode()
@@ -75,6 +100,8 @@ def main():
         test_find_clip_naming(Path(td))
     test_wrap_never_drops_words()
     test_node_001_beats_parse()
+    test_shot_prompt_extraction()
+    test_trials_page_renders()
     print()
     if FAILURES:
         print(f"✗ {len(FAILURES)} failure(s): {', '.join(FAILURES)}")
