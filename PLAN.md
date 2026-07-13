@@ -2,34 +2,34 @@
 
 **Protocol:** on every wakeup, open this file, do the FIRST unchecked block,
 check it off with a one-line result, commit+push main, re-arm the next wakeup.
-The plan lives in git, not in memory. Founder is asleep: $0 spend, no accounts,
-no governance changes, all story content labeled with provenance, taste rules
-cited (STEWARDSHIP.md).
+Founder asleep, but explicitly authorized overnight work this session. Still:
+$0 spend, no accounts, no governance changes, all story labeled with
+provenance, taste rules cited (STEWARDSHIP.md).
 
-Previous night plan (07-11→12): blocks 1–3 shipped that night; blocks 4–5
-(housekeeping + report) completed 2026-07-13 — CI green, deploys fixed
-(PEP 668, default branch → main, pages env), main synced, report delivered.
+## Shipped tonight
+- Deploys fixed (PEP 668, default branch → main, pages env); all CI green.
+- render_t3.py — episode assembler (clips→episode, overlays, captions, slates,
+  title/end cards); caption boundary flash fixed.
+- /trials/ page + intake.py; scores.yaml.
+- **First real footage:** founder's 3 Veo/Google-Flow shots (A/B/C) filed,
+  objective-scored (weighted 4.5), live on banyan.city/trials.
+- First real T3 episode of node 001 assembled (Veo beats 1/2/4 + 2 slates +
+  cards, 90.5s, $0) → preview at ~/Desktop/banyan-001-veo-preview.mp4.
+- 004a "Ticket One" node published (T0/T1/T2); render_t2 chromium path portable.
 
-- [x] **Block 1 — Trial intake DONE 2026-07-13 22:40:** founder generated all 3 shots on Google Flow/Veo 3.1; filed to outputs/google-flow/, objective-scored, live on /trials/, bench-assembled into first real 001 episode (preview on Desktop). Kling CLI OAuth'd but agent-credit pool $0 (no free tier). **Block 1 (recurring, for more drops) —** Check `pipeline/t3-trials/outputs/` for
-      clips the founder dropped before sleeping. For each: write
-      `<shot>.meta.yaml` (platform, model, prompt, watermark, credits, $0),
-      normalize filenames, commit. If none yet, skip without waiting.
-- [x] **Block 2 — render_t3.py** — done: beats/durations from node.md, clip fit (scale/crop/pad/trim), Pillow-rasterized terminal panels + timed captions via core overlay (local ffmpeg lacks drawtext), lossless concat, slate fallback, --out bench mode, per-clip provenance aggregation. Proven on node 001 (5 beats, 85s, $0, both paths eyeballed). **Block 2 (done) —** Assembly stage
-      that takes per-beat clips + the T1 storyboard and composites the
-      episode: terminal-text overlays (drawtext/subtitles), beat timing from
-      node.md, concat to 60–90s 9:16 mp4. Prove it end-to-end using the T2
-      stills (or any trial clips present) as stand-in footage — the point is
-      that whichever platform wins, its clips slot in unchanged.
-- [x] **Block 3 — done 2026-07-13:** scores.yaml template + /trials/ page (outputs, provenance chips, weighted rubric scores, protocol+prompts folded in), linked from the city gate; smoke-tested populated + empty states. **Block 3 —** Scoring template per rubric;
-      build_site.py renders a public /trials/ comparison page (per-platform,
-      per-shot, embedded clips where present). Steward pre-scores objective
-      axes (adherence, 9:16 nativeness, friction); taste axes left blank for
-      the founder.
-- [x] **Block 4 — done 2026-07-13:** 004a "Ticket One" under 003a (the on-call line continues: dispatch via damp line, farmer+Marn recruited, maintainer→owner, dam hook). T0+T1, issue #12, lineage, lint green. **Block 4 —** One new branch node under a
-      sibling that currently has no continuation (mind R1/R5; cite taste
-      rules; provenance: model-written, steward-committed). Lint, issue,
-      lineage.yaml, T1 storyboard, deploy.
-- [ ] **Block 5 — Housekeeping + morning report.** CI green, harvest landed,
-      submissions queue empty, deploys Ready. Then: concise morning report in
-      chat — what shipped, trial-intake status, what needs the founder (the
-      remaining sign-ups / taste scoring). Delete this file.
+## Remaining
+- [ ] **Clip watch (recurring).** Each wakeup: check pipeline/t3-trials/outputs/
+      for new drops (founder may run Dreamina/Hailuo). Process any with
+      `python3 pipeline/t3-trials/intake.py <file> <platform> <shot>`, pre-score
+      objective axes, rebuild, push. Direct `cp <fullpath>` works even though
+      Downloads listing is TCC-blocked.
+- [ ] **Morning report + tidy.** At morning (past ~07:00 Dubai) or when the
+      founder returns: concise report of what shipped + the decisions waiting on
+      them (below). Then delete this file.
+
+## Decisions waiting on the founder (do NOT self-resolve)
+1. Publish the 001 Veo episode as node 001's official T3 leaf? (trunk root,
+   watermarked, 2 beats still slate — steward's read: not yet.)
+2. Fill the taste-axis scores (motion/look/consistency) on /trials/ (R4 — author only).
+3. Run the same 3 prompts on a 2nd/3rd platform to make the bake-off real
+   (Veo set a high bar at 5/5/5 adherence).
