@@ -132,6 +132,40 @@ def slate_png(slug: str, path: Path) -> Path:
     return path
 
 
+def _centered(d, cx, y, text, font, fill):
+    d.text((cx - font.getbbox(text)[2] / 2, y), text, font=font, fill=fill)
+
+
+def card_png(lines: list, path: Path) -> Path:
+    """A full-frame title/end card: centered green monospace on near-black.
+    lines is a list of (text, size, color) tuples, stacked and vertically centered."""
+    img = Image.new("RGBA", (WIDTH, HEIGHT), BG)
+    d = ImageDraw.Draw(img)
+    rendered = [(t, mono_font(s), c) for t, s, c in lines]
+    gap = 20
+    total = sum(f.getbbox(t)[3] + gap for t, f, _ in rendered) - gap
+    y = (HEIGHT - total) // 2
+    for t, f, c in rendered:
+        _centered(d, WIDTH // 2, y, t, f, c)
+        y += f.getbbox(t)[3] + gap
+    img.save(path)
+    return path
+
+
+def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
+    """Encode one or more still cards into a short silent mp4 segment."""
+    parts = []
+    for i, (png, dur) in enumerate(pngs_and_durs):
+        out = workdir / f"card-{tag}-{i}.mp4"
+        subprocess.run(
+            ["ffmpeg", "-y", "-loop", "1", "-t", str(dur), "-i", str(png),
+             "-vf", f"fps={FPS},format=yuv420p", "-r", str(FPS), "-an",
+             "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(out)],
+            check=True, capture_output=True)
+        parts.append(out)
+    return parts
+
+
 def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path) -> Path:
     """Encode one beat: fitted footage (or slate) + overlays + captions."""
     inputs, chains = [], []
@@ -160,8 +194,11 @@ def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path) -> 
         for j, text in enumerate(lines):
             png = text_png(strip_inline_md(text), workdir / f"cap-{num:02d}-{j}.png",
                            28, INK, CAPTION_BG)
+            # half-open [start, end): last caption holds to the end; avoids the
+            # 1-frame flash where two lines overlap at an inclusive boundary
+            end = "" if j == len(lines) - 1 else f"*lt(t,{(j + 1) * slice_s:.2f})"
             layers.append((png, "(W-w)/2", "H-h-160",
-                           f"between(t,{j * slice_s:.2f},{(j + 1) * slice_s:.2f})"))
+                           f"gte(t,{j * slice_s:.2f}){end}"))
 
     prev = "base"
     for k, (png, x, yy, enable) in enumerate(layers):
@@ -199,6 +236,7 @@ def main() -> int:
     p.add_argument("--out", type=Path, default=None,
                    help="bench render: write mp4 here, publish no leaf")
     p.add_argument("--suffix", default="a", help="leaf suffix (default a)")
+    p.add_argument("--no-cards", action="store_true", help="skip title/end cards")
     args = p.parse_args()
 
     genome_dir = REPO / "genomes" / args.genome
@@ -213,6 +251,15 @@ def main() -> int:
 
     workdir = Path(tempfile.mkdtemp(prefix="t3-"))
     parts, sources, missing = [], [], 0
+
+    if not args.no_cards:
+        title = card_png([
+            ("BANYAN CITY", 30, (147, 166, 152, 255)),
+            (f"{node['id']} — {node['title']}", 40, GREEN),
+            ("a story that branches", 22, (147, 166, 152, 255)),
+        ], workdir / "title.png")
+        parts += card_clip([(title, 2.5)], workdir, "title")
+
     for i, beat in enumerate(beats, 1):
         dur = beat_duration(beat["slug"], beat["items"])
         clip = find_clip(args.clips, i)
@@ -225,6 +272,14 @@ def main() -> int:
                         "platform": prov.get("platform", "none"),
                         "model": prov.get("model", "none"),
                         "cost_usd": float(prov.get("cost_usd", 0) or 0)})
+
+    if not args.no_cards:
+        end = card_png([
+            ("banyan.city", 34, GREEN),
+            ("branch this node · fork the city", 22, (147, 166, 152, 255)),
+            ("every render is open data", 18, (147, 166, 152, 255)),
+        ], workdir / "end.png")
+        parts += card_clip([(end, 3.0)], workdir, "end")
 
     tts_cost = 0.0
     if args.tts == "openai":  # narration groundwork; muxing lands with first voiced leaf
