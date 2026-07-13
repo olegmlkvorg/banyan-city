@@ -10,7 +10,7 @@ Previous night plan (07-11→12): blocks 1–3 shipped that night; blocks 4–5
 (housekeeping + report) completed 2026-07-13 — CI green, deploys fixed
 (PEP 668, default branch → main, pages env), main synced, report delivered.
 
-- [x] **Block 1 — Trial intake** — checked 2026-07-13 22:0x: outputs/ empty (founder still generating); re-check next wakeup. Kling CLI installed+OAuth'd by founder; CLI agent-credit pool is $0 with no free tier (submits fail; finding recorded in t3-trials/README). **Block 1 (recurring) —** Check `pipeline/t3-trials/outputs/` for
+- [x] **Block 1 — Trial intake DONE 2026-07-13 22:40:** founder generated all 3 shots on Google Flow/Veo 3.1; filed to outputs/google-flow/, objective-scored, live on /trials/, bench-assembled into first real 001 episode (preview on Desktop). Kling CLI OAuth'd but agent-credit pool $0 (no free tier). **Block 1 (recurring, for more drops) —** Check `pipeline/t3-trials/outputs/` for
       clips the founder dropped before sleeping. For each: write
       `<shot>.meta.yaml` (platform, model, prompt, watermark, credits, $0),
       normalize filenames, commit. If none yet, skip without waiting.
