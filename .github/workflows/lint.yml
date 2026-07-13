@@ -11,5 +11,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pyyaml
+      - run: pip install pyyaml pillow
+      - run: sudo apt-get update && sudo apt-get install -y fonts-dejavu-core
       - run: python pipeline/lint_genome.py
+      - run: python pipeline/test_pipeline.py
