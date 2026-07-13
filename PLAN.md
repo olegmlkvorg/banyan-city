@@ -10,11 +10,11 @@ Previous night plan (07-11→12): blocks 1–3 shipped that night; blocks 4–5
 (housekeeping + report) completed 2026-07-13 — CI green, deploys fixed
 (PEP 668, default branch → main, pages env), main synced, report delivered.
 
-- [ ] **Block 1 — Trial intake.** Check `pipeline/t3-trials/outputs/` for
+- [x] **Block 1 — Trial intake** — checked 2026-07-13 22:0x: outputs/ empty (founder still generating); re-check next wakeup. Kling CLI installed+OAuth'd by founder; CLI agent-credit pool is $0 with no free tier (submits fail; finding recorded in t3-trials/README). **Block 1 (recurring) —** Check `pipeline/t3-trials/outputs/` for
       clips the founder dropped before sleeping. For each: write
       `<shot>.meta.yaml` (platform, model, prompt, watermark, credits, $0),
       normalize filenames, commit. If none yet, skip without waiting.
-- [ ] **Block 2 — render_t3.py scaffold (the post pipeline).** Assembly stage
+- [x] **Block 2 — render_t3.py** — done: beats/durations from node.md, clip fit (scale/crop/pad/trim), Pillow-rasterized terminal panels + timed captions via core overlay (local ffmpeg lacks drawtext), lossless concat, slate fallback, --out bench mode, per-clip provenance aggregation. Proven on node 001 (5 beats, 85s, $0, both paths eyeballed). **Block 2 (done) —** Assembly stage
       that takes per-beat clips + the T1 storyboard and composites the
       episode: terminal-text overlays (drawtext/subtitles), beat timing from
       node.md, concat to 60–90s 9:16 mp4. Prove it end-to-end using the T2

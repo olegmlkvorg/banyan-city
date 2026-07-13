@@ -16,7 +16,7 @@ per-shot prompt identical across platforms.
 
 | # | Platform / model | Free tier | Watermark | Notes |
 |---|---|---|---|---|
-| 1 | **Kling 3.0** (klingai.com) | 66 credits / 24 h | yes (free) | most generous daily reset; cheapest paid fallback (~$0.84/10 s) |
+| 1 | **Kling 3.0** (kling.ai) | 66 credits / 24 h **website only** | yes (free) | most generous daily reset; cheapest paid fallback (~$0.84/10 s). Verified 2026-07-13: the official agent CLI (`@klingai/cli-global`, OAuth'd) has a **separate agent credit pool with no free allowance** — every CLI submit returns "Insufficient credits" at $0 balance, even v2.5. Free-tier trials must go through the website UI; the CLI becomes useful once paid credits exist. |
 | 2 | **Hailuo 2.3** (hailuoai.video) | 200 credits first-time, then ~3–5 gens/day | yes (free) | strong motion reputation |
 | 3 | **Seedance 2.0** via Dreamina (dreamina.capcut.com) | daily credits, ~2–3 videos/day | reported watermark-free on some tiers — verify | CapCut variant has stricter filters; prefer Dreamina |
 | 4 | **Veo 3.1** via Google Flow (labs.google/flow) | 100 credits once + 50/day (~2 videos/day) | yes (free) | best prompt adherence per current comparisons; also 10/mo via Google Vids |
