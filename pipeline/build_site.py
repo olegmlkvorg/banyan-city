@@ -287,7 +287,10 @@ every decision auditable in git.</p>
 Citizens <strong>water</strong> the branches they love; unwatered branches sleep, never die.
 One author's <strong>taste file</strong> decides the trunk; disagreement is watering a rival branch, not a vote.
 All reactions and money are <strong>open data</strong>. And anyone may <strong>fork the whole city</strong> —
-take everything, rename it, go. <a href="city.html">Full text →</a></p>"""
+take everything, rename it, go. <a href="city.html">Full text →</a></p>
+<p class="notice">🎬 <strong>Now growing:</strong> the tree is choosing its video model —
+same three shots rendered on every candidate platform, scored in the open.
+<a href="trials/index.html">The T3 platform trials →</a></p>"""
     return page("Banyan City — a story tree", body)
 
 
@@ -302,6 +305,68 @@ def render_city() -> str:
 per Guideline 6, except the right to branch and fork, which is permanent.
 Open questions live in <a href="{REPO_URL}/blob/HEAD/DECISIONS.md">DECISIONS.md</a>.</p>"""
     return page("The City — Promise, Guidelines, Vocabulary", body, path="city.html")
+
+
+AXES = ["adherence", "motion", "look", "nativeness", "consistency", "friction"]
+WEIGHTED = {"adherence": 2, "consistency": 2}
+
+
+def render_trials() -> str:
+    """Public T3 platform-trials page: same three shots on every candidate,
+    outputs + provenance + scores, all open data (§7.2)."""
+    tdir = REPO / "pipeline" / "t3-trials"
+    scores = (yaml.safe_load((tdir / "scores.yaml").read_text()) or {}).get("platforms") or {}
+
+    outputs = {}
+    outdir = tdir / "outputs"
+    if outdir.exists():
+        for pdir in sorted(p for p in outdir.iterdir() if p.is_dir()):
+            clips = []
+            for mp4 in sorted(pdir.glob("*.mp4")):
+                meta_f = mp4.with_suffix(".meta.yaml")
+                meta = yaml.safe_load(meta_f.read_text()) if meta_f.exists() else {}
+                clips.append((mp4, meta or {}))
+            if clips:
+                outputs[pdir.name] = clips
+
+    sections = []
+    for plat in sorted(set(outputs) | set(scores)):
+        rows, players = "", ""
+        for mp4, meta in outputs.get(plat, []):
+            players += (f'<figure style="display:inline-block;margin:0.5rem 0.6rem 0.5rem 0">'
+                        f'<video controls playsinline preload="metadata" '
+                        f'style="width:100%;max-width:300px;border-radius:12px;border:1px solid var(--line)" '
+                        f'src="{html.escape(plat)}/{html.escape(mp4.name)}"></video>'
+                        f'<figcaption class="chip">shot {html.escape(str(meta.get("shot", mp4.stem)))} · '
+                        f'{html.escape(str(meta.get("model", "model?")))}</figcaption></figure>')
+        shot_scores = (scores.get(plat) or {}).get("shots") or {}
+        for shot, ax in sorted(shot_scores.items()):
+            ax = ax or {}
+            filled = [(a, ax[a]) for a in AXES if isinstance(ax.get(a), (int, float))]
+            if filled:
+                num = sum(v * WEIGHTED.get(a, 1) for a, v in filled)
+                den = sum(WEIGHTED.get(a, 1) for a, _ in filled)
+                total = f"{num / den:.1f}"
+            else:
+                total = "—"
+            cells = "".join(f"<td>{ax.get(a) if ax.get(a) is not None else '·'}</td>" for a in AXES)
+            note = html.escape(str(ax.get("notes", "") or ""))
+            rows += f"<tr><td><strong>{html.escape(shot)}</strong></td>{cells}<td><strong>{total}</strong></td><td>{note}</td></tr>"
+        table = (f"<table><tr><th>shot</th>{''.join(f'<th>{a}</th>' for a in AXES)}<th>weighted</th><th>notes</th></tr>"
+                 f"{rows}</table>") if rows else '<p class="notice">Not scored yet.</p>'
+        model = html.escape(str((scores.get(plat) or {}).get("model", "")))
+        sections.append(f"<h2>{html.escape(plat)} <span class='chip'>{model}</span></h2>{players}{table}")
+
+    if not sections:
+        sections.append('<p class="notice">No trial outputs yet — the founder is out gathering free-tier '
+                        'renders. The protocol, prompts, and rubric below are already fixed, so results '
+                        'can\'t be quietly re-rolled until they flatter.</p>')
+
+    intro = md_to_html((tdir / "README.md").read_text())
+    prompts = md_to_html((tdir / "prompts.md").read_text())
+    body = (f"{''.join(sections)}<hr><details><summary><strong>Protocol, candidates & rubric</strong></summary>"
+            f"{intro}</details><details><summary><strong>The three prompts</strong></summary>{prompts}</details>")
+    return page("T3 platform trials — same three shots, every model", body, depth=1, path="trials/index.html")
 
 
 def render_feed(genomes: list) -> str:
@@ -344,6 +409,13 @@ def main() -> None:
     (OUT / "city.html").write_text(render_city())
     (OUT / "feed.xml").write_text(render_feed(genomes))
     (OUT / ".nojekyll").write_text("")
+    (OUT / "trials").mkdir()
+    (OUT / "trials" / "index.html").write_text(render_trials())
+    trials_out = REPO / "pipeline" / "t3-trials" / "outputs"
+    if trials_out.exists():
+        for mp4 in trials_out.glob("*/*.mp4"):
+            (OUT / "trials" / mp4.parent.name).mkdir(exist_ok=True)
+            shutil.copy(mp4, OUT / "trials" / mp4.parent.name / mp4.name)
     for g in genomes:
         gdir = OUT / g["tree"]["id"]
         gdir.mkdir()

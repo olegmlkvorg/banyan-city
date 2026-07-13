@@ -1,0 +1,13 @@
+# T3 platform trials — public scoring (rubric in README.md)
+# 1–5 per axis. Weighted total counts adherence and consistency double.
+# Objective axes the steward may pre-fill: adherence, nativeness, friction.
+# Taste axes only the founder fills: motion, look, consistency (R4: decisions
+# are made on rendered material, and taste is the author's).
+#
+# platforms:
+#   kling:
+#     model: Kling 3.0 (website free tier)
+#     shots:
+#       B: {adherence: 4, motion: , look: , nativeness: 5, consistency: , friction: 3,
+#           notes: "leaf morphs at 0:06"}
+platforms: {}
