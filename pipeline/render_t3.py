@@ -43,8 +43,10 @@ from PIL import Image, ImageDraw, ImageFont
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from render_t1 import extract_script, parse_frames, strip_inline_md  # noqa: E402
+from render_t2 import ffmpeg_exe  # noqa: E402 — shared resolver: bundled imageio-ffmpeg, else PATH
 
 REPO = Path(__file__).resolve().parent.parent
+FFMPEG = ffmpeg_exe()
 WIDTH, HEIGHT = 720, 1280
 FPS = 24
 MIN_SEC, MAX_SEC = 3.0, 12.0
@@ -158,7 +160,7 @@ def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
     for i, (png, dur) in enumerate(pngs_and_durs):
         out = workdir / f"card-{tag}-{i}.mp4"
         subprocess.run(
-            ["ffmpeg", "-y", "-loop", "1", "-t", str(dur), "-i", str(png),
+            [FFMPEG, "-y", "-loop", "1", "-t", str(dur), "-i", str(png),
              "-vf", f"fps={FPS},format=yuv420p", "-r", str(FPS), "-an",
              "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(out)],
             check=True, capture_output=True)
@@ -210,7 +212,7 @@ def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path) -> 
     chains.append(f"[{prev}]format=yuv420p[out]")
 
     out = workdir / f"beat-{num:02d}.mp4"
-    cmd = (["ffmpeg", "-y"] + inputs +
+    cmd = ([FFMPEG, "-y"] + inputs +
            ["-filter_complex", ";".join(chains), "-map", "[out]",
             "-t", str(dur), "-r", str(FPS), "-an",
             "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(out)])
@@ -293,7 +295,7 @@ def main() -> int:
     out = args.out or (node_dir / "leaves" / f"{leaf_id}.mp4")
     concat = workdir / "concat.txt"
     concat.write_text("\n".join(f"file '{p.resolve()}'" for p in parts))
-    r = subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
+    r = subprocess.run([FFMPEG, "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
                         "-c", "copy", str(out)], capture_output=True, text=True)
     if r.returncode:
         raise SystemExit(f"concat failed:\n{r.stderr[-1500:]}")

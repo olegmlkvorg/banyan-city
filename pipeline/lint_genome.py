@@ -93,6 +93,12 @@ def lint_genome(genome_dir: Path) -> None:
                 err(f"{where}/{leaf_id}: tier '{leaf.get('tier')}' not in {sorted(VALID_TIERS)}")
             if leaf.get("node") != nid:
                 err(f"{where}/{leaf_id}: leaf 'node' field is '{leaf.get('node')}', expected '{nid}'")
+            # content must point at a real artifact — a dead reference passes
+            # metadata checks but ships a 404 on the site (the silent gap the
+            # linter exists to catch). "../node.md" is the T0 self-reference.
+            content = str(leaf.get("content", ""))
+            if content and content != "../node.md" and not (node_dir / "leaves" / content).exists():
+                err(f"{where}/{leaf_id}: content '{content}' declared but leaves/{content} missing")
 
         # orphan leaves: files on disk not declared in lineage
         leaves_dir = node_dir / "leaves"

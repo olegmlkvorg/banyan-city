@@ -82,6 +82,25 @@ def test_shot_prompt_extraction():
         check(f"shot {shot} prompt survives YAML", yaml.safe_load(dumped)["prompt"] == prompt)
 
 
+def test_all_leaf_content_exists():
+    # every leaf's declared content file must exist on disk — the guarantee the
+    # lint content-check enforces, verified here against the real genome so a
+    # renamed/deleted artifact fails fast (dead site links otherwise)
+    import yaml
+    gdir = REPO / "genomes" / "sapling"
+    lineage = yaml.safe_load((gdir / "lineage.yaml").read_text())
+    ok = True
+    for n in lineage["nodes"]:
+        ndir = gdir / "nodes" / n["slug"]
+        for leaf_id in n.get("leaves") or []:
+            meta = yaml.safe_load((ndir / "leaves" / f"{leaf_id}.yaml").read_text())
+            content = str(meta.get("content", ""))
+            if content and content != "../node.md" and not (ndir / "leaves" / content).exists():
+                print(f"      missing content: {n['id']}/{leaf_id} -> {content}")
+                ok = False
+    check("every leaf content file exists on disk", ok)
+
+
 def test_trials_page_renders():
     # build_site.render_trials must not crash (populated or empty) and must
     # carry the core sections (regression guard for the /trials/ page)
@@ -101,6 +120,7 @@ def main():
     test_wrap_never_drops_words()
     test_node_001_beats_parse()
     test_shot_prompt_extraction()
+    test_all_leaf_content_exists()
     test_trials_page_renders()
     print()
     if FAILURES:
