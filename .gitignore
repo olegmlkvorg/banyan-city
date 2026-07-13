@@ -3,3 +3,9 @@ _site/
 __pycache__/
 .vercel
 .env*
+
+# local render tooling — playwright for render_t2 stills; installed on demand,
+# never committed (CI ships its own chromium). See render_t2.py.
+node_modules/
+package.json
+package-lock.json
