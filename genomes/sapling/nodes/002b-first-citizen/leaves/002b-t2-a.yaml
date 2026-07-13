@@ -1,0 +1,13 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 002b-t2-a
+node: "002b"
+tier: T2
+form: animatic-mp4
+content: 002b-t2-a.mp4
+author: pipeline/render_t2.py (deterministic assembly of the T1 leaf)
+model: none — chromium stills, silent (captions carry the script)
+prompt: none            # deterministic — the T1 leaf is the source
+seed: none
+cost_usd: 0.00
+status: live
+platform_urls: []

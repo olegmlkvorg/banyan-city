@@ -20,7 +20,7 @@ nodes:
     parent: "001"
     trunk: false              # alive per R6; trunk for 002 generation is 002b (see edl.md)
     status: hot
-    leaves: [002a-t0-a, 002a-t1-a]
+    leaves: [002a-t0-a, 002a-t1-a, 002a-t2-a]
 
   - id: "002b"
     released: 2026-07-10
@@ -29,7 +29,7 @@ nodes:
     parent: "001"
     trunk: true               # steward trunk call 2026-07-11 — see genomes/sapling/edl.md
     status: hot
-    leaves: [002b-t0-a, 002b-t1-a]
+    leaves: [002b-t0-a, 002b-t1-a, 002b-t2-a]
 
   - id: "002c"
     released: 2026-07-10
@@ -38,7 +38,7 @@ nodes:
     parent: "001"
     trunk: false
     status: hot
-    leaves: [002c-t0-a, 002c-t1-a]
+    leaves: [002c-t0-a, 002c-t1-a, 002c-t2-a]
 
   - id: "003a"
     released: 2026-07-11
@@ -47,7 +47,7 @@ nodes:
     parent: "002a"
     trunk: false
     status: hot
-    leaves: [003a-t0-a, 003a-t1-a]
+    leaves: [003a-t0-a, 003a-t1-a, 003a-t2-a]
 
   - id: "003b"
     released: 2026-07-11
@@ -56,7 +56,7 @@ nodes:
     parent: "002b"
     trunk: true               # steward trunk extension 2026-07-11 — see edl.md
     status: hot
-    leaves: [003b-t0-a, 003b-t1-a]
+    leaves: [003b-t0-a, 003b-t1-a, 003b-t2-a]
 
   - id: "003c"
     released: 2026-07-11
@@ -65,7 +65,7 @@ nodes:
     parent: "002c"
     trunk: false
     status: hot
-    leaves: [003c-t0-a, 003c-t1-a]
+    leaves: [003c-t0-a, 003c-t1-a, 003c-t2-a]
 
   - id: "004"
     released: 2026-07-11
@@ -74,7 +74,7 @@ nodes:
     parent: "003b"
     trunk: true               # steward trunk continuation 2026-07-11 — see edl.md
     status: hot
-    leaves: [004-t0-a, 004-t1-a]
+    leaves: [004-t0-a, 004-t1-a, 004-t2-a]
 
   - id: "005"
     released: 2026-07-11
@@ -83,7 +83,7 @@ nodes:
     parent: "004"
     trunk: true               # steward trunk continuation — see edl.md
     status: hot
-    leaves: [005-t0-a, 005-t1-a]
+    leaves: [005-t0-a, 005-t1-a, 005-t2-a]
 
   - id: "004a"
     released: 2026-07-13
@@ -101,7 +101,7 @@ nodes:
     parent: "003c"
     trunk: false              # R4 fork: sibling answers, watering orders them
     status: hot
-    leaves: [004c-y-t0-a, 004c-y-t1-a]
+    leaves: [004c-y-t0-a, 004c-y-t1-a, 004c-y-t2-a]
 
   - id: "004c-n"
     released: 2026-07-11
@@ -110,7 +110,7 @@ nodes:
     parent: "003c"
     trunk: false              # R4 fork: sibling answers, watering orders them
     status: hot
-    leaves: [004c-n-t0-a, 004c-n-t1-a]
+    leaves: [004c-n-t0-a, 004c-n-t1-a, 004c-n-t2-a]
 
 # Grafts performed: 004 absorbs the mended-water/cairn motifs of the 002a/003a
 # line and the sunset-overlay registration of the 002c/003c line (branches stay
