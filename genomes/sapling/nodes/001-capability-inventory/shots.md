@@ -12,6 +12,12 @@ VO), 9:16 vertical, ~10s per shot, one take.
 render_t3 fits each clip to its beat's script duration; any missing beat renders
 as a slate, so partial shot lists still assemble.
 
+**Voice (optional):** episodes are watchable silent (captions carry the VO), but
+render_t3 also muxes per-beat audio in sync. Drop an `NN-vo.mp3` beside each
+clip and it's placed on that beat automatically; or pass `--tts openai` to have
+the VO lines narrated (paid — a founder/spend call). Cards stay silent. No audio
+anywhere = the silent captioned animatic, unchanged.
+
 Status legend: ✅ generated · ⬜ needs footage
 
 ---
