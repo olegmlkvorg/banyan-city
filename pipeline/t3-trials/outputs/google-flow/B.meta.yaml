@@ -1,0 +1,20 @@
+# Trial output — provenance (§7.2)
+platform: google-flow
+model: Veo 3.1 (Google Flow, free tier)
+shot: B
+prompt: Vertical 9:16 macro shot from ground level, two centimeters above the soil,
+  looking up through a single small trembling green leaf of a tiny sapling. Beyond
+  the leaf, an impossibly saturated too-blue sky with drifting clouds. The leaf twitches
+  nervously, shaking the whole frame slightly, as wind moves grass around it. Enormous
+  empty green field, morning light, dreamlike but photoreal, slight fisheye distortion,
+  no text.
+mode: t2v
+seed: none exposed
+duration_s: 10.0
+resolution: 720x1280
+watermark: true
+credits_spent: unknown
+cost_usd: 0.0
+date: '2026-07-13'
+notes: auto-named export Sapling_leaf_trembling_in_wind_202607132234; Flow sparkle
+  watermark bottom-right

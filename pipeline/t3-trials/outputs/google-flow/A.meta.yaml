@@ -1,0 +1,20 @@
+# Trial output — provenance (§7.2)
+platform: google-flow
+model: Veo 3.1 (Google Flow, free tier)
+shot: A
+prompt: Vertical 9:16 cinematic shot, night interior. A cramped dark apartment lit
+  only by a computer monitor. A tired male engineer in his 30s sits at a desk, typing
+  fast on a mechanical keyboard, face underlit by cold terminal glow, 3 a.m. exhaustion.
+  He suddenly inhales sharply, sways sideways and collapses out of frame; a ceramic
+  mug falls and shatters on the floor. Static camera, shallow depth of field, muted
+  color grade, realistic photography, no text.
+mode: t2v
+seed: none exposed
+duration_s: 10.0
+resolution: 720x1280
+watermark: true
+credits_spent: unknown
+cost_usd: 0.0
+date: '2026-07-13'
+notes: auto-named export Man_collapses_at_desk_202607132230; Flow sparkle watermark
+  bottom-right

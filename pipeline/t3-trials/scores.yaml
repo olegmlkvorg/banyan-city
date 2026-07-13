@@ -3,11 +3,31 @@
 # Objective axes the steward may pre-fill: adherence, nativeness, friction.
 # Taste axes only the founder fills: motion, look, consistency (R4: decisions
 # are made on rendered material, and taste is the author's).
-#
-# platforms:
-#   kling:
-#     model: Kling 3.0 (website free tier)
-#     shots:
-#       B: {adherence: 4, motion: , look: , nativeness: 5, consistency: , friction: 3,
-#           notes: "leaf morphs at 0:06"}
-platforms: {}
+platforms:
+  google-flow:
+    model: Veo 3.1 (Google Flow, free tier)
+    shots:
+      A:
+        adherence: 5      # night interior, tired engineer, RGB mechanical kbd, mug, mid-collapse — all present
+        nativeness: 5     # composed for vertical
+        friction: 3       # free tier: ~2 gens/day, ✦ watermark, 720p cap
+        motion:           # founder (taste)
+        look:             # founder (taste)
+        consistency:      # founder (taste)
+        notes: "steward objective read only; nailed the brief incl. mug + collapse. ✦ watermark bottom-right."
+      B:
+        adherence: 5      # ground-level macro, single trembling leaf, too-blue sky, grass framing
+        nativeness: 5
+        friction: 3
+        motion:
+        look:
+        consistency:
+        notes: "the hero shot; framing matches prompt closely. ✦ watermark."
+      C:
+        adherence: 5      # underground filaments, concentric sonar rings, mineral glitter, bioluminescent on near-black
+        nativeness: 5
+        friction: 3
+        motion:
+        look:
+        consistency:
+        notes: "sonar-ring sense-vision reads clearly, not mush. ✦ watermark."

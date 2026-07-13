@@ -18,6 +18,8 @@ import subprocess
 from datetime import date
 from pathlib import Path
 
+import yaml
+
 HERE = Path(__file__).resolve().parent
 
 
@@ -57,21 +59,24 @@ def main() -> None:
     shutil.copy(args.file, dest)
     info = probe(dest)
 
-    (dest_dir / f"{args.shot}.meta.yaml").write_text(f"""# Trial output — provenance (§7.2)
-platform: {args.platform.lower()}
-model: {args.model}
-shot: {args.shot}
-prompt: {shot_prompt(args.shot)}
-mode: {args.mode}
-seed: none exposed
-duration_s: {info['duration_s']}
-resolution: {info['resolution']}
-watermark: {str(not args.no_watermark).lower()}
-credits_spent: {args.credits or 'unknown'}
-cost_usd: 0.00
-date: {date.today().isoformat()}
-notes: {args.notes}
-""")
+    meta = {
+        "platform": args.platform.lower(),
+        "model": args.model,
+        "shot": args.shot,
+        "prompt": shot_prompt(args.shot),
+        "mode": args.mode,
+        "seed": "none exposed",
+        "duration_s": info["duration_s"],
+        "resolution": info["resolution"],
+        "watermark": not args.no_watermark,
+        "credits_spent": args.credits or "unknown",
+        "cost_usd": 0.00,
+        "date": date.today().isoformat(),
+        "notes": args.notes,
+    }
+    (dest_dir / f"{args.shot}.meta.yaml").write_text(
+        "# Trial output — provenance (§7.2)\n"
+        + yaml.safe_dump(meta, sort_keys=False, allow_unicode=True))
     print(f"✓ {dest.relative_to(HERE.parent.parent)} ({info['resolution']}, {info['duration_s']}s) + meta.yaml")
     print("  next: python3 pipeline/build_site.py && git add -A && commit — the /trials/ page updates itself")
 

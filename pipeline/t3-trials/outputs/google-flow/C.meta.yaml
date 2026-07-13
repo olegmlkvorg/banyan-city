@@ -1,0 +1,20 @@
+# Trial output — provenance (§7.2)
+platform: google-flow
+model: Veo 3.1 (Google Flow, free tier)
+shot: C
+prompt: 'Vertical 9:16 stylized shot: an underground cross-section view beneath a
+  tiny sapling. Dark soil rendered as a deep translucent map: glowing root filaments
+  spreading downward, veins of dark water shimmering, mineral particles glittering.
+  In the far distance through the soil, rhythmic concentric rings of soft light pulse
+  like sonar with each distant footstep, growing brighter. Bioluminescent color palette
+  on near-black, slow camera push-in, no text.'
+mode: t2v
+seed: none exposed
+duration_s: 10.0
+resolution: 720x1280
+watermark: true
+credits_spent: unknown
+cost_usd: 0.0
+date: '2026-07-13'
+notes: auto-named export Sapling_roots_in_soil_202607132236; Flow sparkle watermark
+  bottom-right
