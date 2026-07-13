@@ -16,8 +16,12 @@ footage; everything the platform is bad at stays deterministic post:
              monospace panels; VO lines appear as timed bottom captions.
              Text is rasterized by Pillow and composited with ffmpeg's
              core `overlay` filter — no freetype/drawtext build needed.
-  voice      optional --tts openai narration per beat (render_t2's engine).
-  assembly   per-beat encodes concatenated losslessly into <node>-t3-<sfx>.mp4.
+  voice      per-beat audio, muxed in sync: a supplied track (NN-*.mp3 in the
+             clips dir) wins, else optional --tts openai narration (render_t2's
+             engine). Cards are silent; each beat's audio is padded/trimmed to
+             its slot so VO stays aligned. No audio anywhere → silent animatic.
+  assembly   per-beat encodes concatenated losslessly, then a single aligned
+             audio track muxed on, into <node>-t3-<sfx>.mp4.
 
 Provenance (§7.2): clip-side `<clip>.meta.yaml` files (platform, model,
 prompt, cost) are aggregated into the leaf yaml. Without --out the leaf is
@@ -84,6 +88,40 @@ def find_clip(clips_dir: Path, num: int) -> Path | None:
         return None
     hits = sorted(clips_dir.glob(f"{num:02d}-*.mp4")) or sorted(clips_dir.glob(f"{num:02d}.mp4"))
     return hits[0] if hits else None
+
+
+AUDIO_EXT = ("mp3", "wav", "m4a", "aac", "ogg")
+AUDIO_SR = 44100
+
+
+def find_audio(clips_dir: Path, num: int) -> Path | None:
+    """Pre-supplied per-beat VO/audio (NN-*.mp3 …), analogous to find_clip."""
+    if not clips_dir:
+        return None
+    for ext in AUDIO_EXT:
+        hits = sorted(clips_dir.glob(f"{num:02d}-*.{ext}")) or sorted(clips_dir.glob(f"{num:02d}.{ext}"))
+        if hits:
+            return hits[0]
+    return None
+
+
+def audio_segment(dur: float, audio: Path, workdir: Path, tag: str) -> Path:
+    """One audio segment exactly `dur` long: the beat's audio padded with
+    silence / trimmed to fit, or pure silence when no audio. Uniform AAC so
+    segments concat cleanly into the episode's single track."""
+    out = workdir / f"aud-{tag}.m4a"
+    if audio:
+        cmd = [FFMPEG, "-y", "-i", str(audio), "-af",
+               f"aresample={AUDIO_SR},apad", "-t", f"{dur}",
+               "-ac", "2", "-c:a", "aac", "-b:a", "128k", str(out)]
+    else:
+        cmd = [FFMPEG, "-y", "-f", "lavfi", "-i",
+               f"anullsrc=r={AUDIO_SR}:cl=stereo", "-t", f"{dur}",
+               "-c:a", "aac", "-b:a", "128k", str(out)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode:
+        raise SystemExit(f"audio segment {tag} failed:\n{r.stderr[-800:]}")
+    return out
 
 
 def wrap(text: str, font: ImageFont.FreeTypeFont, max_w: int) -> list:
@@ -252,7 +290,15 @@ def main() -> int:
         raise SystemExit(f"{node['id']}: no beats in script")
 
     workdir = Path(tempfile.mkdtemp(prefix="t3-"))
-    parts, sources, missing = [], [], 0
+    # timeline: ordered (video_part, duration, audio_or_None) — audio aligns to
+    # each part's slot so VO stays in sync; cards are silent.
+    timeline, sources, missing = [], [], 0
+
+    tts_cost = 0.0
+    tts_fn = None
+    if args.tts == "openai":
+        from render_t2 import tts_openai
+        tts_fn = tts_openai
 
     if not args.no_cards:
         title = card_png([
@@ -260,17 +306,25 @@ def main() -> int:
             (f"{node['id']} — {node['title']}", 40, GREEN),
             ("a story that branches", 22, (147, 166, 152, 255)),
         ], workdir / "title.png")
-        parts += card_clip([(title, 2.5)], workdir, "title")
+        timeline.append((card_clip([(title, 2.5)], workdir, "title")[0], 2.5, None))
 
     for i, beat in enumerate(beats, 1):
         dur = beat_duration(beat["slug"], beat["items"])
         clip = find_clip(args.clips, i)
         if not clip:
             missing += 1
-        parts.append(render_beat(beat, i, dur, clip, workdir))
+        # audio: a pre-supplied per-beat track wins; else generate VO via TTS
+        audio = find_audio(args.clips, i)
+        if audio is None and tts_fn:
+            text = " ".join(strip_inline_md(it[2]) for it in beat["items"] if it[0] == "line")
+            if text.strip():
+                audio = workdir / f"vo-{i:02d}.mp3"
+                tts_cost += tts_fn(text, audio)
+        timeline.append((render_beat(beat, i, dur, clip, workdir), dur, audio))
         prov = clip_provenance(clip)
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),
                         "clip": clip.name if clip else "slate (no footage yet)",
+                        "audio": audio.name if audio else "none",
                         "platform": prov.get("platform", "none"),
                         "model": prov.get("model", "none"),
                         "cost_usd": float(prov.get("cost_usd", 0) or 0)})
@@ -281,24 +335,34 @@ def main() -> int:
             ("branch this node · fork the city", 22, (147, 166, 152, 255)),
             ("every render is open data", 18, (147, 166, 152, 255)),
         ], workdir / "end.png")
-        parts += card_clip([(end, 3.0)], workdir, "end")
-
-    tts_cost = 0.0
-    if args.tts == "openai":  # narration groundwork; muxing lands with first voiced leaf
-        from render_t2 import tts_openai
-        for i, beat in enumerate(beats, 1):
-            text = " ".join(strip_inline_md(it[2]) for it in beat["items"] if it[0] == "line")
-            if text.strip():
-                tts_cost += tts_openai(text, workdir / f"vo-{i:02d}.mp3")
+        timeline.append((card_clip([(end, 3.0)], workdir, "end")[0], 3.0, None))
 
     leaf_id = f"{node['id']}-t3-{args.suffix}"
     out = args.out or (node_dir / "leaves" / f"{leaf_id}.mp4")
+    video = workdir / "video.mp4"
     concat = workdir / "concat.txt"
-    concat.write_text("\n".join(f"file '{p.resolve()}'" for p in parts))
+    concat.write_text("\n".join(f"file '{p.resolve()}'" for p, _, _ in timeline))
     r = subprocess.run([FFMPEG, "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
-                        "-c", "copy", str(out)], capture_output=True, text=True)
+                        "-c", "copy", str(video)], capture_output=True, text=True)
     if r.returncode:
         raise SystemExit(f"concat failed:\n{r.stderr[-1500:]}")
+
+    # mux a single audio track only if any beat actually carries audio —
+    # otherwise the episode stays a silent, captioned animatic (still valid).
+    if any(a for _, _, a in timeline):
+        segs = [audio_segment(d, a, workdir, f"{k:02d}") for k, (_, d, a) in enumerate(timeline)]
+        alist = workdir / "audio.txt"
+        alist.write_text("\n".join(f"file '{s.resolve()}'" for s in segs))
+        atrack = workdir / "audio.m4a"
+        subprocess.run([FFMPEG, "-y", "-f", "concat", "-safe", "0", "-i", str(alist),
+                        "-c", "copy", str(atrack)], check=True, capture_output=True)
+        r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-i", str(atrack),
+                            "-map", "0:v", "-map", "1:a", "-c:v", "copy",
+                            "-c:a", "aac", "-shortest", str(out)], capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(f"mux failed:\n{r.stderr[-1500:]}")
+    else:
+        video.replace(out)
 
     total = sum(beat_duration(b["slug"], b["items"]) for b in beats)
     cost = round(tts_cost + sum(s["cost_usd"] for s in sources), 2)

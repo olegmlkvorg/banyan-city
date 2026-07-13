@@ -49,6 +49,15 @@ def test_find_clip_naming(tmp: Path):
     check("no clips dir → None", t3.find_clip(None, 1) is None)
 
 
+def test_find_audio_naming(tmp: Path):
+    (tmp / "01-vo.mp3").write_bytes(b"x")
+    (tmp / "03.wav").write_bytes(b"x")
+    check("finds NN-*.mp3 audio", t3.find_audio(tmp, 1) is not None)
+    check("finds bare NN.wav audio", t3.find_audio(tmp, 3) is not None)
+    check("beat without audio → None", t3.find_audio(tmp, 2) is None)
+    check("no clips dir → None audio", t3.find_audio(None, 1) is None)
+
+
 def test_wrap_never_drops_words():
     font = t3.mono_font(24)
     text = "SENSE roots air vibration and several more words here to force wrapping"
@@ -117,6 +126,8 @@ def main():
     test_beat_duration_fallback()
     with tempfile.TemporaryDirectory() as td:
         test_find_clip_naming(Path(td))
+    with tempfile.TemporaryDirectory() as td:
+        test_find_audio_naming(Path(td))
     test_wrap_never_drops_words()
     test_node_001_beats_parse()
     test_shot_prompt_extraction()
