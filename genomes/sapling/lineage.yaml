@@ -92,7 +92,7 @@ nodes:
     parent: "003a"
     trunk: false
     status: hot
-    leaves: [004a-t0-a, 004a-t1-a]
+    leaves: [004a-t0-a, 004a-t1-a, 004a-t2-a]
 
   - id: "004c-y"
     released: 2026-07-11

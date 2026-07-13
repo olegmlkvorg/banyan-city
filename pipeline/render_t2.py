@@ -65,10 +65,15 @@ def shoot_stills(t1_file: Path, count: int, outdir: Path) -> list:
     any dir where `npm install playwright` was run)."""
     npm_dir = Path(os.environ.get("T2_NPM_DIR", outdir))
     script = npm_dir / "t2-shoot.js"
+    # CI ships a pinned chromium at a fixed path; locally (and anywhere that
+    # ran `npx playwright install`) let playwright resolve its own binary.
+    ci_chromium = "/opt/pw-browsers/chromium"
+    launch_opts = (f"{{ executablePath: '{ci_chromium}' }}"
+                   if os.path.exists(ci_chromium) else "{}")
     script.write_text(f"""
 const {{ chromium }} = require('playwright');
 (async () => {{
-  const b = await chromium.launch({{ executablePath: '/opt/pw-browsers/chromium' }});
+  const b = await chromium.launch({launch_opts});
   const p = await b.newPage({{ viewport: {{ width: {WIDTH}, height: {HEIGHT} }}, deviceScaleFactor: 1 }});
   await p.goto('file://{t1_file.resolve()}');
   await p.addStyleTag({{ content: `
