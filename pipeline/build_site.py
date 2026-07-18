@@ -228,12 +228,16 @@ def render_node_page(g: dict, n: dict) -> str:
         f"<td>{html.escape(str(l['status']))}</td><td>{screen_cell(l)}</td></tr>"
         for l in n["leaf_meta"]
     )
+    vids = [l for l in n["leaf_meta"]
+            if str(l.get("content", "")).endswith(".mp4") and l.get("status") == "live"]
+    vids.sort(key=lambda l: str(l.get("tier")), reverse=True)  # highest tier first
     players = "".join(
+        f'<figure style="display:inline-block;margin:0.4rem 0.6rem 0.4rem 0">'
         f'<video controls playsinline preload="metadata" style="width:100%;max-width:360px;border-radius:12px;border:1px solid var(--line)" '
         f'src="leaves/{html.escape(str(l["content"]))}"></video>'
-        for l in n["leaf_meta"] if str(l.get("content", "")).endswith(".mp4") and l.get("status") == "live"
-    )
-    player_html = f"<h2>Watch (T2 animatic)</h2>{players}" if players else ""
+        f'<figcaption class="chip">{html.escape(str(l["tier"]))} · {html.escape(str(l["form"]))}</figcaption></figure>'
+        for l in vids)
+    player_html = f"<h2>Watch</h2>{players}" if players else ""
     leaves_html = f"""{player_html}<h2>Leaves (renders of this node)</h2>
 <table><tr><th>leaf</th><th>tier</th><th>form</th><th>cost</th><th>status</th><th>screening</th></tr>{leaves_rows}</table>
 <p class="notice">Every render publishes its prompt, model, seed, and cost — this table is the audit trail.
@@ -299,7 +303,7 @@ Read them; react; the sap decides what runs hot.</p>
 <p>Story trees that branch instead of running linear — AI-rendered micro-drama,
 curated by one human's extracted taste, screened and funded by the citizens watching,
 every decision auditable in git.</p>
-<a class="btn" href="sapling/001-capability-inventory.html">Read node 001</a>
+<a class="btn" href="sapling/001-capability-inventory.html">▶ Watch node 001</a>
 <a class="btn ghost" href="city.html">Read the Promise</a>
 </div>
 {''.join(sections)}

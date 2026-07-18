@@ -1,0 +1,49 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 001-t3-a
+node: '001'
+tier: T3
+form: full-video-mp4
+content: 001-t3-a.mp4
+author: pipeline/render_t3.py (assembly; per-beat footage sources below)
+model: "per-beat \u2014 see sources"
+prompt: "per-beat \u2014 see sources"
+seed: "per-beat \u2014 see sources"
+cost_usd: 0.0
+status: live
+platform_urls: []
+sources:
+- beat: 1
+  slug: "COLD OPEN \u2014 0:00\u20130:12"
+  clip: 01-cold-open.mp4
+  audio: none
+  platform: google-flow
+  model: Veo 3.1 (Google Flow free tier)
+  cost_usd: 0.0
+- beat: 2
+  slug: "WAKE \u2014 0:12\u20130:28"
+  clip: 02-wake.mp4
+  audio: none
+  platform: google-flow
+  model: Veo 3.1 (Google Flow free tier)
+  cost_usd: 0.0
+- beat: 3
+  slug: "INCIDENT RESPONSE \u2014 0:28\u20130:40"
+  clip: slate (no footage yet)
+  audio: none
+  platform: none
+  model: none
+  cost_usd: 0.0
+- beat: 4
+  slug: "THE INVENTORY \u2014 0:40\u20131:05"
+  clip: 04-inventory.mp4
+  audio: none
+  platform: google-flow
+  model: Veo 3.1 (Google Flow free tier)
+  cost_usd: 0.0
+- beat: 5
+  slug: "REALIZATION / HOOK \u2014 1:05\u20131:25"
+  clip: slate (no footage yet)
+  audio: none
+  platform: none
+  model: none
+  cost_usd: 0.0
