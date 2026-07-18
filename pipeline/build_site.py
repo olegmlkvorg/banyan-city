@@ -90,16 +90,37 @@ footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line
 """
 
 
-def page(title: str, body: str, depth: int = 0, path: str = "") -> str:
+DEFAULT_DESC = ("Story trees that branch instead of running linear — AI-rendered "
+                "micro-drama, curated by one human's taste, every decision auditable in git.")
+
+
+def page(title: str, body: str, depth: int = 0, path: str = "", desc: str = "") -> str:
     root = "../" * depth
+    desc = (desc or DEFAULT_DESC).strip()
+    if len(desc) > 200:
+        desc = desc[:197].rstrip() + "…"
+    url = f"{CANONICAL}/{path}"
+    og_image = f"{CANONICAL}/og.png"
+    esc_t, esc_d = html.escape(title), html.escape(desc)
     return f"""<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="canonical" href="{CANONICAL}/{path}">
+<meta name="description" content="{esc_d}">
+<link rel="canonical" href="{url}">
 <link rel="alternate" type="application/rss+xml" title="new nodes" href="{CANONICAL}/feed.xml">
-<title>{html.escape(title)}</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Banyan City">
+<meta property="og:title" content="{esc_t}">
+<meta property="og:description" content="{esc_d}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{og_image}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc_t}">
+<meta name="twitter:description" content="{esc_d}">
+<meta name="twitter:image" content="{og_image}">
+<title>{esc_t}</title>
 <style>{CSS}</style>
 </head>
 <body>
@@ -254,7 +275,8 @@ No account? Just tell someone about it — word of mouth is sap too.</p>"""
 <h2>Branch this node</h2>
 <p class="notice">Anyone may continue this moment differently. Declare <code>{html.escape(n['id'])}</code> as your parent —
 that's the only obligation. <a href="{REPO_URL}#how-to-branch-a-story">How to branch →</a></p>"""
-    return page(f"{n['id']} — {n['title']} · {g['tree']['title']}", body, depth=1, path=f"{g['tree']['id']}/{n['slug']}.html")
+    return page(f"{n['id']} — {n['title']} · {g['tree']['title']}", body, depth=1,
+                path=f"{g['tree']['id']}/{n['slug']}.html", desc=n.get("teaser") or "")
 
 
 def render_index(genomes: list) -> str:
@@ -366,7 +388,10 @@ def render_trials() -> str:
     prompts = md_to_html((tdir / "prompts.md").read_text())
     body = (f"{''.join(sections)}<hr><details><summary><strong>Protocol, candidates & rubric</strong></summary>"
             f"{intro}</details><details><summary><strong>The three prompts</strong></summary>{prompts}</details>")
-    return page("T3 platform trials — same three shots, every model", body, depth=1, path="trials/index.html")
+    return page("T3 platform trials — same three shots, every model", body, depth=1,
+                path="trials/index.html",
+                desc="Choosing Banyan City's video model in the open: the same three shots "
+                     "rendered on each candidate platform, scored on a fixed rubric.")
 
 
 def render_feed(genomes: list) -> str:
@@ -409,6 +434,9 @@ def main() -> None:
     (OUT / "city.html").write_text(render_city())
     (OUT / "feed.xml").write_text(render_feed(genomes))
     (OUT / ".nojekyll").write_text("")
+    og = REPO / "assets" / "og.png"          # social-share image referenced by page() meta
+    if og.exists():
+        shutil.copy(og, OUT / "og.png")
     (OUT / "trials").mkdir()
     (OUT / "trials" / "index.html").write_text(render_trials())
     trials_out = REPO / "pipeline" / "t3-trials" / "outputs"
