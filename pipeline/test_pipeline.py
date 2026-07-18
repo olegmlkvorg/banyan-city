@@ -103,6 +103,18 @@ def test_generate_shots_parsing():
     check("done-status parsed", [s["done"] for s in shots] == [True, True, False, True, False])
 
 
+def test_budget_guard():
+    # money-drain protection: pricing must resolve, unknown models must price
+    # PESSIMISTICALLY, and the caps file must parse with sane values
+    import generate_shots as gs
+    check("veo fast rate", gs.price_per_sec("fal-ai/veo3.1/fast") == 0.15)
+    check("kling turbo rate", gs.price_per_sec("fal-ai/kling-video/v3/turbo/standard/text-to-video") == 0.112)
+    check("unknown model prices at max", gs.price_per_sec("brand-new-model-x") == gs.FALLBACK_PRICE)
+    caps = gs.budget()
+    check("caps parse + per-run <= lifetime",
+          0 < caps["hard_cap_per_run_usd"] <= caps["hard_cap_total_usd"])
+
+
 def test_all_leaf_content_exists():
     # every leaf's declared content file must exist on disk — the guarantee the
     # lint content-check enforces, verified here against the real genome so a
@@ -144,6 +156,7 @@ def main():
     test_node_001_beats_parse()
     test_shot_prompt_extraction()
     test_generate_shots_parsing()
+    test_budget_guard()
     test_all_leaf_content_exists()
     test_trials_page_renders()
     print()

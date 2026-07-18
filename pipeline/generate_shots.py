@@ -41,6 +41,45 @@ import yaml
 REPO = Path(__file__).resolve().parent.parent
 DEFAULT_DURATION = 10  # seconds per shot; beats are fitted by render_t3 anyway
 
+# ------------------------------------------------------------ spend control --
+# Conservative $/second estimates (verified 2026-07-18 against official pages;
+# unknown models estimate at the highest known rate rather than optimistically).
+PRICE_PER_SEC = [
+    ("veo3.1/fast", 0.15), ("veo3.1", 0.40),
+    ("veo-3.1-fast", 0.10), ("veo-3.1-lite", 0.05), ("veo-3.1", 0.40),
+    ("kling-video/v3/turbo", 0.112), ("kling-video/v3", 0.126),
+    ("kling-video-v3", 0.112), ("kling-video-v2_5", 0.084),
+    ("hailuo-2.3", 0.056), ("seedance-2.0", 0.3034), ("wan", 0.05),
+]
+FALLBACK_PRICE = 0.40  # unknown model → assume the most expensive known rate
+SPEND_LEDGER = REPO / "ledger" / "render-spend.csv"
+
+
+def price_per_sec(model: str) -> float:
+    m = (model or "").lower()
+    for frag, p in PRICE_PER_SEC:
+        if frag in m:
+            return p
+    return FALLBACK_PRICE
+
+
+def budget() -> dict:
+    return yaml.safe_load((REPO / "pipeline" / "budget.yaml").read_text())
+
+
+def spent_total() -> float:
+    if not SPEND_LEDGER.exists():
+        return 0.0
+    rows = SPEND_LEDGER.read_text().strip().splitlines()[1:]
+    return round(sum(float(r.split(",")[5]) for r in rows if r.strip()), 2)
+
+
+def log_spend(node: str, beat: int, provider: str, model: str, est: float) -> None:
+    if not SPEND_LEDGER.exists():
+        SPEND_LEDGER.write_text("date,node,beat,provider,model,est_usd\n")
+    with open(SPEND_LEDGER, "a") as f:
+        f.write(f"{date.today().isoformat()},{node},{beat:02d},{provider},{model},{est:.2f}\n")
+
 
 # ---------------------------------------------------------------- shot list --
 
@@ -180,6 +219,8 @@ def main() -> int:
                    help="where clips land (default: <node>/clips/)")
     p.add_argument("--duration", type=int, default=DEFAULT_DURATION)
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--yes", action="store_true",
+                   help="REQUIRED to spend: confirms the printed estimate. No flag, no API call.")
     args = p.parse_args()
 
     genome_dir = REPO / "genomes" / args.genome
@@ -207,17 +248,36 @@ def main() -> int:
         print("nothing to generate — every requested beat already has a clip")
         return 0
 
+    # ---- budget gate: estimate → print → require --yes → enforce caps ------
+    rate = price_per_sec(args.model or {"kling": "kling-video-v2_5", "veo": "veo-3.1-fast",
+                                        "fal": "kling-video/v3/turbo"}[args.provider])
+    est_run = round(len(todo) * args.duration * rate, 2)
+    caps, prior = budget(), spent_total()
     print(f"{node['id']}: {len(todo)} shot(s) via {args.provider}"
-          + (f" [{args.model}]" if args.model else ""))
+          + (f" [{args.model}]" if args.model else "")
+          + f" — estimated cost ${est_run:.2f} (${rate:.3f}/s x {args.duration}s x {len(todo)})"
+          f" · spent so far ${prior:.2f} · caps: ${caps['hard_cap_per_run_usd']:.2f}/run,"
+          f" ${caps['hard_cap_total_usd']:.2f} lifetime")
     if args.dry_run:
         for s in todo:
             print(f"  would generate beat {s['num']:02d} ({s['slug']}): {s['prompt'][:70]}…")
         return 0
+    if est_run > caps["hard_cap_per_run_usd"]:
+        raise SystemExit(f"REFUSED: run estimate ${est_run:.2f} exceeds per-run cap "
+                         f"${caps['hard_cap_per_run_usd']:.2f} (pipeline/budget.yaml)")
+    if prior + est_run > caps["hard_cap_total_usd"]:
+        raise SystemExit(f"REFUSED: ${prior:.2f} spent + ${est_run:.2f} would exceed lifetime cap "
+                         f"${caps['hard_cap_total_usd']:.2f} (pipeline/budget.yaml)")
+    if not args.yes:
+        raise SystemExit("REFUSED: spending requires the explicit --yes flag "
+                         "(this run would cost ~$%.2f). No flag, no spend." % est_run)
 
     gen = PROVIDERS[args.provider]
     for s in todo:
         print(f"  beat {s['num']:02d} ({s['slug']}) … ", end="", flush=True)
         url, meta = gen(s["prompt"], args.model, args.duration)
+        log_spend(node["id"], s["num"], args.provider, meta.get("model", args.model or ""),
+                  round(args.duration * rate, 2))
         dest = clips_dir / f"{s['num']:02d}-{s['slug']}.mp4"
         download(url, dest)
         dest.with_suffix(".meta.yaml").write_text(

@@ -1,0 +1,11 @@
+# Spend control — hard caps for all API generation (founder-owned file).
+# generate_shots.py refuses any run that would exceed these; every run prints
+# its estimate first and requires an explicit --yes. No flag, no spend.
+# Actual spend is logged publicly to ledger/render-spend.csv (§7.2/§12).
+#
+# The account-side guard matters more than this file: keep the fal.ai
+# balance PREPAID with auto-recharge OFF — then the top-up is the absolute
+# ceiling regardless of any bug anywhere.
+
+hard_cap_per_run_usd: 8.00     # one command may never estimate above this
+hard_cap_total_usd: 20.00      # lifetime cap across all runs (sum of ledger)
