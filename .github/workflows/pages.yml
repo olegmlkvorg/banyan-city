@@ -3,7 +3,7 @@
 name: pages
 on:
   push:
-    branches: [main, master, "claude/**"]
+    branches: [main, master]   # prod only — WIP branches must not publish to the live mirror
   workflow_dispatch:
 permissions:
   contents: read
