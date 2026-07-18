@@ -123,12 +123,21 @@ def gen_fal(prompt: str, model: str, dur: int) -> tuple:
     #   bytedance/seedance-2.0/text-to-video                 $3.03 (w/audio)
     #   fal-ai/veo3.1/fast                                   $1.20 per 8s (no visible watermark)
     model = model or "fal-ai/kling-video/v3/turbo/standard/text-to-video"
-    if not model.startswith("fal-ai/"):
+    if "/" not in model.split("/")[0] and not model.startswith(("fal-ai/", "bytedance/")):
         model = f"fal-ai/{model}"
+    # payload shapes verified against fal endpoint schemas 2026-07-18:
+    #   kling v3:  duration "3".."15" (string), aspect_ratio, generate_audio
+    #   veo3.1:    duration "4s"/"6s"/"8s", resolution, generate_audio
+    # generate_audio=false everywhere — the T3 post pipeline owns sound.
+    payload = {"prompt": prompt, "aspect_ratio": "9:16", "generate_audio": False}
+    if "veo" in model:
+        payload["duration"] = f"{dur if dur in (4, 6, 8) else 8}s"
+        payload["resolution"] = "720p"
+    else:
+        payload["duration"] = str(dur)
     req = urllib.request.Request(
         f"https://queue.fal.run/{model}",
-        data=json.dumps({"prompt": prompt, "aspect_ratio": "9:16",
-                         "duration": str(dur)}).encode(),
+        data=json.dumps(payload).encode(),
         headers={"Authorization": f"Key {key}", "Content-Type": "application/json"})
     with urllib.request.urlopen(req) as r:
         sub = json.load(r)
