@@ -79,11 +79,14 @@ def gen_kling(prompt: str, model: str, dur: int) -> tuple:
 
 
 def gen_veo(prompt: str, model: str, dur: int) -> tuple:
-    """Google Gemini API — Veo long-running generation. Needs GEMINI_API_KEY."""
+    """Google Gemini API — Veo long-running generation. Needs GEMINI_API_KEY.
+    Veo natively supports 4/6/8s only (verified 2026-07: ai.google.dev/gemini-api/docs/veo);
+    render_t3 clone-pads short clips to the beat length, so 8s is the right ask."""
     key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
     if not key:
         raise SystemExit("veo: set GEMINI_API_KEY (aistudio.google.com/apikey)")
-    model = model or "veo-3.1-generate-preview"
+    dur = max(4, min(8, dur if dur in (4, 6, 8) else 8))
+    model = model or "veo-3.1-fast-generate-preview"  # $0.10/s 720p — the value tier
     base = "https://generativelanguage.googleapis.com/v1beta"
     req = urllib.request.Request(
         f"{base}/models/{model}:predictLongRunning",
@@ -114,7 +117,12 @@ def gen_fal(prompt: str, model: str, dur: int) -> tuple:
     key = os.environ.get("FAL_KEY")
     if not key:
         raise SystemExit("fal: set FAL_KEY (fal.ai/dashboard/keys)")
-    model = model or "fal-ai/kling-video/v2.5-turbo/pro/text-to-video"
+    # verified fal endpoints + $/10s 720p 9:16 (2026-07-18, fal model pages):
+    #   fal-ai/kling-video/v3/turbo/standard/text-to-video   $1.12 (native audio)
+    #   fal-ai/minimax/hailuo-2.3/standard/text-to-video     $0.56
+    #   bytedance/seedance-2.0/text-to-video                 $3.03 (w/audio)
+    #   fal-ai/veo3.1/fast                                   $1.20 per 8s (no visible watermark)
+    model = model or "fal-ai/kling-video/v3/turbo/standard/text-to-video"
     if not model.startswith("fal-ai/"):
         model = f"fal-ai/{model}"
     req = urllib.request.Request(

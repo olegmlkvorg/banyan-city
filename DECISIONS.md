@@ -94,6 +94,30 @@ Evidence so far (all public, [banyan.city/trials](https://banyan.city/trials)):
 founder score taste, then resolve here. If no rival clears Veo on taste, Veo
 wins by default. Amendable per Guideline 6.
 
+**API evidence (2026-07-18, verified against official pricing pages by a
+research+adversarial-verify pass; per ~10s 720p 9:16 clip):**
+
+| Route | $/clip | Notes |
+|---|---|---|
+| Hailuo 2.3 (fal.ai or MiniMax direct) | **$0.56** ($0.32 Fast) | cheapest volume; t2v is 16:9-default — use i2v with a 9:16 frame |
+| Wan 2.5 (fal.ai) | $0.50 | wildcard budget option |
+| Kling 3.0 Turbo standard 720p (fal.ai) | $1.12 | native audio included; fal ≈50% cheaper than Replicate for Kling |
+| Seedance 2.0 (Replicate $1.80 / BytePlus direct $1.51; 1.5-pro direct ~$0.26–0.52) | $0.26–1.80 | native audio; Replicate cheapest aggregator for Seedance |
+| **Veo 3.1 Fast (Gemini API direct)** | $0.80 per 8s ($0.10/s; Lite $0.40) | **API outputs carry NO visible watermark** — only invisible SynthID; the sparkle badge is added by the consumer Flow app only. Native durations 4/6/8s (render_t3 pads). $10 prepay minimum on Gemini API |
+| Veo 3.1 Fast via fal.ai | $1.20 per 8s | same model, one-key convenience premium |
+
+Full-episode math (5 beats): **$2.80–$9 per complete take** depending on model
+— the README's "8 candidates ≈ $14" example is realistic. Setup friction is
+lowest on fal.ai (one key, no minimum, hosts Veo+Kling+Hailuo+Seedance+Wan —
+the bake-off through a single account); Gemini-direct is cheapest for Veo
+specifically. `pipeline/generate_shots.py` already has kling/veo/fal adapters —
+funding a provider is the only missing piece, and that is a founder money
+action (STEWARDSHIP §4).
+
+**Watermark implication for [D9](#d9--when-is-a-nodes-t3-video-leaf-publishable):**
+the free-tier watermark problem dissolves at API tier — criterion 2 becomes
+"pay ~$1/clip" rather than a visual compromise.
+
 ## D9 — When is a node's T3 video leaf publishable?
 
 **Question:** what must be true before an assembled T3 episode becomes a node's
