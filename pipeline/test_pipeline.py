@@ -91,6 +91,18 @@ def test_shot_prompt_extraction():
         check(f"shot {shot} prompt survives YAML", yaml.safe_load(dumped)["prompt"] == prompt)
 
 
+def test_generate_shots_parsing():
+    # the API driver must see every beat + verbatim prompt in shots.md;
+    # a silent parse miss would skip a beat and ship an episode with a hole
+    from generate_shots import parse_shots
+    md = (REPO / "genomes/sapling/nodes/001-capability-inventory/shots.md").read_text()
+    shots = parse_shots(md)
+    check("shots.md parses 5 beats", len(shots) == 5)
+    check("beat numbering 1..5", [s["num"] for s in shots] == [1, 2, 3, 4, 5])
+    check("prompts nonempty + vertical", all("9:16" in s["prompt"] for s in shots))
+    check("done-status parsed", [s["done"] for s in shots] == [True, True, False, True, False])
+
+
 def test_all_leaf_content_exists():
     # every leaf's declared content file must exist on disk — the guarantee the
     # lint content-check enforces, verified here against the real genome so a
@@ -131,6 +143,7 @@ def main():
     test_wrap_never_drops_words()
     test_node_001_beats_parse()
     test_shot_prompt_extraction()
+    test_generate_shots_parsing()
     test_all_leaf_content_exists()
     test_trials_page_renders()
     print()
