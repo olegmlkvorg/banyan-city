@@ -1,0 +1,23 @@
+# Trial output — provenance (§7.2)
+platform: wan-api
+model: wan2.7-t2v (Alibaba Model Studio API)
+shot: C
+prompt: 'Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
+  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text.
+  Scene: an underground cross-section view beneath the tiny sapling. Dark soil as
+  a deep translucent map on near-black: glowing root filaments in bioluminescent teal
+  and green spreading downward as clean neon lines, veins of dark water shimmering,
+  mineral particles glinting as simple dots. In the far distance through the soil,
+  rhythmic concentric rings of soft light pulse like sonar with each distant footstep,
+  growing brighter. Slow camera push-in.'
+mode: t2v
+seed: none exposed
+duration_s: 10.0
+resolution: 720x1280
+watermark: false
+credits_spent: 10s of the model's 50s free quota
+cost_usd: 0.0
+date: '2026-07-19'
+notes: anime v2 prompts; quota-covered run, $0 (list ~$1.00); founder-authorized 2026-07-19

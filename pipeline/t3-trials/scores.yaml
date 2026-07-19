@@ -31,3 +31,30 @@ platforms:
         look:
         consistency:
         notes: "sonar-ring sense-vision reads clearly, not mush. ✦ watermark."
+  wan-api:
+    model: wan2.7-t2v (Alibaba Model Studio API, free new-account quota — v2 anime prompts)
+    shots:
+      A:
+        adherence: 5      # dark apartment, exhausted engineer at keyboard, mug, monitor glow — flat cel per style.md
+        nativeness: 5     # native 720x1280, composed vertical
+        friction: 5       # API-driven, no card, no visible watermark, ~3 min/clip; 50 free s/model
+        motion:           # founder (taste)
+        look:             # founder (taste)
+        consistency:      # founder (taste)
+        notes: "steward objective read: style-bible adherence strong (single shadow tone, clean linework). NOTE v2 anime prompts — not directly comparable to google-flow's v1 photoreal rows."
+      B:
+        adherence: 5      # oversized expressive leaf, curved stem, watercolor-wash sky and grass framing
+        nativeness: 5
+        friction: 5
+        motion:
+        look:
+        consistency:
+        notes: "mascot-simple sapling exactly per model sheet; watercolor wash background."
+      C:
+        adherence: 5      # underground cross-section, bioluminescent root filaments, mineral glitter on near-black
+        nativeness: 5
+        friction: 5
+        motion:
+        look:
+        consistency:
+        notes: "palette anchor (underground/sensing) matched; glowing filaments as clean neon lines."

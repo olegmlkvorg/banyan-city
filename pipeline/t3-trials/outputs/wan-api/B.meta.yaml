@@ -1,0 +1,25 @@
+# Trial output — provenance (§7.2)
+platform: wan-api
+model: wan2.7-t2v (Alibaba Model Studio API)
+shot: B
+prompt: 'Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
+  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text.
+  Scene: macro view from ground level, two centimeters above the soil, looking up
+  through a single small trembling green leaf of the sapling — a tiny, almost mascot-simple
+  tree with a thin curved trunk and one or two oversized expressive leaves, never
+  a face; its acting is entirely leaf angle and timing. Beyond the leaf, a flat too-blue
+  sky with drifting simple clouds. The leaf twitches nervously, shaking the whole
+  frame slightly, as wind moves the grass around it. Enormous empty green field in
+  soft watercolor washes, warm peach-and-gold morning light with long soft shadows,
+  slight fisheye curve to the framing.'
+mode: t2v
+seed: none exposed
+duration_s: 10.0
+resolution: 720x1280
+watermark: false
+credits_spent: 10s of the model's 50s free quota
+cost_usd: 0.0
+date: '2026-07-19'
+notes: anime v2 prompts; quota-covered run, $0 (list ~$1.00); founder-authorized 2026-07-19
