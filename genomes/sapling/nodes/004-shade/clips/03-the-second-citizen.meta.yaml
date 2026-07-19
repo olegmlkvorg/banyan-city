@@ -1,0 +1,20 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.5-t2v-preview
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 3
+prompt: 'Hand-drawn 2D anime style, low detail, late afternoon: warm gold wash edging
+  toward dusk amber, long soft shadows. A broad squarish farmer in a straw hat — whole
+  face drawn in three lines, permanently unimpressed posture — walks slowly along
+  a dark damp line in the grass, tracing it upstream to a tiny mascot-simple sapling
+  with a crooked lean-to, where a small round goblin with enormous ears is very visibly
+  failing to hide behind the thin curved trunk. A long wary stare between them. Then
+  the farmer sets down a clay jug and half a loaf of bread at the base of the little
+  tree, next to a small three-stone cairn — an offering, not charity — and gives the
+  tree a single gruff nod, refusing eye contact. Flat cel-shaded colors, bold clean
+  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  background with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

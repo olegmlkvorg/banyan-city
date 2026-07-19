@@ -1,0 +1,48 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "ASSESSOR",
+   "text": "Population: two. Occupations: farmer \u2014 (he writes) \u2014 and\u2026",
+   "start": 0.0,
+   "end": 3.008
+  },
+  {
+   "who": "VO",
+   "text": "(looking at the scavenger) \u2026weed warden. Provisional. Water source?",
+   "start": 3.288,
+   "end": 6.147
+  },
+  {
+   "who": "FARMER",
+   "text": "The channel mended itself.",
+   "start": 6.427,
+   "end": 8.389
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Channels do not mend themselves.",
+   "start": 8.669,
+   "end": 10.717
+  },
+  {
+   "who": "FARMER",
+   "text": "This one did.",
+   "start": 10.997,
+   "end": 12.171
+  },
+  {
+   "who": "VO",
+   "text": "Oh no. He counts things for a living. He's been counting my tells since",
+   "start": 12.451,
+   "end": 16.845
+  },
+  {
+   "who": "VO",
+   "text": "he arrived.",
+   "start": 17.125,
+   "end": 18.205
+  }
+ ],
+ "total_s": 18.485
+}

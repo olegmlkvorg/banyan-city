@@ -1,0 +1,20 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.6-t2v
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 4
+prompt: 'Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
+  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  background with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. Timelapse then real-time, warm afternoon shifting to dusk: amber washes deepening
+  into indigo, silhouettes reading before faces. A small round goblin in a patchwork
+  cloak of faded greens and browns drags deadfall branches and leans them clumsily
+  against a rock beside a tiny mascot-simple sapling, building a crooked little lean-to,
+  working with his tongue out, visibly bad at it. The light shifts to dusk: he stands
+  surveying the lean-to, a tiny stone cairn, and the sapling — the world''s smallest
+  settlement. Then he raises a single fig high overhead in one hand, like a flag,
+  mouth open mid-proclamation. Warm, hopeful, comedic tone. No photorealism, no 3D
+  render look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

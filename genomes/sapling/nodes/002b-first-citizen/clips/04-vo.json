@@ -1,0 +1,24 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "VO",
+   "text": "Wait.",
+   "start": 0.0,
+   "end": 0.726
+  },
+  {
+   "who": "VO",
+   "text": "Inventory check. Verbs: sense, grow. Neither says speak. But growth includes\u2026 release. One fruit. It's literally everything I own.",
+   "start": 1.006,
+   "end": 8.878
+  },
+  {
+   "who": "VO",
+   "text": "He said ground fruit is foraging.",
+   "start": 9.158,
+   "end": 11.931
+  }
+ ],
+ "total_s": 12.211
+}

@@ -1,0 +1,102 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "ASSESSOR",
+   "text": "Settlement name?",
+   "start": 0.0,
+   "end": 1.323
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Shade.",
+   "start": 1.603,
+   "end": 2.307
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Shade. Founded?",
+   "start": 2.587,
+   "end": 3.909
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Yesterday.",
+   "start": 4.189,
+   "end": 4.936
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Structures?",
+   "start": 5.216,
+   "end": 6.197
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "One. Ish.",
+   "start": 6.477,
+   "end": 7.203
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\"Ish\" is not a load rating.",
+   "start": 7.483,
+   "end": 9.488
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Orchard, single specimen. Yield?",
+   "start": 9.768,
+   "end": 11.837
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "None! No yield. Zero fruit. Historically.",
+   "start": 12.117,
+   "end": 14.443
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\u2026I have here a prior record. One",
+   "start": 14.723,
+   "end": 17.027
+  },
+  {
+   "who": "VO",
+   "text": "apple. Unlicensed consumption. Subject: (he looks at the scavenger for a",
+   "start": 17.307,
+   "end": 22.149
+  },
+  {
+   "who": "VO",
+   "text": "long, terrible moment) \u2026description matches.",
+   "start": 22.429,
+   "end": 25.757
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "It fell off the cart. Ground fruit is foraging.",
+   "start": 26.037,
+   "end": 28.619
+  },
+  {
+   "who": "FARMER",
+   "text": "He keeps the weeds off. Whole stretch.",
+   "start": 28.899,
+   "end": 31.437
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\"Community service. Ongoing.\"",
+   "start": 31.717,
+   "end": 33.787
+  },
+  {
+   "who": "VO",
+   "text": "That's not mercy. That's worse. That's a payment plan.",
+   "start": 34.067,
+   "end": 37.501
+  }
+ ],
+ "total_s": 37.781
+}

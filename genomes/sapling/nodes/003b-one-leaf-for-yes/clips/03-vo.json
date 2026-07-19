@@ -1,0 +1,30 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "The patrol comes through here every few days. Everywhere else, I'm\u2026 (he gestures at all of himself) \u2026a filing problem. A thing with no form.",
+   "start": 0.0,
+   "end": 6.571
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Can I stay? Here. By you. I'd keep the weeds off. I'm quiet. Mostly.",
+   "start": 6.851,
+   "end": 10.691
+  },
+  {
+   "who": "VO",
+   "text": "Every problem I ever had, I solved by walking away. He can't walk away either \u2014 everywhere he goes is somebody else's field. Verbs: sense, grow. Neither one says shelter.",
+   "start": 10.971,
+   "end": 20.763
+  },
+  {
+   "who": "VO",
+   "text": "\u2026Growth includes deciding what to grow toward.",
+   "start": 21.043,
+   "end": 24.349
+  }
+ ],
+ "total_s": 24.629
+}

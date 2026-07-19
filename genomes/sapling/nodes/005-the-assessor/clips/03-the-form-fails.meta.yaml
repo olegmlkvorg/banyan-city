@@ -1,0 +1,22 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.6-t2v
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 3
+prompt: 'Vertical 9:16 shot, late morning. The assessor — a thin vertical line of
+  a man in dust-grey robes drawn with ruler-straight edges — stands with his quill
+  stub frozen above the ledger, staring at a dark damp irrigation line running through
+  flat green grass toward a tiny mascot-simple sapling — a channel that should not
+  have mended itself. His minimal, expressive eyes move slowly from the wet field
+  line, to the farmer''s blank three-line face under a straw hat, to the little tree.
+  Close on the assessor''s eyes narrowing: quick flash cuts of the sapling''s oversized
+  leaves tilting in dead-still air, seen from his point of view at different moments
+  of the day. He has been counting everything. Tense quiet; high flat greens under
+  a pale blue-white sky, minimal shadow. Hand-drawn 2D anime style, low detail: flat
+  cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified
+  shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning
+  palette, expressive minimal faces. No photorealism, no 3D render look, no heavy
+  texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

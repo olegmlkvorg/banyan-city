@@ -29,7 +29,7 @@ nodes:
     parent: "001"
     trunk: true               # steward trunk call 2026-07-11 — see genomes/sapling/edl.md
     status: hot
-    leaves: [002b-t0-a, 002b-t1-a, 002b-t2-a]
+    leaves: [002b-t0-a, 002b-t1-a, 002b-t2-a, 002b-t3-a]
 
   - id: "002c"
     released: 2026-07-10
@@ -56,7 +56,7 @@ nodes:
     parent: "002b"
     trunk: true               # steward trunk extension 2026-07-11 — see edl.md
     status: hot
-    leaves: [003b-t0-a, 003b-t1-a, 003b-t2-a]
+    leaves: [003b-t0-a, 003b-t1-a, 003b-t2-a, 003b-t3-a]
 
   - id: "003c"
     released: 2026-07-11
@@ -74,7 +74,7 @@ nodes:
     parent: "003b"
     trunk: true               # steward trunk continuation 2026-07-11 — see edl.md
     status: hot
-    leaves: [004-t0-a, 004-t1-a, 004-t2-a]
+    leaves: [004-t0-a, 004-t1-a, 004-t2-a, 004-t3-a]
 
   - id: "005"
     released: 2026-07-11
@@ -83,7 +83,7 @@ nodes:
     parent: "004"
     trunk: true               # steward trunk continuation — see edl.md
     status: hot
-    leaves: [005-t0-a, 005-t1-a, 005-t2-a]
+    leaves: [005-t0-a, 005-t1-a, 005-t2-a, 005-t3-a]
 
   - id: "004a"
     released: 2026-07-13

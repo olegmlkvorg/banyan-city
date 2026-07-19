@@ -1,0 +1,21 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.5-t2v-preview
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 2
+prompt: 'Hand-drawn 2D anime style, low detail, midday: high flat greens, pale blue-white
+  sky, minimal shadow. A small round goblin in a patchwork cloak — enormous expressive
+  ears, huge eyes, one broken tusk — paces back and forth in front of a tiny (~50cm)
+  mascot-simple sapling with a thin curved trunk and two oversized expressive leaves
+  (never a face), gesturing grandly like a founder pitching investors, glancing at
+  the tree after each pitch — and the tree stays perfectly still each time, which
+  visibly wounds him. Finally he flops down against the little trunk in its tiny patch
+  of shade, defeated, muttering. Above him, both oversized leaves suddenly tilt at
+  once, emphatic and deliberate. He goes very still and looks up. Comedic rhythm.
+  Flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone),
+  simplified shapes, soft watercolor-wash background with large empty areas, gentle
+  pastel-leaning palette, expressive minimal faces. No photorealism, no 3D render
+  look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

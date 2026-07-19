@@ -1,0 +1,42 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "FARMER",
+   "text": "\u2026You the one who's been keeping the weeds off this stretch?",
+   "start": 0.0,
+   "end": 3.115
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Depends who's asking.",
+   "start": 3.395,
+   "end": 4.504
+  },
+  {
+   "who": "FARMER",
+   "text": "Man whose field started drinking again.",
+   "start": 4.784,
+   "end": 7.557
+  },
+  {
+   "who": "FARMER",
+   "text": "Tell no one.",
+   "start": 7.837,
+   "end": 8.989
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "He talks to it too! Oh, this is the best day of my\u2014",
+   "start": 9.269,
+   "end": 12.0
+  },
+  {
+   "who": "VO",
+   "text": "The system just\u2026 registered us. We're on the map.",
+   "start": 12.28,
+   "end": 15.757
+  }
+ ],
+ "total_s": 16.037
+}

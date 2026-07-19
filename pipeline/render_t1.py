@@ -73,9 +73,14 @@ def parse_frames(script: str) -> list:
     while i < len(lines):
         line = lines[i]
         heading = re.match(r"^\*\*(.+?)\*\*\s*$", line.strip())
-        if heading:
+        # a beat heading always carries its timing range (SCENE — 0:00–0:12);
+        # a full-bold line WITHOUT one is emphasis inside the scene, not a beat
+        if heading and re.search(r"\d+:\d+\s*[–—-]\s*\d+:\d+", heading.group(1)):
             current = {"slug": heading.group(1), "items": []}
             frames.append(current)
+            par_break = True
+        elif heading and current is not None:
+            current["items"].append(("action", strip_inline_md(heading.group(1))))
             par_break = True
         elif current is not None:
             if not line.strip():

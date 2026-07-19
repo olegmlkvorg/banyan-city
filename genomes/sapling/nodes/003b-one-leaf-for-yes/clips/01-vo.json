@@ -1,0 +1,12 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "Okay. I've thought about it all night, and there are only two possibilities. One: I have finally lost it. Two: you're in there.",
+   "start": 0.0,
+   "end": 6.635
+  }
+ ],
+ "total_s": 6.915
+}

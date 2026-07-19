@@ -1,0 +1,19 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.5-t2v-preview
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 4
+prompt: 'Hand-drawn 2D anime style, low detail, dusk: amber into indigo watercolor
+  wash, silhouettes reading before faces, long flat shadows. A broad squarish farmer
+  in a straw hat, an empty sack over his shoulder, pauses at the edge of a small clearing,
+  half-turned back toward a tiny mascot-simple sapling, a crooked lean-to, and a small
+  round goblin holding a fig — delivering a warning over his shoulder. Then he walks
+  away down the darkening field. The goblin turns slowly to look at the little tree;
+  its two oversized leaves hang perfectly, ominously still against the last light.
+  Quiet dread under warmth, slow push-in on the sapling. Flat cel-shaded colors, bold
+  clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  background with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

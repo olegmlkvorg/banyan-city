@@ -1,0 +1,24 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "FARMER",
+   "text": "You should know. After harvest, the assessor walks the valley. Counts everything with a name.",
+   "start": 0.0,
+   "end": 5.675
+  },
+  {
+   "who": "FARMER",
+   "text": "\u2026Yesterday there was nothing here to count.",
+   "start": 5.955,
+   "end": 8.835
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Can you un-name a town?",
+   "start": 9.115,
+   "end": 10.608
+  }
+ ],
+ "total_s": 10.888
+}

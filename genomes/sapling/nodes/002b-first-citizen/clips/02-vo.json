@@ -1,0 +1,54 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "VO",
+   "text": "A creature is using me as cover. I am forty centimeters tall. This is the worst stealth plan I have ever seen, and I once watched a senior architect hide a production outage in a footnote.",
+   "start": 0.0,
+   "end": 9.899
+  },
+  {
+   "who": "GUARD 1",
+   "text": "He went this way. I saw him. Apple thief.",
+   "start": 10.179,
+   "end": 12.461
+  },
+  {
+   "who": "GUARD 2",
+   "text": "Technically not theft. He ate it on the spot. That reclassifies it as unlicensed consumption. Tax evasion.",
+   "start": 12.741,
+   "end": 19.504
+  },
+  {
+   "who": "GUARD 1",
+   "text": "So we confiscate the apple.",
+   "start": 19.784,
+   "end": 21.277
+  },
+  {
+   "who": "GUARD 2",
+   "text": "The apple is inside him, Dren.",
+   "start": 21.557,
+   "end": 23.904
+  },
+  {
+   "who": "GUARD 1",
+   "text": "\u2026We confiscate the goblin?",
+   "start": 24.184,
+   "end": 25.677
+  },
+  {
+   "who": "GUARD 2",
+   "text": "There's no form for that. There's barely a form for the apple.",
+   "start": 25.957,
+   "end": 29.52
+  },
+  {
+   "who": "VO",
+   "text": "Nobody in this scene is evil. Everybody in this scene is trapped in a workflow. I have never related to a fantasy world more.",
+   "start": 29.8,
+   "end": 37.053
+  }
+ ],
+ "total_s": 37.333
+}

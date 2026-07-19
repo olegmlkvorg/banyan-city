@@ -1,0 +1,19 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-t2v-2026-04-25
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 1
+prompt: 'Vertical 9:16 shot, enormous empty field as a soft watercolor wash of warm
+  peach and gold morning light with long soft shadows, a tiny mascot-simple sapling
+  — thin curved trunk, one oversized expressive leaf, ~40cm tall — alone at center
+  frame, static camera. Suddenly a small, round goblin — enormous ears, huge expressive
+  eyes, one broken tusk, patchwork cloak in faded greens and browns — sprints into
+  frame from the side at full panicked speed, skids in the grass, and dives behind
+  the tiny sapling. A few simple cartoon dust puffs and grass flecks kicked up. Hand-drawn
+  2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal
+  shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds
+  with large empty areas, gentle pastel-leaning palette, expressive minimal faces.
+  No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

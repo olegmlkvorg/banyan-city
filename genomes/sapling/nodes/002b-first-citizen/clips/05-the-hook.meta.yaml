@@ -1,0 +1,21 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-t2v-2026-04-25
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 5
+prompt: 'Vertical 9:16 shot, late afternoon sliding from amber into indigo, silhouettes
+  reading before faces, absolute stillness — no wind, grass frozen. A small, round
+  goblin — enormous ears, huge expressive eyes, one broken tusk, patchwork cloak in
+  faded greens and browns — stands facing a tiny 40cm mascot-simple sapling, holding
+  a small fig up in both hands like evidence, wide-eyed. Slow push-in past him toward
+  the sapling''s single oversized leaf. In the dead-still air, the one leaf slowly,
+  deliberately tilts to one side — an unmistakable intentional gesture from a plant;
+  its expression is pure pose, never a face. Hold on the tilted leaf. Quiet awe, warm
+  low amber light. Hand-drawn 2D anime style, low detail: flat cel-shaded colors,
+  bold clean linework, minimal shading (single shadow tone), simplified shapes, soft
+  watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette,
+  expressive minimal faces. No photorealism, no 3D render look, no heavy texture.
+  9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

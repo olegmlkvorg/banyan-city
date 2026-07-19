@@ -1,0 +1,20 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.6-t2v
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 2
+prompt: 'Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
+  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  background with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. Morning: warm peach and gold washes, long soft shadows; absolute stillness
+  — no wind. A small round goblin with enormous expressive ears and a patchwork cloak
+  in faded greens and browns sits cross-legged in front of a tiny mascot-simple sapling
+  like a card player, watching it intently. On the thin curved trunk, one oversized
+  leaf slowly, deliberately tilts to the side in the dead-still air, then returns
+  — the tree acts entirely through leaf angle and timing. The goblin''s ears go flat;
+  he leans in and scratches a tally mark in the dirt with a stick. The exchange repeats
+  — question, tilt, tally. Deadpan wonder, static camera. No photorealism, no 3D render
+  look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

@@ -355,11 +355,12 @@ def main() -> int:
         manifest = vo_manifest(args.clips, i)
         if clip:
             # fit the slot to the material, not the script's paper timing:
-            # long enough for the footage and the full VO, never longer than
-            # the script's slot. Short footage loops (see render_beat).
+            # exactly long enough for the footage and the FULL voice track —
+            # dialogue is never trimmed mid-line, and short footage loops
+            # (see render_beat). Script timings only size slate beats.
             cdur = media_duration(clip) or dur
             vdur = (manifest or {}).get("total_s") or (media_duration(audio) if audio else 0) or 0
-            dur = round(min(dur, max(cdur, vdur + 0.4)), 2)
+            dur = round(max(cdur, vdur + 0.4), 2)
         timeline.append((render_beat(beat, i, dur, clip, workdir, manifest), dur, audio))
         prov = clip_provenance(clip)
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),

@@ -1,0 +1,18 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "VO",
+   "text": "The farmer said \"after harvest.\" It is not after harvest. Which means",
+   "start": 0.0,
+   "end": 4.629
+  },
+  {
+   "who": "VO",
+   "text": "the kingdom's bureaucracy runs ahead of schedule. I have chills.",
+   "start": 4.909,
+   "end": 8.877
+  }
+ ],
+ "total_s": 9.157
+}

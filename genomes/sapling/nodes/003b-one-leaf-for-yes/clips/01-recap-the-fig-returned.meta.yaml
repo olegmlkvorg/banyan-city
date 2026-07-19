@@ -1,0 +1,19 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.6-t2v
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 1
+prompt: 'Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
+  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
+  background with large empty areas, gentle pastel-leaning palette, expressive minimal
+  faces. Close shot, dawn: warm peach and gold washes, long soft shadows. Two small
+  green-grey goblin hands carefully carry a single ripe fig, cradled like something
+  precious, and set it down gently in the grass at the base of a tiny mascot-simple
+  sapling — thin curved trunk, one oversized leaf. The camera tilts up from the fig
+  to the small round goblin — enormous ears, patchwork cloak in faded greens and browns,
+  one broken tusk, huge expressive eyes — sitting back on his heels, staring at the
+  little tree with wary determination. No photorealism, no 3D render look, no heavy
+  texture. 9:16 vertical, no text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

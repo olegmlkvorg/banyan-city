@@ -1,0 +1,42 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 005-t3-a
+node: '005'
+tier: T3
+form: full-video-mp4
+content: 005-t3-a.mp4
+author: pipeline/render_t3.py (assembly; per-beat footage sources below)
+model: "per-beat \u2014 see sources"
+prompt: "per-beat \u2014 see sources"
+seed: "per-beat \u2014 see sources"
+cost_usd: 0.0
+status: live
+platform_urls: []
+sources:
+- beat: 1
+  slug: "COLD OPEN \u2014 0:00\u20130:10"
+  clip: 01-cold-open-the-metronome.mp4
+  audio: 01-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v
+  cost_usd: 0.0
+- beat: 2
+  slug: "THE ASSESSMENT \u2014 0:10\u20130:45"
+  clip: 02-the-assessment.mp4
+  audio: 02-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v
+  cost_usd: 0.0
+- beat: 3
+  slug: "THE FORM FAILS \u2014 0:45\u20131:05"
+  clip: 03-the-form-fails.mp4
+  audio: 03-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.6-t2v
+  cost_usd: 0.0
+- beat: 4
+  slug: "THE QUESTION \u2014 1:05\u20131:25"
+  clip: 04-the-question.mp4
+  audio: 04-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.5-t2v-preview
+  cost_usd: 0.0
