@@ -43,19 +43,21 @@ hook, `leaves/`, `sap/`), entry in `lineage.yaml` with `parent:`, reactions
 issue (see any `sap/reactions.yaml`), T1+T2 render, lint, push. Cite taste
 rules (`taste/sapling.founder.v0.2.md`); label model provenance.
 
-## State (2026-07-19, evening)
+## State (2026-07-19, night)
 
 Launched 2026-07-18: node 001 flagship T3 leaf live (founder's manual
-Veo/Flow clips beats 1/2/4; beats 3/5 are designed slates — their prompts sit
-ready in `.../001-capability-inventory/shots.md`). **14 nodes**, all with
-T0/T1/T2. Tree tip is a live R4 fork: **006a "The Miracle Clause" / 006b
-"Reconciliation"** (two payments of 005's magistrate hook, issues #13/#14) —
-**trunk call between them awaits the founder** (edl.md 2026-07-19). Sap cron
-was silently failing 07-15→07-19 (unmatched screening.yaml pathspec); fixed
-and verified green. 002b now has a full `shots.md` (two trunk episodes
-shoot-ready once D8 is funded). `distribution/launch-kit.md` holds HN/X/Reddit
-draft copy — posting is founder-only. Trials scored (objective axes only) at
-`/trials/`. Open founder decisions: 006 trunk call, D8 (render platform), D9
-ratification, taste scores, watering rail, social distribution. Local dev
-note: T2 needs `T2_NPM_DIR` pointing at a dir with `npm install playwright`;
-pipeline python deps live in a venv (markdown, pyyaml, pillow, imageio-ffmpeg).
+Veo/Flow clips beats 1/2/4; beats 3/5 are designed slates — prompts ready in
+`.../001-capability-inventory/shots.md`). **16 nodes**, all with T0/T1/T2.
+Tree tip is a live R4 fork, now one episode deep per side: **006a "The
+Miracle Clause" → 007a "The Demo"** vs **006b "Reconciliation" → 007b "The
+Hearth"** (issues #13–#16) — **trunk call awaits the founder**, felt on
+material per edl.md 2026-07-19. Founder decided 2026-07-19: **no social
+distribution yet** — keep building; `distribution/launch-kit.md` holds
+ready draft copy for when that changes. **Every trunk node (001, 002b, 003b,
+004, 005) has a complete shots.md** — 21 prompts; one funded D8 afternoon =
+a five-episode season. Sap cron was silently failing 07-15→07-19 (unmatched
+screening.yaml pathspec); fixed and verified green. Trials scored (objective
+axes only) at `/trials/`. Open founder decisions: 006 trunk call, D8, D9,
+taste scores, watering rail. Local dev: T2 needs `T2_NPM_DIR` pointing at a
+dir with `npm install playwright`; python deps in a venv (markdown, pyyaml,
+pillow, imageio-ffmpeg).
