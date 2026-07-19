@@ -1,0 +1,20 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-t2v-2026-06-12
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 2
+prompt: 'Vertical 9:16 shot from ground level, two centimeters above the soil, hand-drawn
+  2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal
+  shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds
+  with large empty areas, gentle pastel-leaning palette. Looking up through a single
+  small trembling oversized green leaf of a tiny mascot-simple sapling — thin curved
+  trunk, one or two oversized expressive leaves, no face, no eyes; all its acting
+  is leaf angle and timing. Beyond the leaf, an impossibly saturated too-blue flat
+  watercolor-wash sky with a few drifting simplified clouds. The leaf twitches nervously,
+  shaking the whole frame slightly, as wind moves flat-color grass around it. Enormous
+  empty green field with large empty areas, warm morning light in peach and gold washes
+  with long soft shadows, slight fisheye distortion. No photorealism, no 3D render
+  look, no heavy texture. No text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

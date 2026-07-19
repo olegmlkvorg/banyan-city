@@ -1,0 +1,19 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-t2v-2026-06-12
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 5
+prompt: 'Vertical 9:16 wide shot, hand-drawn 2D anime style, low detail: flat cel-shaded
+  colors, bold clean linework, minimal shading (single shadow tone), simplified shapes,
+  soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette.
+  One tiny fragile mascot-simple sapling — thin curved trunk, one or two oversized
+  expressive leaves, no face; expression is pose alone — alone at the center of an
+  enormous empty field under a vast watercolor-wash sky, dwarfed by the landscape.
+  Dusk hook palette: amber into indigo, silhouettes reading before any detail. Slow
+  steady push-in toward the sapling. On the far horizon, over a low hill, faint dust
+  rises and the grass bends in a line — something is approaching, unseen, from far
+  away. Lonely, epic, quietly ominous, mostly empty frame. No photorealism, no 3D
+  render look, no heavy texture. No text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'

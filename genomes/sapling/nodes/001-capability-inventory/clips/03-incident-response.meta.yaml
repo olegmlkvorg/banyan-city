@@ -1,0 +1,19 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-t2v-2026-06-12
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 3
+prompt: 'Vertical 9:16 shot, static and quiet, hand-drawn 2D anime style, low detail:
+  flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone),
+  simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle
+  pastel-leaning palette. A single tiny mascot-simple sapling — thin curved trunk,
+  one or two oversized expressive leaves, no face, no eyes; expression is pose alone
+  — standing alone in a vast empty field at dawn, seen from low and close. Dawn palette:
+  warm peach and gold washes, long soft shadows. After the trembling of before, it
+  is now completely still — no wind, held breath, the light soft and even. One small
+  leaf, motionless. Wide empty watercolor horizon behind, mostly empty space. A held,
+  meditative, almost surgical calm. Slow imperceptible push-in. No photorealism, no
+  3D render look, no heavy texture. No text.'
+duration_s: 10
+aspect: '9:16'
+date: '2026-07-19'
