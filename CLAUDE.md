@@ -51,9 +51,17 @@ accounts (90 days, no card; amount needs console confirmation). Adapter
 live: `generate_shots.py --provider wan` (+`--quota-covered` ledger mode,
 founder-attested, still behind `--yes`). Permanent $0 floor:
 `pipeline/kaggle/wan-t2v-kaggle.ipynb` (open Wan 1.3B on free Kaggle GPU).
-**Waiting on founder:** activate Model Studio (Singapore, no card), confirm
-quota, `DASHSCOPE_API_KEY` into `.env`, say go. Do NOT suggest multi-account
-quota cycling — declined on ToS + provenance grounds, founder accepted.
+**DONE 2026-07-19 night:** key live in `.env` (Singapore workspace; quota
+= 50 free s per video model, 90 days). Trials A/B/C rendered on wan2.7-t2v
+(30s), 5/5 objective, on `/trials/`. **Episode 001 fully filmed** (5 anime
+beats, wan2.7-t2v-2026-06-12's full 50s) + assembled w/ kokoro VO → bench
+on founder's Desktop (`banyan-001-anime-episode.mp4`); NOT published (D9
+crit. 4 = founder taste call, pending). All site videos fixed (+faststart —
+moov-at-end had made every pipeline mp4 unplayable in browsers; both
+renderers now emit faststart). Remaining wan quota: ~370s across untouched
+model IDs — enough for the 002b-005 season once the founder taste-approves.
+Do NOT suggest multi-account quota cycling — declined on ToS + provenance
+grounds, founder accepted.
 
 ## State (2026-07-19, night)
 
