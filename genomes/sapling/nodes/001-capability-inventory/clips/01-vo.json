@@ -1,0 +1,16 @@
+{
+ "voice": "bm_fable",
+ "lines": [
+  {
+   "text": "Production went down at 2:41. It's the retry loop. It's always the retry loop.",
+   "start": 0.0,
+   "end": 5.333
+  },
+  {
+   "text": "Huh. Green.",
+   "start": 5.613,
+   "end": 7.043
+  }
+ ],
+ "total_s": 7.323
+}

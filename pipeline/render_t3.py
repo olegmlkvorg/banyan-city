@@ -36,6 +36,7 @@ Usage:
 """
 
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -103,6 +104,22 @@ def find_audio(clips_dir: Path, num: int) -> Path | None:
         if hits:
             return hits[0]
     return None
+
+
+def media_duration(f: Path) -> float | None:
+    """Container duration via ffmpeg banner (no ffprobe dependency)."""
+    r = subprocess.run([FFMPEG, "-i", str(f)], capture_output=True, text=True)
+    m = re.search(r"Duration: (\d+):(\d+):(\d+\.?\d*)", r.stderr)
+    return int(m[1]) * 3600 + int(m[2]) * 60 + float(m[3]) if m else None
+
+
+def vo_manifest(clips_dir: Path, num: int) -> dict | None:
+    """NN-vo.json (written by the VO synth): measured per-line timings that
+    drive exact caption sync; without it captions fall back to even slicing."""
+    if not clips_dir:
+        return None
+    f = clips_dir / f"{num:02d}-vo.json"
+    return json.loads(f.read_text()) if f.exists() else None
 
 
 def audio_segment(dur: float, audio: Path, workdir: Path, tag: str) -> Path:
@@ -206,15 +223,18 @@ def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
     return parts
 
 
-def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path) -> Path:
-    """Encode one beat: fitted footage (or slate) + overlays + captions."""
+def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path,
+                manifest: dict | None = None) -> Path:
+    """Encode one beat: fitted footage (or slate) + overlays + captions.
+    Footage shorter than the slot LOOPS (an anime-idiomatic hold) instead of
+    freezing on a cloned last frame; captions follow the VO manifest's
+    measured line timings when one exists."""
     inputs, chains = [], []
     if clip:
-        inputs += ["-i", str(clip)]
+        inputs += ["-stream_loop", "-1", "-i", str(clip)]
         chains.append(
             f"[0:v]scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,"
             f"crop={WIDTH}:{HEIGHT},fps={FPS},"
-            f"tpad=stop_mode=clone:stop_duration={dur},"
             f"trim=duration={dur},setpts=PTS-STARTPTS[base]")
     else:
         slate = slate_png(strip_inline_md(beat["slug"]), workdir / f"slate-{num:02d}.png")
@@ -230,15 +250,27 @@ def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path) -> 
 
     lines = [i[2] for i in beat["items"] if i[0] == "line"]
     if lines:
-        slice_s = dur / len(lines)
-        for j, text in enumerate(lines):
-            png = text_png(strip_inline_md(text), workdir / f"cap-{num:02d}-{j}.png",
-                           28, INK, CAPTION_BG)
-            # half-open [start, end): last caption holds to the end; avoids the
-            # 1-frame flash where two lines overlap at an inclusive boundary
-            end = "" if j == len(lines) - 1 else f"*lt(t,{(j + 1) * slice_s:.2f})"
-            layers.append((png, "(W-w)/2", "H-h-160",
-                           f"gte(t,{j * slice_s:.2f}){end}"))
+        timed = (manifest or {}).get("lines")
+        if timed and len(timed) == len(lines):
+            # exact sync: each caption spans its measured audio window,
+            # holding until the next line starts (last holds to slot end)
+            for j, text in enumerate(lines):
+                png = text_png(strip_inline_md(text), workdir / f"cap-{num:02d}-{j}.png",
+                               28, INK, CAPTION_BG)
+                start = timed[j]["start"]
+                end = timed[j + 1]["start"] if j + 1 < len(timed) else dur
+                layers.append((png, "(W-w)/2", "H-h-160",
+                               f"gte(t,{start:.2f})*lt(t,{end:.2f})"))
+        else:
+            slice_s = dur / len(lines)
+            for j, text in enumerate(lines):
+                png = text_png(strip_inline_md(text), workdir / f"cap-{num:02d}-{j}.png",
+                               28, INK, CAPTION_BG)
+                # half-open [start, end): last caption holds to the end; avoids the
+                # 1-frame flash where two lines overlap at an inclusive boundary
+                end = "" if j == len(lines) - 1 else f"*lt(t,{(j + 1) * slice_s:.2f})"
+                layers.append((png, "(W-w)/2", "H-h-160",
+                               f"gte(t,{j * slice_s:.2f}){end}"))
 
     prev = "base"
     for k, (png, x, yy, enable) in enumerate(layers):
@@ -320,7 +352,15 @@ def main() -> int:
             if text.strip():
                 audio = workdir / f"vo-{i:02d}.mp3"
                 tts_cost += tts_fn(text, audio)
-        timeline.append((render_beat(beat, i, dur, clip, workdir), dur, audio))
+        manifest = vo_manifest(args.clips, i)
+        if clip:
+            # fit the slot to the material, not the script's paper timing:
+            # long enough for the footage and the full VO, never longer than
+            # the script's slot. Short footage loops (see render_beat).
+            cdur = media_duration(clip) or dur
+            vdur = (manifest or {}).get("total_s") or (media_duration(audio) if audio else 0) or 0
+            dur = round(min(dur, max(cdur, vdur + 0.4)), 2)
+        timeline.append((render_beat(beat, i, dur, clip, workdir, manifest), dur, audio))
         prov = clip_provenance(clip)
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),
                         "clip": clip.name if clip else "slate (no footage yet)",
@@ -364,7 +404,7 @@ def main() -> int:
     else:
         video.replace(out)
 
-    total = sum(beat_duration(b["slug"], b["items"]) for b in beats)
+    total = sum(d for _, d, _ in timeline)
     cost = round(tts_cost + sum(s["cost_usd"] for s in sources), 2)
     print(f"✓ assembled {out.name}: {len(beats)} beats ({len(beats) - missing} footage, "
           f"{missing} slate), ~{total:.0f}s, cost ${cost:.2f}")

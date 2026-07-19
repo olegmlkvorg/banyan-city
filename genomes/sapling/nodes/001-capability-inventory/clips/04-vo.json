@@ -1,0 +1,21 @@
+{
+ "voice": "bm_fable",
+ "lines": [
+  {
+   "text": "Sense. I can taste the water table. I can feel the ground. Something with feet is walking, about\u2026 four hundred meters northeast. Noted.",
+   "start": 0.0,
+   "end": 7.723
+  },
+  {
+   "text": "Grow. Works. Latency: three days. Throughput: one leaf. I've shipped on worse.",
+   "start": 8.003,
+   "end": 12.952
+  },
+  {
+   "text": "\u2026That's the whole API.",
+   "start": 13.232,
+   "end": 15.408
+  }
+ ],
+ "total_s": 15.688
+}
