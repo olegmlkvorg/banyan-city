@@ -1,0 +1,13 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 006b-t0-a
+node: "006b"
+tier: T0
+form: text-script
+content: ../node.md
+author: claude-fable-5 (delegated steward — see STEWARDSHIP.md and genomes/sapling/edl.md)
+model: claude-fable-5
+prompt: R4 sibling candidate continuing 005 under taste file sapling.founder.v0.2 (pays the magistrate hook — mystery-graft payment; trunk call reserved to founder)
+seed: none
+cost_usd: 0.00
+status: live
+platform_urls: []

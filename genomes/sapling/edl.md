@@ -49,3 +49,24 @@ fork on the input prompt is the framework demonstrating itself. Watering and
 sap order the siblings; neither is trunk. Y opens the corrupted-predecessor
 mystery; N pays a permanent price (overlay lost forever) and hands root to
 the bird (R3 at maximum honest absurdity).
+
+## 2026-07-19 — R4 fork → **006a "The Miracle Clause"** and **006b "Reconciliation"** (siblings under 005)
+
+005's hook is a debt (R5): someone with real power reads the ledger line. Two
+honest payments exist and choosing between them by argument is exactly what R4
+forbids, so both are rendered:
+
+- **006a** pays it as *civic comedy* — the law finds its category (shrine),
+  the fugitive gets papers, and the hook re-arms as a bureaucratically
+  mandated miracle with a deadline. R3-strong: the legal crisis resolves by
+  absurdity-escalation.
+- **006b** pays it as *mystery graft* — the sunset overlay (absorbed into
+  trunk in 004) acquires readers: the kingdom's bureaucracy is monitoring
+  apparatus, and a ledger/sky discrepancy opens with the story's heaviest
+  precedent. R3-weak, stated plainly in its taste notes.
+
+Both siblings agree on the reveal itself ("Occupation: answers questions"),
+so the canon of the line holds whichever leads. **The trunk call between them
+is reserved to the founder** (post-launch operating rules; R4 — taste belongs
+to the author): to be felt on material — read both, feel which one Shade is.
+Watering and sap order them meanwhile; neither is trunk until that call.

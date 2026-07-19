@@ -112,6 +112,24 @@ nodes:
     status: hot
     leaves: [004c-n-t0-a, 004c-n-t1-a, 004c-n-t2-a]
 
+  - id: "006a"
+    released: 2026-07-19
+    slug: 006a-miracle-clause
+    title: "The Miracle Clause"
+    parent: "005"
+    trunk: false              # R4 sibling pair w/ 006b — trunk call reserved to founder (see edl.md)
+    status: hot
+    leaves: [006a-t0-a, 006a-t1-a, 006a-t2-a]
+
+  - id: "006b"
+    released: 2026-07-19
+    slug: 006b-reconciliation
+    title: "Reconciliation"
+    parent: "005"
+    trunk: false              # R4 sibling pair w/ 006a — trunk call reserved to founder (see edl.md)
+    status: hot
+    leaves: [006b-t0-a, 006b-t1-a, 006b-t2-a]
+
 # Grafts performed: 004 absorbs the mended-water/cairn motifs of the 002a/003a
 # line and the sunset-overlay registration of the 002c/003c line (branches stay
 # alive per R6 — grafting is absorption, not closure). See edl.md.
