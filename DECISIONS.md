@@ -126,6 +126,19 @@ the quality gap on premium ones. The bake-off should run the **rewritten
 anime prompts** before D8 resolves — the cheapest adequate model may have
 changed.
 
+**$0 routes verified (2026-07-19, adversarial web research —
+`pipeline/t3-trials/free-routes.md`):** a genuinely free, watermark-free,
+publishable path exists: **Qwen Studio (Wan 2.7) free tier** — ~5s 720p
+9:16, no card, no visible watermark, Wan is the consensus-best open model
+for flat 2D anime. Backed by **HF ZeroGPU LTX (4-5 clips/day, native 9:16)**
+and **Kaggle free GPUs running open Wan weights** (unbounded for our volume,
+citizen-reproducible). Flow free tier is confirmed at 5 Veo-Lite clips/day
+but visibly watermarked — trials only. Kling/Vidu/PixVerse free tiers are
+license-blocked (personal-use-only ToS), not quality-blocked. Consequence:
+the D8 bake-off can now run at **$0** (Qwen/Wan vs Flow/Veo-Lite vs
+Kaggle-Wan on the anime trial prompts) — the paid fal.ai route becomes the
+fast option, not the only option.
+
 ## D9 — When is a node's T3 video leaf publishable?
 
 **Question:** what must be true before an assembled T3 episode becomes a node's
