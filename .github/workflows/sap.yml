@@ -27,8 +27,15 @@ jobs:
           git config user.email "actions@github.com"
           # both harvest outputs: reaction summaries AND screening tallies —
           # screening.yaml was being written by harvest_sap.py but never
-          # committed, silently dropping the whole narrowing feature (§7.2 step 2)
-          git add genomes/*/nodes/*/sap/summary.yaml genomes/*/nodes/*/sap/screening.yaml
+          # committed, silently dropping the whole narrowing feature (§7.2 step 2).
+          # nullglob: no screening.yaml exists until the first rating lands,
+          # and an unmatched literal pathspec makes `git add` exit fatal
+          # (this killed every nightly run 2026-07-15 → 07-19)
+          shopt -s nullglob
+          files=(genomes/*/nodes/*/sap/summary.yaml genomes/*/nodes/*/sap/screening.yaml)
+          if [ "${#files[@]}" -gt 0 ]; then
+            git add -- "${files[@]}"
+          fi
           if git diff --cached --quiet; then
             echo "no new sap"
           else
