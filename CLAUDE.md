@@ -51,15 +51,17 @@ accounts (90 days, no card; amount needs console confirmation). Adapter
 live: `generate_shots.py --provider wan` (+`--quota-covered` ledger mode,
 founder-attested, still behind `--yes`). Permanent $0 floor:
 `pipeline/kaggle/wan-t2v-kaggle.ipynb` (open Wan 1.3B on free Kaggle GPU).
-**DONE 2026-07-19 night:** key live in `.env` (Singapore workspace; quota
-= 50 free s per video model, 90 days). Trials A/B/C rendered on wan2.7-t2v
-(30s), 5/5 objective, on `/trials/`. **Episode 001 fully filmed** (5 anime
-beats, wan2.7-t2v-2026-06-12's full 50s) + assembled w/ kokoro VO → bench
-on founder's Desktop (`banyan-001-anime-episode.mp4`); NOT published (D9
-crit. 4 = founder taste call, pending). All site videos fixed (+faststart —
-moov-at-end had made every pipeline mp4 unplayable in browsers; both
-renderers now emit faststart). Remaining wan quota: ~370s across untouched
-model IDs — enough for the 002b-005 season once the founder taste-approves.
+**DONE 2026-07-20 (small hours):** THE WHOLE TRUNK IS FILMED AND LIVE.
+001-t3-b (founder-released, v2 cut) + 002b/003b/004/005 t3-a leaves — all
+anime, full-cast kokoro dialogue, manifest-synced captions, faststart,
+$0 billed (~$21 list, all provider free quota, ledgered). Founder screened
+every episode. Remaining wan quota ≈ 130s (wan2.1/2.2 mostly + scraps).
+T3 v2 fitting: slots fit material, footage loops (never freezes), dialogue
+never trimmed. Parser hardened twice (speaker-colon rule; headings require
+timing ranges). Voice upgrade (emotional TTS — CosyVoice on same quota)
+parked: founder said voice doesn't matter for now; dad wants human touch
+eventually. NEXT: founder posts (kit §4), 006 trunk call, fork episodes'
+T3, watering rail (D5).
 Do NOT suggest multi-account quota cycling — declined on ToS + provenance
 grounds, founder accepted.
 
