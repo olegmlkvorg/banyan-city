@@ -100,7 +100,10 @@ def test_generate_shots_parsing():
     check("shots.md parses 5 beats", len(shots) == 5)
     check("beat numbering 1..5", [s["num"] for s in shots] == [1, 2, 3, 4, 5])
     check("prompts nonempty + vertical", all("9:16" in s["prompt"] for s in shots))
-    check("done-status parsed", [s["done"] for s in shots] == [True, True, False, True, False])
+    # style v2 (2026-07-19) reset all 001 beats to needs-footage: the v1
+    # photoreal clips are archived evidence, not v2 footage — so no beat
+    # parses as done until anime clips exist
+    check("done-status parsed", [s["done"] for s in shots] == [False] * 5)
 
 
 def test_budget_guard():
