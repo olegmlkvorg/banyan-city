@@ -11,8 +11,11 @@ a slow Ken Burns drift, hard-cut like a vertical micro-drama, not a deck.
              deterministic, no image API required.
   motion     ffmpeg zoompan gives every shot a slow push-in or pull-out;
              beat title cards fade in and out.
-  voice      optional TTS narration per shot via OPENAI_API_KEY
-             (--tts openai); silent by default — the type carries the script.
+  voice      local neural TTS per shot (kokoro-82M via tts_kokoro.py, $0 —
+             per-character casting from the genome's voices.yaml, plus a
+             quiet wind bed, loudness-normalized). Default --tts auto voices
+             the cut whenever T2_TTS_PYTHON points at a kokoro-onnx env;
+             --tts openai (paid) and --tts none (silent) remain.
   assembly   per-shot clips concatenated into <node>-t2-a.mp4 at 24fps.
 
 T2 still builds on T1: the T1 storyboard leaf must exist, and the script
@@ -189,6 +192,114 @@ const {{ chromium }} = require('playwright');
     return sorted(outdir.glob("shot-*.png"))
 
 
+def load_voices(genome_dir: Path) -> dict:
+    f = genome_dir / "voices.yaml"
+    return yaml.safe_load(f.read_text()) if f.exists() else {}
+
+
+def speaker_key(who: str) -> str:
+    """`ASSESSOR (writing, without emotion)` → `ASSESSOR`."""
+    return re.sub(r"\s*\(.*$", "", who.strip()).strip().upper()
+
+
+def clean_speech(text: str) -> str:
+    """What the voice says: drop stage-direction parentheticals and on-screen
+    punctuation art; the card still shows the full text."""
+    t = re.sub(r"\([^)]*\)", " ", text)
+    t = t.replace("—", ", ").replace("…", "...")
+    return re.sub(r"\s+", " ", t).strip(" -,")
+
+
+def voice_for(who: str, vcfg: dict) -> tuple:
+    cast = vcfg.get("cast") or {}
+    if who == "__NARRATOR__":
+        return vcfg.get("narrator", "af_sarah"), float(vcfg.get("narrator_speed", 1.0))
+    entry = cast.get(who) or cast.get(who.title())
+    if entry:
+        return entry["voice"], float(entry.get("speed", 1.0))
+    pool = vcfg.get("default_pool") or ["af_sarah"]
+    return pool[sum(who.encode()) % len(pool)], 1.0
+
+
+def tts_python() -> str | None:
+    """Python interpreter that can import kokoro_onnx: T2_TTS_PYTHON env, or
+    None (renderer stays silent)."""
+    cand = os.environ.get("T2_TTS_PYTHON")
+    if cand and Path(cand).exists():
+        return cand
+    return None
+
+
+def synth_kokoro(shots: list, vcfg: dict, workdir: Path) -> set:
+    """Voice the spoken shots (dialogue, VO, and — per voices.yaml — action
+    narration); stretch each shot to fit its audio. Returns voices used."""
+    py = tts_python()
+    if not py:
+        raise SystemExit("no kokoro python — set T2_TTS_PYTHON to an env with "
+                         "kokoro-onnx installed, or use --tts none")
+    jobs, used = [], set()
+    for i, s in enumerate(shots):
+        if s["type"] in ("line", "vo"):
+            who = speaker_key(s["who"]) or "VO"
+        elif s["type"] == "action" and vcfg.get("narrate_actions", True):
+            who = "__NARRATOR__"
+        else:
+            continue
+        text = clean_speech(s["text"])
+        if not text:
+            continue
+        voice, speed = voice_for(who, vcfg)
+        used.add(voice)
+        jobs.append({"i": i, "text": text, "voice": voice, "speed": speed})
+    job_file = workdir / "tts-job.json"
+    job_file.write_text(json.dumps(jobs))
+    subprocess.run([py, str(REPO / "pipeline" / "tts_kokoro.py"),
+                    str(job_file), str(workdir)], check=True)
+    durations = json.loads((workdir / "durations.json").read_text())
+    for i_str, adur in durations.items():
+        s = shots[int(i_str)]
+        s["audio"] = workdir / f"vo-{int(i_str):03d}.wav"
+        s["dur"] = round(max(s["dur"], adur + 0.35), 2)
+    return used
+
+
+def build_audio_track(ff: str, video: Path, shots: list, workdir: Path) -> None:
+    """Per-shot voice segments (padded to shot length) + a whisper-quiet wind
+    bed, loudness-normalized, muxed under the assembled cut."""
+    segs = []
+    for i, s in enumerate(shots):
+        seg = workdir / f"seg-{i:03d}.wav"
+        if s.get("audio"):
+            subprocess.run([ff, "-y", "-i", str(s["audio"]), "-af", "apad",
+                            "-t", f"{s['dur']:.2f}", "-ar", "24000", "-ac", "1",
+                            "-c:a", "pcm_s16le", str(seg)], check=True, capture_output=True)
+        else:
+            subprocess.run([ff, "-y", "-f", "lavfi", "-i", "anullsrc=r=24000:cl=mono",
+                            "-t", f"{s['dur']:.2f}", "-c:a", "pcm_s16le", str(seg)],
+                           check=True, capture_output=True)
+        segs.append(seg)
+    alist = workdir / "segs.txt"
+    alist.write_text("\n".join(f"file '{a.resolve()}'" for a in segs))
+    voice_wav = workdir / "voice.wav"
+    subprocess.run([ff, "-y", "-f", "concat", "-safe", "0", "-i", str(alist),
+                    "-c", "copy", str(voice_wav)], check=True, capture_output=True)
+    total = sum(s["dur"] for s in shots)
+    mixed = workdir / "mix.m4a"
+    subprocess.run([ff, "-y", "-i", str(voice_wav),
+                    "-f", "lavfi", "-i", f"anoisesrc=color=brown:seed=42:r=24000:d={total:.2f}",
+                    "-filter_complex",
+                    "[1:a]lowpass=f=300,volume=0.05[wind];"
+                    "[0:a][wind]amix=inputs=2:duration=first:normalize=0,"
+                    "loudnorm=I=-16:TP=-1.5:LRA=11[out]",
+                    "-map", "[out]", "-ar", "44100", "-c:a", "aac", str(mixed)],
+                   check=True, capture_output=True)
+    voiced = workdir / "voiced.mp4"
+    subprocess.run([ff, "-y", "-i", str(video), "-i", str(mixed),
+                    "-c:v", "copy", "-c:a", "copy", "-shortest", str(voiced)],
+                   check=True, capture_output=True)
+    voiced.replace(video)
+
+
 def tts_openai(text: str, out: Path) -> float:
     """Narrate one frame via OpenAI TTS. Returns cost estimate (USD)."""
     import urllib.request
@@ -265,9 +376,12 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("genome")
     p.add_argument("node")
-    p.add_argument("--tts", choices=["none", "openai"], default="none")
+    p.add_argument("--tts", choices=["auto", "none", "kokoro", "openai"], default="auto",
+                   help="auto: kokoro when T2_TTS_PYTHON is set, else silent")
     p.add_argument("--dry-run", action="store_true")
     args = p.parse_args()
+    if args.tts == "auto":
+        args.tts = "kokoro" if tts_python() else "none"
 
     genome_dir = REPO / "genomes" / args.genome
     lineage_text = (genome_dir / "lineage.yaml").read_text()
@@ -283,15 +397,20 @@ def main() -> int:
     shots = build_shots(parse_frames(extract_script(md)), node_label)
     if not shots:
         raise SystemExit(f"{node['id']}: no shots derived from script")
-    total = round(sum(s["dur"] for s in shots), 1)
     leaf_id = f"{node['id']}-t2-a"
 
     if args.dry_run:
-        print(f"would render {leaf_id}: {len(shots)} shots, ~{total}s, "
-              f"tts={args.tts}, est. cost ${'0.00' if args.tts == 'none' else '~0.03'}")
+        total = round(sum(s["dur"] for s in shots), 1)
+        print(f"would render {leaf_id}: {len(shots)} shots, ~{total}s (pre-voice), "
+              f"tts={args.tts}, est. cost ${'~0.03' if args.tts == 'openai' else '0.00'}")
         return 0
 
     workdir = Path(tempfile.mkdtemp(prefix="t2-"))
+    voices_used = set()
+    if args.tts == "kokoro":
+        voices_used = synth_kokoro(shots, load_voices(genome_dir), workdir)
+    total = round(sum(s["dur"] for s in shots), 1)
+
     page = workdir / "shots.html"
     page.write_text(shots_html(shots, node_label))
     stills = shoot_stills(page, len(shots), workdir)
@@ -305,9 +424,18 @@ def main() -> int:
     assemble(ff, clips, out)
 
     cost = 0.0
-    if args.tts == "openai":
+    if args.tts == "kokoro":
+        build_audio_track(ff, out, shots, workdir)
+    elif args.tts == "openai":
         cost = mux_voice(ff, out, shots, workdir)
     size_kb = out.stat().st_size // 1024
+    if args.tts == "kokoro":
+        model_line = (f"kokoro-82M via kokoro-onnx (local neural TTS, $0) — cast: "
+                      f"{', '.join(sorted(voices_used))}; chromium shot cards; brown-noise wind bed")
+    elif args.tts == "openai":
+        model_line = "gpt-4o-mini-tts (voice) + chromium shot cards"
+    else:
+        model_line = "none — chromium shot cards, silent (type carries the script)"
 
     (node_dir / "leaves" / f"{leaf_id}.yaml").write_text(f"""# Leaf metadata — every render publishes its full provenance (§7.2)
 leaf: {leaf_id}
@@ -316,7 +444,7 @@ tier: T2
 form: animatic-mp4
 content: {leaf_id}.mp4
 author: pipeline/render_t2.py v2 (deterministic kinetic-text cut of the T0/T1 script)
-model: {"gpt-4o-mini-tts (voice) + chromium shot cards" if args.tts == "openai" else "none — chromium shot cards, silent (type carries the script)"}
+model: {model_line}
 prompt: none            # deterministic — the script is the source
 seed: none
 cost_usd: {cost:.2f}

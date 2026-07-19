@@ -1,0 +1,19 @@
+# Voice casting — Sapling (kokoro-82M local neural TTS, Apache-2.0, $0)
+#
+# Provisional steward casting; voice is a taste axis (R4) — the founder
+# re-casts any role by editing this file, like any taste change. Every T2
+# leaf rendered with voices records the cast used in its provenance yaml.
+engine: kokoro-onnx (kokoro-82M)
+narrator: af_sarah            # stage directions / action lines, calm and neutral
+narrator_speed: 1.12          # narration keeps the cut moving
+narrate_actions: true         # actions are read like an audio drama's narration
+default_pool: [am_liam, bf_emma, bm_lewis, af_nova]  # unlisted speakers, hash-picked
+
+cast:
+  VO:         { voice: am_michael,  speed: 1.08 }  # the tree — dry, thoughtful, 3 a.m. calm
+  SCAVENGER:  { voice: am_puck,     speed: 1.12 }  # nervous energy, fast recovery
+  FARMER:     { voice: bm_george,   speed: 0.98 }  # gruff, unhurried, few words
+  ASSESSOR:   { voice: bm_daniel,   speed: 1.0 }   # metronome precision
+  MAGISTRATE: { voice: bf_isabella, speed: 1.05 }  # unhurried authority
+  GUARD 1:    { voice: am_adam,     speed: 1.08 }
+  GUARD 2:    { voice: am_echo,     speed: 1.05 }
