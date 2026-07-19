@@ -34,6 +34,36 @@ before relying on numbers here after ~August 2026.
   ModelScope 2026-06; the model anime rankings call best-in-class for
   exactly our style), LTX-2.3 ZeroGPU space (9:16-native, 75s GPU per gen).
 
+## API routes to the Wan models (verified 2026-07-19, follow-up pass)
+
+Qwen Studio itself exposes **no API** — but the Wan models behind it do:
+
+- **Alibaba Cloud Model Studio (DashScope, Singapore region)** — the
+  official API. `wan2.7-t2v` / `wan2.7-i2v`: native **1080×1920 (9:16)**,
+  **2–15s** clips, synced audio, and **watermark OFF by default** (an
+  explicit `watermark` param, default false — official API reference).
+  Pricing ≈ $0.10/s (third-party corroborated; official table is
+  JS-rendered — confirm in console). **New-user free quota: 90 days,
+  Singapore region only, no credit card to activate** — reportedly
+  **~1,650 seconds of video** (≈330 five-second clips ≈ the whole season
+  ~10× over; amount is third-party-corroborated, confirm on the console's
+  Free Quota page before planning). Publishing terms in the intl service
+  agreement not yet reviewed — flag before canon use.
+- **ModelScope API-Inference** — genuinely $0 ongoing (~2,000 calls/day)
+  and Wan video is advertised as included, but requires Alibaba
+  real-name-verified account binding, limits are dynamic/opaque, and
+  video-specific caps + watermark policy are unverified. Worth an empirical
+  probe only if Model Studio's quota disappoints.
+- Paid API hosts for the same models, for reference: Together AI $0.10/s
+  (official wan2.7 partner), SiliconFlow $0.29/clip, fal.ai (see D8 table).
+  No recurring free video tier on any of them.
+
+**Consequence:** free + automated is possible — `generate_shots.py` can
+drive the whole season through Model Studio's free quota once the founder
+activates the account (no card) and drops the key in `.env`. Activation is
+a founder action: it opens a rail that can convert to pay-as-you-go, so it
+stays under the spend rules even at $0.
+
 ## Practical shape for our 24-prompt season
 
 Two 5s generations per ~10s beat (or write beats to 5-8s), assembled by
