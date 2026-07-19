@@ -90,7 +90,11 @@ def parse_frames(script: str) -> list:
                 par_break = True
             elif line.strip().startswith(">"):
                 text = re.sub(r"^>\s?", "", line.strip())
-                m = re.match(r"\*\*(.+?)[:：]?\*\*[:：]?\s*(.*)", text)
+                # a speaker heading always carries a colon (inside or right
+                # after the bold) — bold WITHOUT one is emphasis inside a
+                # wrapped speech line, not a new speaker
+                m = (re.match(r"\*\*(.+?)\s*[:：]\s*\*\*\s*(.*)", text)
+                     or re.match(r"\*\*(.+?)\*\*\s*[:：]\s*(.*)", text))
                 if m:
                     current["items"].append(("line", m.group(1).rstrip(":"), m.group(2)))
                 elif text:

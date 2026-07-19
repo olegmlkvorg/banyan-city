@@ -58,10 +58,21 @@ ready draft copy for when that changes. **Every trunk node (001, 002b, 003b,
 a five-episode season. Sap cron was silently failing 07-15→07-19 (unmatched
 screening.yaml pathspec); fixed and verified green. Trials scored (objective
 axes only) at `/trials/`. Open founder decisions: 006 trunk call, D8, D9,
-taste scores, watering rail. **T2 renderer is v2** (kinetic-text: one shot
-per script element, Ken Burns motion, title cards; ~90-110s/episode, still
-$0/deterministic) — all 16 nodes re-rendered and visually QA'd; site now
-leads node pages with Watch and shows a lineage-derived live-fork banner on
-the homepage. Local dev: T2 needs `T2_NPM_DIR` pointing at a dir with
-`npm install playwright`; python deps in a venv (markdown, pyyaml, pillow,
-imageio-ffmpeg).
+taste scores, watering rail. **Style is v2: low-detail anime** (founder
+call 2026-07-19; `genomes/sapling/style.md` is the visual bible) — all shot
+prompts rewritten; 001's photoreal Veo clips are archived v1 evidence; D8
+bake-off should re-run on anime prompts. **T2 renderer is v2 + voice**:
+kinetic-text cut (one shot per script element, Ken Burns, title cards)
+voiced end-to-end by kokoro-82M local TTS — per-character cast in
+`genomes/sapling/voices.yaml` (founder-amendable, R4), narrator for stage
+directions, wind bed, loudnorm; ~2-3min/episode, $0. Site leads node pages
+with Watch; homepage shows a lineage-derived live-fork banner.
+
+Local dev: T2 stills need `T2_NPM_DIR` → dir with `npm install playwright`;
+voice needs `T2_TTS_PYTHON` → python3.13 venv with `pip install kokoro-onnx
+soundfile` + model files in `~/.cache/banyan-tts/` (kokoro-v1.0.onnx,
+voices-v1.0.bin — free download, kokoro-onnx GitHub releases; tts_kokoro.py
+self-heals the espeak data-path quirk). Pipeline python deps in a venv
+(markdown, pyyaml, pillow, imageio-ffmpeg). Run tests as their own step and
+read the exit code BEFORE committing — piping to tail masks failures (this
+bit twice on 2026-07-19).

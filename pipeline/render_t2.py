@@ -138,11 +138,18 @@ def build_shots(frames: list, node_label: str) -> list:
 
 
 def size_class(shot: dict) -> str:
-    n = len(shot["text"])
     if shot["type"] == "overlay":
-        cols = max((len(l) for l in shot["text"].splitlines()), default=0)
-        return " tiny" if cols > 52 else (" small" if cols > 40 else "")
+        return ""
+    n = len(shot["text"])
     return " tiny" if n > 300 else (" small" if n > 190 else "")
+
+
+def overlay_font_px(text: str) -> int:
+    """Fit the widest line of a terminal card inside the 720px frame: shot
+    padding (2×54px) + card padding (2×30px) + borders leave ~578px; mono
+    glyphs run ~0.62em wide."""
+    cols = max((len(l) for l in text.splitlines()), default=1)
+    return min(17, max(9, int(578 / (cols * 0.62))))
 
 
 def shots_html(shots: list, node_label: str) -> str:
@@ -150,9 +157,10 @@ def shots_html(shots: list, node_label: str) -> str:
     for i, s in enumerate(shots):
         who = f'<div class="who">{html.escape(s["who"])}</div>' if s["who"] and s["type"] in ("line", "vo") else ""
         node = f'<div class="node">{html.escape(s["who"])}</div>' if s["type"] == "title" else ""
+        fit = f' style="font-size:{overlay_font_px(s["text"])}px"' if s["type"] == "overlay" else ""
         divs.append(
             f'<div class="shot {s["type"]}{size_class(s)}">{node}{who}'
-            f'<div class="text">{html.escape(s["text"])}</div>'
+            f'<div class="text"{fit}>{html.escape(s["text"])}</div>'
             f'<div class="num">{html.escape(node_label)} · {i + 1}/{len(shots)}</div></div>'
         )
     return (f'<!doctype html><html><head><meta charset="utf-8">'
@@ -290,7 +298,7 @@ def build_audio_track(ff: str, video: Path, shots: list, workdir: Path) -> None:
                     "-filter_complex",
                     "[1:a]lowpass=f=300,volume=0.05[wind];"
                     "[0:a][wind]amix=inputs=2:duration=first:normalize=0,"
-                    "loudnorm=I=-16:TP=-1.5:LRA=11[out]",
+                    "loudnorm=I=-16:TP=-1.5:LRA=11,alimiter=limit=0.85:level=0[out]",
                     "-map", "[out]", "-ar", "44100", "-c:a", "aac", str(mixed)],
                    check=True, capture_output=True)
     voiced = workdir / "voiced.mp4"
