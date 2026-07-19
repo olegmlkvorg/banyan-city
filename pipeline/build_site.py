@@ -237,8 +237,11 @@ def render_node_page(g: dict, n: dict) -> str:
         f'src="leaves/{html.escape(str(l["content"]))}"></video>'
         f'<figcaption class="chip">{html.escape(str(l["tier"]))} · {html.escape(str(l["form"]))}</figcaption></figure>'
         for l in vids)
-    player_html = f"<h2>Watch</h2>{players}" if players else ""
-    leaves_html = f"""{player_html}<h2>Leaves (renders of this node)</h2>
+    player_html = (f"<h2>Watch</h2>{players}"
+                   f'<p class="notice">The highest $0 render of this node — every episode is watchable '
+                   f'before a dollar is spent; the full script it was cut from is below.</p>'
+                   if players else "")
+    leaves_html = f"""<h2>Leaves (renders of this node)</h2>
 <table><tr><th>leaf</th><th>tier</th><th>form</th><th>cost</th><th>status</th><th>screening</th></tr>{leaves_rows}</table>
 <p class="notice">Every render publishes its prompt, model, seed, and cost — this table is the audit trail.
 <strong>Screening:</strong> rate any leaf (continuity, character, vibe) — the crowd narrows the shortlist,
@@ -271,6 +274,7 @@ No account? Just tell someone about it — word of mouth is sap too.</p>"""
         parent_link = f'<p><strong>Parent:</strong> <a href="{html.escape(p["slug"])}.html">{html.escape(p["id"])} — {html.escape(p["title"])}</a></p>'
 
     body = f"""<p>{chips(n)}</p>
+{player_html}
 {body_html}
 <hr>
 {parent_link}{kids}
@@ -283,6 +287,19 @@ that's the only obligation. <a href="{REPO_URL}#how-to-branch-a-story">How to br
                 path=f"{g['tree']['id']}/{n['slug']}.html", desc=n.get("teaser") or "")
 
 
+def live_fork(g: dict):
+    """The tree's open question, derived from lineage: the trunk tip whose
+    children are 2+ competing non-trunk siblings — the fork awaiting a call."""
+    nodes = g["nodes"]
+    for tid, tn in nodes.items():
+        if not tn.get("trunk"):
+            continue
+        kids = [n for n in nodes.values() if n.get("parent") == tid]
+        if len(kids) >= 2 and not any(k.get("trunk") for k in kids):
+            return tn, kids
+    return None
+
+
 def render_index(genomes: list) -> str:
     sections = []
     for g in genomes:
@@ -290,7 +307,20 @@ def render_index(genomes: list) -> str:
         tree_html = "<ul class='tree'>" + "".join(node_card(t["id"], r, 0) for r in g["roots"]) + "</ul>"
         n_nodes = len(g["nodes"])
         n_leaves = sum(len(n["leaf_meta"]) for n in g["nodes"].values())
+        fork = live_fork(g)
+        fork_html = ""
+        if fork:
+            tip, kids = fork
+            vs = " <em>vs</em> ".join(
+                f'<a href="{html.escape(t["id"])}/{html.escape(k["slug"])}.html">'
+                f'{html.escape(k["id"])} — {html.escape(k["title"])}</a>' for k in kids)
+            fork_html = (f'<p class="notice">⚡ <strong>Live fork at the tip:</strong> '
+                         f'<a href="{html.escape(t["id"])}/{html.escape(tip["slug"])}.html">'
+                         f'{html.escape(tip["id"])} — {html.escape(tip["title"])}</a> ends on one cliffhanger, '
+                         f'paid off {len(kids)} different ways: {vs}. '
+                         f'Same debt, competing payments — read both, react; the tree decides on material, not votes.</p>')
         sections.append(f"""<h2>🌱 {html.escape(t['title'])} <span class="chip">{n_nodes} nodes</span> <span class="chip">{n_leaves} leaves</span></h2>
+{fork_html}
 <p class="notice">An engineer dies debugging production at 3 a.m. and reincarnates as a banyan sapling.
 He can't move, fight, or flee — only sense, grow, and make the space around him worth staying in.
 After node 001 the story <em>branches</em>: three continuations of the same moment, all alive, none rejected.

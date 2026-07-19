@@ -59,9 +59,15 @@ def extract_script(md: str) -> str:
 
 def parse_frames(script: str) -> list:
     """Split on bold beat headings (**SCENE — 0:00–0:12**); collect
-    action paragraphs, dialogue blockquotes, and code-fence overlays."""
+    action paragraphs, dialogue blockquotes, and code-fence overlays.
+
+    Markdown hard-wraps prose, so consecutive non-blank action lines are one
+    paragraph and merge into a single item — a blank line (or any other
+    element) starts a new one. Keeps sentences whole downstream (T2 cuts one
+    shot per item)."""
     frames = []
     current = None
+    par_break = True
     lines = script.splitlines()
     i = 0
     while i < len(lines):
@@ -70,14 +76,18 @@ def parse_frames(script: str) -> list:
         if heading:
             current = {"slug": heading.group(1), "items": []}
             frames.append(current)
+            par_break = True
         elif current is not None:
-            if line.strip().startswith("```"):
+            if not line.strip():
+                par_break = True
+            elif line.strip().startswith("```"):
                 block = []
                 i += 1
                 while i < len(lines) and not lines[i].strip().startswith("```"):
                     block.append(lines[i])
                     i += 1
                 current["items"].append(("overlay", "\n".join(block)))
+                par_break = True
             elif line.strip().startswith(">"):
                 text = re.sub(r"^>\s?", "", line.strip())
                 m = re.match(r"\*\*(.+?)[:：]?\*\*[:：]?\s*(.*)", text)
@@ -85,8 +95,15 @@ def parse_frames(script: str) -> list:
                     current["items"].append(("line", m.group(1).rstrip(":"), m.group(2)))
                 elif text:
                     current["items"].append(("line", "", text))
-            elif line.strip() and not line.strip().startswith("#"):
-                current["items"].append(("action", line.strip()))
+                par_break = True
+            elif line.strip().startswith("#"):
+                par_break = True
+            else:
+                if not par_break and current["items"] and current["items"][-1][0] == "action":
+                    current["items"][-1] = ("action", current["items"][-1][1] + " " + line.strip())
+                else:
+                    current["items"].append(("action", line.strip()))
+                par_break = False
         i += 1
     return frames
 

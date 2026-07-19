@@ -4,9 +4,9 @@ node: "004c-y"
 tier: T2
 form: animatic-mp4
 content: 004c-y-t2-a.mp4
-author: pipeline/render_t2.py (deterministic assembly of the T1 leaf)
-model: none — chromium stills, silent (captions carry the script)
-prompt: none            # deterministic — the T1 leaf is the source
+author: pipeline/render_t2.py v2 (deterministic kinetic-text cut of the T0/T1 script)
+model: none — chromium shot cards, silent (type carries the script)
+prompt: none            # deterministic — the script is the source
 seed: none
 cost_usd: 0.00
 status: live
