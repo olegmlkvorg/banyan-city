@@ -444,7 +444,7 @@ tier: T2
 form: animatic-mp4
 content: {leaf_id}.mp4
 author: pipeline/render_t2.py v2 (deterministic kinetic-text cut of the T0/T1 script)
-model: {model_line}
+model: "{model_line}"
 prompt: none            # deterministic — the script is the source
 seed: none
 cost_usd: {cost:.2f}
