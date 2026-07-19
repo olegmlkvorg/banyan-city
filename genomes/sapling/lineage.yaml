@@ -130,6 +130,24 @@ nodes:
     status: hot
     leaves: [006b-t0-a, 006b-t1-a, 006b-t2-a]
 
+  - id: "007a"
+    released: 2026-07-19
+    slug: 007a-the-demo
+    title: "The Demo"
+    parent: "006a"
+    trunk: false              # deepens the 006a side of the live fork; trunk call still the founder's
+    status: hot
+    leaves: [007a-t0-a, 007a-t1-a, 007a-t2-a]
+
+  - id: "007b"
+    released: 2026-07-19
+    slug: 007b-the-hearth
+    title: "The Hearth"
+    parent: "006b"
+    trunk: false              # deepens the 006b side of the live fork; trunk call still the founder's
+    status: hot
+    leaves: [007b-t0-a, 007b-t1-a, 007b-t2-a]
+
 # Grafts performed: 004 absorbs the mended-water/cairn motifs of the 002a/003a
 # line and the sunset-overlay registration of the 002c/003c line (branches stay
 # alive per R6 — grafting is absorption, not closure). See edl.md.

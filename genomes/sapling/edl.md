@@ -70,3 +70,15 @@ so the canon of the line holds whichever leads. **The trunk call between them
 is reserved to the founder** (post-launch operating rules; R4 — taste belongs
 to the author): to be felt on material — read both, feel which one Shade is.
 Watering and sap order them meanwhile; neither is trunk until that call.
+
+## 2026-07-19 — Fork deepened → **007a "The Demo"** (under 006a) and **007b "The Hearth"** (under 006b)
+
+R4 says the 006 trunk call is felt on material, so the steward rendered more
+material: one continuation per side, showing where each future goes. 007a
+extends the civic line by the tree's oldest pattern — expenditure as answer
+(fig → double-tilt → orchard) — and lands the next arrival class (pilgrim).
+007b solves 006b's census bug at the price 006b promised: visibility
+(`Δ pop.: +1 · logged`). Neither is trunk; both agree with their parent only,
+so whichever 006 sibling the founder picks, its 007 comes with it and the
+other pair stays alive as branches (R6). No new taste tension found; the
+R3-strong/R3-weak asymmetry of the parents carries through unchanged.
