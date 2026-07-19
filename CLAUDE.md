@@ -43,6 +43,18 @@ hook, `leaves/`, `sap/`), entry in `lineage.yaml` with `parent:`, reactions
 issue (see any `sap/reactions.yaml`), T1+T2 render, lint, push. Cite taste
 rules (`taste/sapling.founder.v0.2.md`); label model provenance.
 
+## Render routes (2026-07-19, verified — `pipeline/t3-trials/free-routes.md`)
+
+Free path chosen: **Alibaba Model Studio (DashScope Singapore)** — wan2.7
+API, native 9:16, watermark-off default, ~1,650 free video-seconds for new
+accounts (90 days, no card; amount needs console confirmation). Adapter
+live: `generate_shots.py --provider wan` (+`--quota-covered` ledger mode,
+founder-attested, still behind `--yes`). Permanent $0 floor:
+`pipeline/kaggle/wan-t2v-kaggle.ipynb` (open Wan 1.3B on free Kaggle GPU).
+**Waiting on founder:** activate Model Studio (Singapore, no card), confirm
+quota, `DASHSCOPE_API_KEY` into `.env`, say go. Do NOT suggest multi-account
+quota cycling — declined on ToS + provenance grounds, founder accepted.
+
 ## State (2026-07-19, night)
 
 Launched 2026-07-18: node 001 flagship T3 leaf live (founder's manual
