@@ -113,6 +113,12 @@ def test_budget_guard():
     check("veo fast rate", gs.price_per_sec("fal-ai/veo3.1/fast") == 0.15)
     check("kling turbo rate", gs.price_per_sec("fal-ai/kling-video/v3/turbo/standard/text-to-video") == 0.112)
     check("unknown model prices at max", gs.price_per_sec("brand-new-model-x") == gs.FALLBACK_PRICE)
+    # wan family: specific versions price above the generic fal-wan entry, and
+    # ordering in the table must let the specific fragments win
+    check("wan2.7 rate", gs.price_per_sec("wan2.7-t2v") == 0.10)
+    check("wan2.6 rate", gs.price_per_sec("wan2.6-t2v") == 0.15)
+    check("generic wan rate", gs.price_per_sec("fal-ai/wan-25/text-to-video") == 0.05)
+    check("wan provider registered", "wan" in gs.PROVIDERS)
     caps = gs.budget()
     check("caps parse + per-run <= lifetime",
           0 < caps["hard_cap_per_run_usd"] <= caps["hard_cap_total_usd"])

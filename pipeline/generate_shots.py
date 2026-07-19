@@ -14,6 +14,12 @@ Providers (adapter per vendor; pick with --provider):
   veo     Google Gemini API (Veo) — needs GEMINI_API_KEY.
   fal     fal.ai aggregator (Kling/Seedance/Hailuo/…) — needs FAL_KEY;
           model chosen with --model.
+  wan     Alibaba Cloud Model Studio / DashScope intl (wan2.7-t2v) — needs
+          DASHSCOPE_API_KEY (Singapore workspace). Native 9:16, 2-15s,
+          watermark off by default. New-account free quota may cover runs
+          (pipeline/t3-trials/free-routes.md); pass --quota-covered (with
+          --yes, founder attesting) to record such runs at $0 in the ledger
+          while printing the list-price estimate.
 
 Every clip's meta.yaml records platform, model, verbatim prompt, cost estimate,
 and date (§7.2 — publish everything). Costs are estimates until the vendor bill
@@ -49,7 +55,8 @@ PRICE_PER_SEC = [
     ("veo-3.1-fast", 0.10), ("veo-3.1-lite", 0.05), ("veo-3.1", 0.40),
     ("kling-video/v3/turbo", 0.112), ("kling-video/v3", 0.126),
     ("kling-video-v3", 0.112), ("kling-video-v2_5", 0.084),
-    ("hailuo-2.3", 0.056), ("seedance-2.0", 0.3034), ("wan", 0.05),
+    ("hailuo-2.3", 0.056), ("seedance-2.0", 0.3034),
+    ("wan2.7", 0.10), ("wan2.6", 0.15), ("wan", 0.05),
 ]
 FALLBACK_PRICE = 0.40  # unknown model → assume the most expensive known rate
 SPEND_LEDGER = REPO / "ledger" / "render-spend.csv"
@@ -74,11 +81,11 @@ def spent_total() -> float:
     return round(sum(float(r.split(",")[5]) for r in rows if r.strip()), 2)
 
 
-def log_spend(node: str, beat: int, provider: str, model: str, est: float) -> None:
+def log_spend(node: str, beat: int, provider: str, model: str, est: float, note: str = "") -> None:
     if not SPEND_LEDGER.exists():
-        SPEND_LEDGER.write_text("date,node,beat,provider,model,est_usd\n")
+        SPEND_LEDGER.write_text("date,node,beat,provider,model,est_usd,note\n")
     with open(SPEND_LEDGER, "a") as f:
-        f.write(f"{date.today().isoformat()},{node},{beat:02d},{provider},{model},{est:.2f}\n")
+        f.write(f"{date.today().isoformat()},{node},{beat:02d},{provider},{model},{est:.2f},{note}\n")
 
 
 # ---------------------------------------------------------------- shot list --
@@ -198,7 +205,53 @@ def gen_fal(prompt: str, model: str, dur: int) -> tuple:
     raise RuntimeError("fal: generation timed out")
 
 
-PROVIDERS = {"kling": gen_kling, "veo": gen_veo, "fal": gen_fal}
+def gen_wan(prompt: str, model: str, dur: int) -> tuple:
+    """Alibaba Cloud Model Studio (DashScope intl) — wan2.x text-to-video.
+    Needs DASHSCOPE_API_KEY (Singapore-region workspace; the new-account free
+    quota covers video — see pipeline/t3-trials/free-routes.md).
+
+    Schema verified 2026-07-19 against the official API reference
+    (alibabacloud.com/help/en/model-studio/text-to-video-api-reference):
+    async create (X-DashScope-Async: enable) + 15s task polling; duration
+    2-15s integer; ratio 9:16 native; watermark defaults false — left off.
+    720P chosen over the 1080P default to stretch quota. Result URLs expire
+    in 24h — downloaded immediately by the caller. Workspace-scoped hosts
+    (https://{WorkspaceId}.ap-southeast-1.maas.aliyuncs.com) go via the
+    DASHSCOPE_BASE_URL env override."""
+    key = os.environ.get("DASHSCOPE_API_KEY")
+    if not key:
+        raise SystemExit("wan: set DASHSCOPE_API_KEY (Model Studio console, Singapore region)")
+    base = os.environ.get("DASHSCOPE_BASE_URL", "https://dashscope-intl.aliyuncs.com").rstrip("/")
+    model = model or "wan2.7-t2v"
+    req = urllib.request.Request(
+        f"{base}/api/v1/services/aigc/video-generation/video-synthesis",
+        data=json.dumps({
+            "model": model,
+            "input": {"prompt": prompt},
+            "parameters": {"resolution": "720P", "ratio": "9:16",
+                           "duration": max(2, min(15, dur)),
+                           "prompt_extend": True, "watermark": False},
+        }).encode(),
+        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json",
+                 "X-DashScope-Async": "enable"})
+    with urllib.request.urlopen(req) as r:
+        task_id = json.load(r)["output"]["task_id"]
+    for _ in range(60):  # docs: 1-5 min typical; poll 15s up to 15 min
+        time.sleep(15)
+        pr = urllib.request.Request(f"{base}/api/v1/tasks/{task_id}",
+                                    headers={"Authorization": f"Bearer {key}"})
+        with urllib.request.urlopen(pr) as r:
+            st = json.load(r)["output"]
+        if st["task_status"] == "SUCCEEDED":
+            return st["video_url"], {
+                "platform": "alibaba-model-studio", "model": model,
+                "cost_note": "free new-account quota while it lasts, then ~$0.10/s; see console billing"}
+        if st["task_status"] in ("FAILED", "CANCELED", "UNKNOWN"):
+            raise RuntimeError(f"wan: task {st['task_status']}: {st}")
+    raise RuntimeError("wan: generation timed out")
+
+
+PROVIDERS = {"kling": gen_kling, "veo": gen_veo, "fal": gen_fal, "wan": gen_wan}
 
 
 # --------------------------------------------------------------------- main --
@@ -221,6 +274,10 @@ def main() -> int:
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--yes", action="store_true",
                    help="REQUIRED to spend: confirms the printed estimate. No flag, no API call.")
+    p.add_argument("--quota-covered", action="store_true",
+                   help="founder attests this run is covered by a provider free quota: "
+                        "ledger records $0.00 (with the list-price noted) and the money caps "
+                        "don't count it. Still requires --yes. Do NOT pass once quota is exhausted.")
     args = p.parse_args()
 
     genome_dir = REPO / "genomes" / args.genome
@@ -250,34 +307,41 @@ def main() -> int:
 
     # ---- budget gate: estimate → print → require --yes → enforce caps ------
     rate = price_per_sec(args.model or {"kling": "kling-video-v2_5", "veo": "veo-3.1-fast",
-                                        "fal": "kling-video/v3/turbo"}[args.provider])
+                                        "fal": "kling-video/v3/turbo", "wan": "wan2.7-t2v"}[args.provider])
     est_run = round(len(todo) * args.duration * rate, 2)
     caps, prior = budget(), spent_total()
+    quota_note = " · QUOTA-COVERED (founder-attested: bills $0, list-price shown)" if args.quota_covered else ""
     print(f"{node['id']}: {len(todo)} shot(s) via {args.provider}"
           + (f" [{args.model}]" if args.model else "")
           + f" — estimated cost ${est_run:.2f} (${rate:.3f}/s x {args.duration}s x {len(todo)})"
           f" · spent so far ${prior:.2f} · caps: ${caps['hard_cap_per_run_usd']:.2f}/run,"
-          f" ${caps['hard_cap_total_usd']:.2f} lifetime")
+          f" ${caps['hard_cap_total_usd']:.2f} lifetime{quota_note}")
     if args.dry_run:
         for s in todo:
             print(f"  would generate beat {s['num']:02d} ({s['slug']}): {s['prompt'][:70]}…")
         return 0
-    if est_run > caps["hard_cap_per_run_usd"]:
+    est_for_caps = 0.0 if args.quota_covered else est_run
+    if est_for_caps > caps["hard_cap_per_run_usd"]:
         raise SystemExit(f"REFUSED: run estimate ${est_run:.2f} exceeds per-run cap "
                          f"${caps['hard_cap_per_run_usd']:.2f} (pipeline/budget.yaml)")
-    if prior + est_run > caps["hard_cap_total_usd"]:
+    if prior + est_for_caps > caps["hard_cap_total_usd"]:
         raise SystemExit(f"REFUSED: ${prior:.2f} spent + ${est_run:.2f} would exceed lifetime cap "
                          f"${caps['hard_cap_total_usd']:.2f} (pipeline/budget.yaml)")
     if not args.yes:
         raise SystemExit("REFUSED: spending requires the explicit --yes flag "
-                         "(this run would cost ~$%.2f). No flag, no spend." % est_run)
+                         "(this run would cost ~$%.2f%s). No flag, no spend."
+                         % (est_run, " list-price; quota-covered" if args.quota_covered else ""))
 
     gen = PROVIDERS[args.provider]
     for s in todo:
         print(f"  beat {s['num']:02d} ({s['slug']}) … ", end="", flush=True)
         url, meta = gen(s["prompt"], args.model, args.duration)
-        log_spend(node["id"], s["num"], args.provider, meta.get("model", args.model or ""),
-                  round(args.duration * rate, 2))
+        beat_est = round(args.duration * rate, 2)
+        if args.quota_covered:
+            log_spend(node["id"], s["num"], args.provider, meta.get("model", args.model or ""),
+                      0.0, f"provider free quota (list-price ${beat_est:.2f})")
+        else:
+            log_spend(node["id"], s["num"], args.provider, meta.get("model", args.model or ""), beat_est)
         dest = clips_dir / f"{s['num']:02d}-{s['slug']}.mp4"
         download(url, dest)
         dest.with_suffix(".meta.yaml").write_text(
