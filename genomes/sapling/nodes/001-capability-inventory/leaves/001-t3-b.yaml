@@ -1,0 +1,49 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 001-t3-b
+node: '001'
+tier: T3
+form: full-video-mp4
+content: 001-t3-b.mp4
+author: pipeline/render_t3.py (assembly; per-beat footage sources below)
+model: "per-beat \u2014 see sources"
+prompt: "per-beat \u2014 see sources"
+seed: "per-beat \u2014 see sources"
+cost_usd: 0.0
+status: live
+platform_urls: []
+sources:
+- beat: 1
+  slug: "COLD OPEN \u2014 0:00\u20130:12"
+  clip: 01-cold-open.mp4
+  audio: 01-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-06-12
+  cost_usd: 0.0
+- beat: 2
+  slug: "WAKE \u2014 0:12\u20130:28"
+  clip: 02-wake.mp4
+  audio: 02-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-06-12
+  cost_usd: 0.0
+- beat: 3
+  slug: "INCIDENT RESPONSE \u2014 0:28\u20130:40"
+  clip: 03-incident-response.mp4
+  audio: 03-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-06-12
+  cost_usd: 0.0
+- beat: 4
+  slug: "THE INVENTORY \u2014 0:40\u20131:05"
+  clip: 04-the-inventory.mp4
+  audio: 04-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-06-12
+  cost_usd: 0.0
+- beat: 5
+  slug: "REALIZATION / HOOK \u2014 1:05\u20131:25"
+  clip: 05-realization-hook.mp4
+  audio: 05-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-06-12
+  cost_usd: 0.0

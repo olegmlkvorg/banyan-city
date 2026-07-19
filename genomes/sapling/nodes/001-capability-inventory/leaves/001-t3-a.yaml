@@ -9,7 +9,7 @@ model: "per-beat \u2014 see sources"
 prompt: "per-beat \u2014 see sources"
 seed: "per-beat \u2014 see sources"
 cost_usd: 0.0
-status: live
+status: superseded   # by 001-t3-b (v2 anime, founder-released 2026-07-19); v1 photoreal archived per R6
 platform_urls: []
 sources:
 - beat: 1

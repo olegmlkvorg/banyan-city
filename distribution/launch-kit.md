@@ -144,3 +144,30 @@ the governance design is as welcome as feedback on the story.
   open: banyan.city/trials"
 - "The founding promise is one paragraph, and one clause is unamendable: the
   right to branch may never be cut."
+
+---
+
+## 4 · Episode drop copy (001 anime release, added 2026-07-19)
+
+The file to post everywhere: `banyan-001-anime-v2.mp4` (Desktop) — 72s,
+9:16, watermark-free, subtitled. Platforms: TikTok / YouTube Shorts /
+Instagram Reels / X. Posting is founder-only; paste-and-go drafts:
+
+**TikTok / Shorts / Reels caption:**
+An engineer dies debugging production at 3am and wakes up as a tree.
+Episode 1 of Sapling — an AI-animated series that BRANCHES: every episode
+has rival sequels, and viewers decide which one leads. Whole show + all
+its source is public. 🌳 banyan.city
+#anime #aianimation #isekai #webseries #interactivefiction
+
+**X post:**
+Episode 1 of Sapling is live — an engineer reincarnates as a tree, rendered
+in anime, voiced, subtitled, $0 in generation costs, every prompt and
+decision public in git.
+
+The story branches. You pick what survives. banyan.city
+
+**Pinned-comment / reply (all platforms):**
+Every episode's script, render prompts, costs, and even the editorial
+rulebook are public: github.com/olegmlkvorg/banyan-city — you can write a
+rival next episode yourself. Declaring the parent episode is the only rule.
