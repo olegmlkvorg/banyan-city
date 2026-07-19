@@ -200,7 +200,7 @@ def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
         subprocess.run(
             [FFMPEG, "-y", "-loop", "1", "-t", str(dur), "-i", str(png),
              "-vf", f"fps={FPS},format=yuv420p", "-r", str(FPS), "-an",
-             "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(out)],
+             "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-movflags", "+faststart", str(out)],
             check=True, capture_output=True)
         parts.append(out)
     return parts
@@ -253,7 +253,7 @@ def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path) -> 
     cmd = ([FFMPEG, "-y"] + inputs +
            ["-filter_complex", ";".join(chains), "-map", "[out]",
             "-t", str(dur), "-r", str(FPS), "-an",
-            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(out)])
+            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-movflags", "+faststart", str(out)])
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode:
         raise SystemExit(f"beat {num} ffmpeg failed:\n{r.stderr[-1500:]}")

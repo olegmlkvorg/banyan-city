@@ -339,7 +339,7 @@ def kenburns_clip(ff: str, img: Path, dur: float, idx: int, is_title: bool, outd
     vf += ",format=yuv420p"
     clip = outdir / f"clip-{idx:03d}.mp4"
     subprocess.run([ff, "-y", "-i", str(img), "-vf", vf, "-frames:v", str(frames),
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", str(clip)],
+                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-movflags", "+faststart", str(clip)],
                    check=True, capture_output=True)
     return clip
 
@@ -349,7 +349,7 @@ def assemble(ff: str, clips: list, out: Path) -> None:
         concat = Path(td) / "concat.txt"
         concat.write_text("\n".join(f"file '{c.resolve()}'" for c in clips))
         subprocess.run([ff, "-y", "-f", "concat", "-safe", "0", "-i", str(concat),
-                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "26",
+                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-movflags", "+faststart",
                         "-pix_fmt", "yuv420p", "-r", str(FPS), str(out)],
                        check=True, capture_output=True)
 
