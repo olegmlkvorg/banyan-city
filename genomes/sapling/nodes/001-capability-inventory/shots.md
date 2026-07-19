@@ -22,16 +22,16 @@ Status legend: ✅ generated · ⬜ needs footage
 
 ---
 
-## Beat 01 — COLD OPEN (0:00–0:12) ✅ Veo/Flow (trial shot A)
+## Beat 01 — COLD OPEN (0:00–0:12) ⬜ needs footage (v2 anime) — v1 photoreal clip archived (Veo/Flow trial shot A)
 
 ```
-Vertical 9:16 cinematic shot, night interior. A cramped dark apartment lit only by a computer monitor. A tired male engineer in his 30s sits at a desk, typing fast on a mechanical keyboard, face underlit by cold terminal glow, 3 a.m. exhaustion. He suddenly inhales sharply, sways sideways and collapses out of frame; a ceramic mug falls and shatters on the floor. Static camera, shallow depth of field, muted color grade, realistic photography, no text.
+Vertical 9:16 shot, night interior, hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal faces. A cramped dark apartment washed in flat deep indigo, lit only by the cold teal glow of a computer monitor. A tired male engineer in his 30s — simple slumped silhouette, a few clean lines for an exhausted face — sits at a desk, typing fast on a mechanical keyboard, face underlit by flat monitor glow, 3 a.m. exhaustion. He suddenly inhales sharply, sways sideways and collapses out of frame; a ceramic mug falls and shatters on the floor. Static camera. No photorealism, no 3D render look, no heavy texture. No text.
 ```
 
-## Beat 02 — WAKE (0:12–0:28) ✅ Veo/Flow (trial shot B)
+## Beat 02 — WAKE (0:12–0:28) ⬜ needs footage (v2 anime) — v1 photoreal clip archived (Veo/Flow trial shot B)
 
 ```
-Vertical 9:16 macro shot from ground level, two centimeters above the soil, looking up through a single small trembling green leaf of a tiny sapling. Beyond the leaf, an impossibly saturated too-blue sky with drifting clouds. The leaf twitches nervously, shaking the whole frame slightly, as wind moves grass around it. Enormous empty green field, morning light, dreamlike but photoreal, slight fisheye distortion, no text.
+Vertical 9:16 shot from ground level, two centimeters above the soil, hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette. Looking up through a single small trembling oversized green leaf of a tiny mascot-simple sapling — thin curved trunk, one or two oversized expressive leaves, no face, no eyes; all its acting is leaf angle and timing. Beyond the leaf, an impossibly saturated too-blue flat watercolor-wash sky with a few drifting simplified clouds. The leaf twitches nervously, shaking the whole frame slightly, as wind moves flat-color grass around it. Enormous empty green field with large empty areas, warm morning light in peach and gold washes with long soft shadows, slight fisheye distortion. No photorealism, no 3D render look, no heavy texture. No text.
 ```
 
 ## Beat 03 — INCIDENT RESPONSE (0:28–0:40) ⬜ needs footage
@@ -41,13 +41,13 @@ The tone flips from flailing to methodical. Post will type a `$ whoami` terminal
 line over this; the footage just needs to be *calm and still* to contrast beat 02.
 
 ```
-Vertical 9:16 shot, static and quiet, of a single tiny sapling standing alone in a vast empty field at dawn, seen from low and close. After the trembling of before, it is now completely still — no wind, held breath, the light soft and even. One small leaf, motionless. Wide empty horizon behind. A held, meditative, almost surgical calm. Muted naturalistic color, shallow depth of field, photoreal, slow imperceptible push-in, no text.
+Vertical 9:16 shot, static and quiet, hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette. A single tiny mascot-simple sapling — thin curved trunk, one or two oversized expressive leaves, no face, no eyes; expression is pose alone — standing alone in a vast empty field at dawn, seen from low and close. Dawn palette: warm peach and gold washes, long soft shadows. After the trembling of before, it is now completely still — no wind, held breath, the light soft and even. One small leaf, motionless. Wide empty watercolor horizon behind, mostly empty space. A held, meditative, almost surgical calm. Slow imperceptible push-in. No photorealism, no 3D render look, no heavy texture. No text.
 ```
 
-## Beat 04 — THE INVENTORY (0:40–1:05) ✅ Veo/Flow (trial shot C)
+## Beat 04 — THE INVENTORY (0:40–1:05) ⬜ needs footage (v2 anime) — v1 photoreal clip archived (Veo/Flow trial shot C)
 
 ```
-Vertical 9:16 stylized shot: an underground cross-section view beneath a tiny sapling. Dark soil rendered as a deep translucent map: glowing root filaments spreading downward, veins of dark water shimmering, mineral particles glittering. In the far distance through the soil, rhythmic concentric rings of soft light pulse like sonar with each distant footstep, growing brighter. Bioluminescent color palette on near-black, slow camera push-in, no text.
+Vertical 9:16 shot, hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette. An underground cross-section view beneath a tiny mascot-simple sapling (thin curved trunk, one or two oversized leaves). Dark soil as a near-black flat wash rendered as a deep translucent map: glowing root filaments spreading downward as clean bioluminescent teal and green neon lines, veins of dark water as simple shimmering flat shapes, mineral particles as sparse glittering dots. In the far distance through the soil, rhythmic concentric rings of soft light pulse like sonar with each distant footstep, growing brighter — clean flat rings, no texture. Bioluminescent teal and green on near-black, slow camera push-in. No photorealism, no 3D render look, no heavy texture. No text.
 ```
 
 ## Beat 05 — REALIZATION / HOOK (1:05–1:25) ⬜ needs footage
@@ -58,17 +58,19 @@ the episode's emotional close and its cliffhanger. Footage needs scale (tiny
 subject, huge world) and a sense of approach.
 
 ```
-Vertical 9:16 wide cinematic shot: one tiny fragile sapling alone at the center of an enormous empty field under a vast sky, dwarfed by the landscape, late golden-hour light. Slow steady push-in toward the sapling. On the far horizon, over a low hill, faint dust rises and the grass bends in a line — something is approaching, unseen, from far away. Lonely, epic, quietly ominous, photoreal, cinematic depth, no text.
+Vertical 9:16 wide shot, hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette. One tiny fragile mascot-simple sapling — thin curved trunk, one or two oversized expressive leaves, no face; expression is pose alone — alone at the center of an enormous empty field under a vast watercolor-wash sky, dwarfed by the landscape. Dusk hook palette: amber into indigo, silhouettes reading before any detail. Slow steady push-in toward the sapling. On the far horizon, over a low hill, faint dust rises and the grass bends in a line — something is approaching, unseen, from far away. Lonely, epic, quietly ominous, mostly empty frame. No photorealism, no 3D render look, no heavy texture. No text.
 ```
 
 ---
 
 ## Progress
 
-3 of 5 beats generated (Veo/Google Flow, trial run). Beats 03 and 05 remain —
-generating them on the same platform completes the first full episode of the
-trunk root node. Until then the assembled preview
-(`~/Desktop/banyan-001-veo-preview.mp4`) carries slates for 03 and 05.
+0 of 5 beats exist in the v2 anime style — all five prompts above are
+rewritten and ready to generate. The assembled v1 episode (Veo/Google Flow
+photoreal trial clips for beats 01/02/04, slates for 03 and 05) and its
+provenance remain archived evidence, not canon style — see `../../style.md`,
+"Status of v1 footage". Generating all five beats in v2 completes the first
+full episode of the trunk root node in the canonical style.
 
 Provenance for any generated beat goes in a sibling `NN-slug.meta.yaml`
 (platform, model, prompt, cost) so `render_t3.py` records per-beat sources in

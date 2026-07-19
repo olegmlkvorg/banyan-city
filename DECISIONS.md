@@ -118,6 +118,14 @@ action (STEWARDSHIP §4).
 the free-tier watermark problem dissolves at API tier — criterion 2 becomes
 "pay ~$1/clip" rather than a visual compromise.
 
+**Style pivot (2026-07-19, founder):** the tree's look is now **low-detail
+anime** (`genomes/sapling/style.md`), which changes this decision's terrain:
+the existing Veo trial scores were earned on photoreal prompts, and flat
+cel-shaded output is exactly where budget models (Wan, Hailuo, Kling) close
+the quality gap on premium ones. The bake-off should run the **rewritten
+anime prompts** before D8 resolves — the cheapest adequate model may have
+changed.
+
 ## D9 — When is a node's T3 video leaf publishable?
 
 **Question:** what must be true before an assembled T3 episode becomes a node's

@@ -82,3 +82,13 @@ extends the civic line by the tree's oldest pattern — expenditure as answer
 so whichever 006 sibling the founder picks, its 007 comes with it and the
 other pair stays alive as branches (R6). No new taste tension found; the
 R3-strong/R3-weak asymmetry of the parents carries through unchanged.
+
+## 2026-07-19 — Founder style call → **v2: low-detail anime** (`style.md`)
+
+The founder set the tree's visual style directly (R4 — taste belongs to the
+author): not photoreal — hand-drawn low-detail anime. Recorded in
+`style.md` (the visual bible: style block, character model sheet, palette
+anchors); all generation prompts rewritten against it. Shot content, camera
+direction, and continuity facts unchanged — only the rendering style moved.
+v1 photoreal trial clips stay archived as evidence (R6: nothing is deleted);
+the D8 bake-off should be re-judged in the new style before resolution.

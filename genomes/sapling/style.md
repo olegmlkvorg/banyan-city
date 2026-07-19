@@ -1,0 +1,75 @@
+# Sapling — visual style bible (v2: low-detail anime)
+
+**Decided by the founder, 2026-07-19** (direct instruction to the steward:
+"not a realistic theme — a low detail anime theme"). This supersedes the v1
+photoreal-fantasy look used in the first trial clips and shot lists. Style is
+a taste axis (R4): this file is the founder's call, executed by the steward;
+amending it is a founder edit like any taste change.
+
+## The look, in one block
+
+Every generation prompt carries this style block verbatim (then scene
+specifics on top):
+
+```
+Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
+linework, minimal shading (single shadow tone), simplified shapes, soft
+watercolor-wash backgrounds with large empty areas, gentle pastel-leaning
+palette, expressive minimal faces. No photorealism, no 3D render look, no
+heavy texture. 9:16 vertical, no text.
+```
+
+## Why low detail (beyond taste)
+
+- **Consistency is cheaper.** Simple character shapes survive across shots
+  and across model providers far better than photoreal faces do — the
+  continuity clauses actually hold.
+- **Budget models close the gap.** Flat-color anime is where Wan/Hailuo-class
+  pricing competes with Veo-class output; the D8 bake-off should be re-judged
+  in this style (noted in DECISIONS.md).
+- **The overlay belongs.** The system's wireframe/debug layer reads as
+  *native* against flat cel shading — UI lines over UI-adjacent art — instead
+  of clashing with photographic footage.
+
+## Character model sheet (anime terms — paste what a shot needs)
+
+- **The sapling:** a tiny, almost mascot-simple tree — thin curved trunk, one
+  or two oversized expressive leaves; its acting is entirely leaf angle and
+  timing. Never a face, never eyes; expression is *pose*.
+- **The scavenger (goblin):** small and round, enormous ears that act like a
+  second face, one broken tusk, huge expressive eyes, patchwork cloak in
+  faded greens and browns. Cartoonishly bad at hiding.
+- **The farmer:** broad, squarish silhouette; straw hat; three lines can draw
+  his whole face; permanently unimpressed posture; clay jug.
+- **The assessor:** a thin vertical line of a man; dust-grey robes, chained
+  ledger, quill stub; moves like a metronome, drawn with ruler-straight edges.
+- **The magistrate:** sharp angular silhouette in dark robes of office; a
+  seal on a chain; a face drawn for one raised eyebrow.
+- **Patrol guards:** mismatched armor, one bark clipboard; round, harmless
+  shapes.
+
+## Palette anchors (per time of day)
+
+- **Dawn/morning:** warm peach and gold washes, long soft shadows.
+- **Midday:** high flat greens, pale blue-white sky, minimal shadow.
+- **Dusk/hook scenes:** amber into indigo; silhouettes read before faces.
+- **Night/full moon:** deep indigo with silver rim light, flat and quiet.
+- **Underground/sensing:** near-black with bioluminescent teal and green —
+  glowing root filaments as clean neon lines.
+- **The overlay window:** the world reduces to neon-green vector wireframe on
+  near-black — grass as lattice, objects as labeled low-poly outlines. (This
+  is the one place "low detail" becomes literal geometry.)
+
+## What stays true from v1
+
+Shot content, camera direction, beat timing, the no-burned-in-text rule, and
+all continuity facts (props, staging, arrival choreography) are unchanged —
+only the rendering style moved. Post still adds captions, overlays, and VO.
+
+## Status of v1 footage
+
+The node-001 trial clips (Veo/Flow, photoreal, beats 1/2/4) remain archived
+with full provenance at `/trials/` and in the 001 T3 leaf — they are v1
+evidence, not canon style. Remaking them in v2 anime is a founder render
+session (free tier) or a D8-funded run; the rewritten prompts sit ready in
+`nodes/001-capability-inventory/shots.md`.
