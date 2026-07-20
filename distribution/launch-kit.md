@@ -15,7 +15,7 @@ door into the tree.
 ## 1 · Show HN
 
 **Title:**
-Show HN: A branching anime series grown in a git repo – season 1 rendered for $0
+Show HN: A branching AI anime series grown in a git repo – season 1 for $0
 
 **Body (post as your first comment on the submission):**
 
