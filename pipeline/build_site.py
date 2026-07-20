@@ -399,7 +399,7 @@ Watch, react — the sap decides what runs hot.</p>
     body = f"""<div class="hero">
 <div class="seal">🌳</div>
 <h1>Banyan City</h1>
-<p>An anime series that <strong>branches</strong> — viewers pick which sequel survives —
+<p>An AI-animated series that <strong>branches</strong> — viewers pick which sequel survives —
 and <strong>regrows</strong>: every episode below is a first rough $0 render, and anyone
 can re-render any of them better. The whole pipeline, every decision, and every
 dollar are public in git.</p>

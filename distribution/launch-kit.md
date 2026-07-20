@@ -15,11 +15,11 @@ door into the tree.
 ## 1 · Show HN
 
 **Title:**
-Show HN: A branching AI anime series grown in a git repo – season 1 for $0
+Show HN: A branching AI-animated series grown in a git repo – season 1 for $0
 
 **Body (post as your first comment on the submission):**
 
-Banyan City is a story "tree": an AI anime micro-drama whose episodes branch
+Banyan City is a story "tree": an AI-animated micro-drama whose episodes branch
 — rival sequels coexist, and viewers' reactions + one human's published
 taste rules decide which line leads. The entire production is a public git
 repo: scripts, render prompts, voice casting, governance, and a spend
@@ -57,7 +57,7 @@ good. Happy to answer anything about the governance or the pipeline.
 ## 2 · X / Twitter thread
 
 **1/**
-Yesterday this was a text project. Today it's a five-episode anime season —
+Yesterday this was a text project. Today it's a five-episode animated season —
 rendered, voiced, subtitled — for $0 billed, with the entire production
 trail public in a git repo.
 
@@ -125,7 +125,7 @@ The structure is the experiment. Instead of one linear plot:
   file, not a quiet edit.
 - The current tip is a live fork: one cliffhanger, two competing payoffs
   (a civic-comedy one and a mythology one). Reactions decide which leads.
-- Season 1 (five voiced anime episodes) rendered for $0 billed on provider
+- Season 1 (five voiced, animated episodes) rendered for $0 billed on provider
   free quotas + local open models — the public ledger records every
   generation. Episodes are "leaves": anyone can re-render one better on free
   GPUs (notebook included) and submit it. The renders are rough and labeled
