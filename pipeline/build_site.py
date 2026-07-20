@@ -365,6 +365,10 @@ def render_index(genomes: list) -> str:
                          f'Same debt, competing payments — read both, react; the tree decides on material, not votes.</p>')
         sections.append(f"""<h2>🌱 {html.escape(t['title'])} — Season 1, all episodes <span class="chip">{n_nodes} nodes</span> <span class="chip">{n_leaves} leaves</span></h2>
 {season_strip(g)}
+<p class="notice">🌿 <strong>These are first renders — rough on purpose.</strong> An episode here is a
+<em>leaf</em>: one $0 rendering of a script, never the last word. Rendered a better one on your own
+GPU or key? Submit it — screening and the taste file decide which leaf leads, and the tree keeps
+every version. <a href="{REPO_URL}/blob/main/WATERING.md">How to water with compute →</a></p>
 {fork_html}
 <p class="notice">An engineer dies debugging production at 3 a.m. and reincarnates as a banyan sapling.
 He can't move, fight, or flee — only sense, grow, and make the space around him worth staying in.
@@ -375,9 +379,10 @@ Watch, react — the sap decides what runs hot.</p>
     body = f"""<div class="hero">
 <div class="seal">🌳</div>
 <h1>Banyan City</h1>
-<p>An anime series that <strong>branches</strong> — viewers pick which sequel survives.
-Written, rendered, and voiced by an open AI pipeline for $0,
-every decision and dollar auditable in git.</p>
+<p>An anime series that <strong>branches</strong> — viewers pick which sequel survives —
+and <strong>regrows</strong>: every episode below is a first rough $0 render, and anyone
+can re-render any of them better. The whole pipeline, every decision, and every
+dollar are public in git.</p>
 {hero_video}
 <a class="btn" href="sapling/001-capability-inventory.html">▶ Start at episode 1</a>
 <a class="btn ghost" href="city.html">Read the Promise</a>
