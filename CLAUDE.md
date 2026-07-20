@@ -60,8 +60,15 @@ T3 v2 fitting: slots fit material, footage loops (never freezes), dialogue
 never trimmed. Parser hardened twice (speaker-colon rule; headings require
 timing ranges). Voice upgrade (emotional TTS — CosyVoice on same quota)
 parked: founder said voice doesn't matter for now; dad wants human touch
-eventually. NEXT: founder posts (kit §4), 006 trunk call, fork episodes'
-T3, watering rail (D5).
+eventually. NIGHT 07-20→21: TikTok live (@banyan.city, ep 1 posted; link in
+distribution memory). Reddit age-gated ~days; HN parked. Fork FILMED both
+sides (founder-authorized 80s; 40s spent, ~90s quota left): benches on
+founder Desktop — 006a THE MIRACLE CLAUSE (127s) vs 006b RECONCILIATION
+(108s). All four fork shots.md written+verified. taste/proposals/v0.3-draft
+(R7 mystery-as-relationship-debt) awaits founder verdict. NEXT (founder):
+006 trunk call (watch both benches!), taste v0.3 verdict, ep-2 drop 09:00,
+watering keys. NOTE: wan2.2/2.1 are 5s-fixed (duration customization
+unsupported — failed asks unbilled); wan2.5/2.6/2.7 do 2-15s.
 Do NOT suggest multi-account quota cycling — declined on ToS + provenance
 grounds, founder accepted.
 
