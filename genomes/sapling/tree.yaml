@@ -26,3 +26,9 @@ watering_split:                # Guideline 2 — resolved per D5 (2026-07-11): c
   author_pct: 70               # ...then the remainder splits author/commons
   commons_pct: 30
   # requires founder confirmation before first real funds land (STEWARDSHIP.md #4)
+
+watering_rail:                 # the two founder-only keys (STEWARDSHIP.md #4) — fill both, push, rail opens
+  payment_link: null           # e.g. https://ko-fi.com/<founder> — created and owned by the founder
+  confirmed_by_founder: false  # founder re-confirms the D5 split the moment real money can arrive
+  # while payment_link is null the site shows watering as "opening soon" and
+  # offers compute-watering (always live: WATERING.md, pipeline/kaggle/)

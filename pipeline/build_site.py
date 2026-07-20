@@ -256,6 +256,25 @@ def render_node_page(g: dict, n: dict) -> str:
 the taste file decides. Ratings are harvested into this node's <code>sap/screening.yaml</code>.
 Higher-tier leaves (animatic, video) arrive with a published per-render budget.</p>"""
 
+    rail = (g["config"].get("watering_rail") or {})
+    link, confirmed = rail.get("payment_link"), rail.get("confirmed_by_founder")
+    if link and confirmed:
+        water_html = f"""<h2>Water this branch</h2>
+<p><a class="btn" href="{html.escape(str(link))}">💧 Fund a render of {html.escape(n['id'])}</a></p>
+<p class="notice">Watering funds <strong>specific renders</strong>, split
+<code>costs-first-70-30-v1</code> (the render's published cost is reimbursed first; the remainder
+splits 70% author / 30% commons). Mention <code>{html.escape(n['id'])}</code> with your
+contribution — every drop lands in the <a href="{REPO_URL}/blob/main/ledger/watering.csv">public
+ledger</a>. Or water with <strong>compute</strong>: re-render a leaf with your own key and submit it
+(<a href="{REPO_URL}/blob/main/WATERING.md">how →</a>).</p>"""
+    else:
+        water_html = f"""<h2>Water this branch</h2>
+<p class="notice">💧 Money watering opens soon (one founder key-turn away). Watering with
+<strong>compute</strong> is open now: re-render any leaf of this node with your own key or free GPU
+(<a href="{REPO_URL}/blob/main/pipeline/kaggle/wan-t2v-kaggle.ipynb">the Kaggle notebook</a> runs at
+$0) and submit it — provenance in, ledger row yours.
+<a href="{REPO_URL}/blob/main/WATERING.md">How watering works →</a></p>"""
+
     react_html = ""
     if n.get("reactions"):
         vitals = ""
@@ -288,6 +307,7 @@ No account? Just tell someone about it — word of mouth is sap too.</p>"""
 {parent_link}{kids}
 {leaves_html}
 {react_html}
+{water_html}
 <h2>Branch this node</h2>
 <p class="notice">Anyone may continue this moment differently. Declare <code>{html.escape(n['id'])}</code> as your parent —
 that's the only obligation. <a href="{REPO_URL}#how-to-branch-a-story">How to branch →</a></p>"""

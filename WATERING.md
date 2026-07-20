@@ -47,3 +47,16 @@ date,node,leaf,citizen,type,amount_usd,compute_desc,split_applied,notes
 - Not a vote: watering orders sibling branches and keeps them awake; the taste
   file still decides the trunk (Guideline 3)
 - Not a subscription to the platform: water flows to the *branch*
+
+## Opening the rail — founder runbook (10 minutes, one time)
+
+1. Create the payment link you own (Ko-fi/Stripe/GitHub Sponsors — your pick,
+   your account).
+2. In `genomes/sapling/tree.yaml` → `watering_rail:` set `payment_link:` to
+   that URL and `confirmed_by_founder: true` (this IS the D5 re-confirmation).
+3. Push. The site's per-node "Water this branch" buttons go live on deploy.
+
+Incoming contributions are mapped by hand into `ledger/watering.csv` (one row
+per drop, split `costs-first-70-30-v1`) — steward drafts rows, founder
+verifies against the payment account. Until then, compute-watering is already
+open to everyone.
