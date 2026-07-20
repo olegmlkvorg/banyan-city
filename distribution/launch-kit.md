@@ -61,7 +61,7 @@ Yesterday this was a text project. Today it's a five-episode animated season —
 rendered, voiced, subtitled — for $0 billed, with the entire production
 trail public in a git repo.
 
-Banyan City: an anime series that branches. banyan.city 🌳
+Banyan City: an AI-animated series that branches. banyan.city 🌳
 (attach: 20-30s clip from ep 1)
 
 **2/**
