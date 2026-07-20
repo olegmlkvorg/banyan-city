@@ -15,83 +15,85 @@ door into the tree.
 ## 1 · Show HN
 
 **Title:**
-Show HN: Banyan City – a branching AI story tree where the git repo is the product
+Show HN: A branching anime series grown in a git repo – season 1 rendered for $0
 
-**Body:**
+**Body (post as your first comment on the submission):**
 
-I'm growing an AI-rendered micro-drama series that branches like a tree
-instead of running linear — and the entire product is a public git repo:
-scripts, renders, governance, spending, and every editorial decision.
+Banyan City is a story "tree": an AI anime micro-drama whose episodes branch
+— rival sequels coexist, and viewers' reactions + one human's published
+taste rules decide which line leads. The entire production is a public git
+repo: scripts, render prompts, voice casting, governance, and a spend
+ledger.
 
-How it works:
+The part HN might find interesting:
 
-- The story is a lineage graph. Any node can be continued by anyone; the only
-  rule is you declare your parent node. Forking the whole project under a new
-  name is explicitly encouraged.
-- My taste is extracted into a versioned rules file (R1–R6). A model (Claude)
-  acts as delegated steward: it writes candidate episodes and must cite which
-  taste rules drove every decision, in commits. When it can't choose between
-  two continuations, it renders both as siblings — the current tip is exactly
-  that: one hook, two competing payments, and readers' reactions + my call
-  decide which leads.
-- Renders climb a cost ladder: script → storyboard → animatic are all $0 and
-  deterministic; full AI video (Veo etc.) is gated behind budget caps and a
-  public spend ledger in the repo.
+- Season 1 (five voiced, subtitled episodes) rendered yesterday for $0
+  billed: open Wan weights via a provider's free API quota, local Apache-2.0
+  TTS (kokoro-82M) for the full cast, ffmpeg assembly. The public ledger
+  records every generation at $0 with list prices noted (~$21 of video).
+- Episodes are "leaves" — one render of a canonical script, never the final
+  one. Anyone can re-render any episode better (there's a Kaggle notebook
+  that does it on free GPUs) and submit it; screening + the taste file pick
+  the leading leaf. Quality is designed to be crowdsourced; story and taste
+  stay curated.
+- Authorship as an auditable system: my taste is extracted into a versioned
+  rules file; a model writes candidate episodes as delegated steward and
+  must cite rule IDs in every commit. When it can't choose between two
+  continuations it ships both as siblings — the tree's tip right now is a
+  live fork.
 - Reactions are GitHub issue emoji, harvested nightly into versioned YAML.
-  Curation, screening votes, and money splits are all in the open.
+  Forking the whole project under a new name is explicitly encouraged; the
+  one unamendable rule is that the right to branch can never be revoked.
 
 Live tree: https://banyan.city
 Repo: https://github.com/olegmlkvorg/banyan-city
 
-The interesting experiment for me isn't "AI writes a story" — it's whether
-authorship can be an auditable system: extracted taste, cited rules, public
-ledger, and a right-to-branch that can never be revoked. Happy to answer
-anything about the governance or the render pipeline.
+The renders are rough — first leaves, honestly labeled as such on the site.
+The experiment is whether an open pipeline + right-to-branch can grow them
+good. Happy to answer anything about the governance or the pipeline.
 
 ---
 
 ## 2 · X / Twitter thread
 
 **1/**
-I'm growing a TV series inside a git repo.
+Yesterday this was a text project. Today it's a five-episode anime season —
+rendered, voiced, subtitled — for $0 billed, with the entire production
+trail public in a git repo.
 
-Banyan City: an AI-rendered vertical micro-drama that *branches* like a tree
-instead of running linear. Every script, render, decision, and dollar is
-public.
-
-banyan.city 🌳
+Banyan City: an anime series that branches. banyan.city 🌳
+(attach: 20-30s clip from ep 1)
 
 **2/**
 The story: an engineer dies debugging prod at 3am and reincarnates as a
 banyan sapling. Can't move, can't fight. Can only sense, grow, and make the
 space around him worth staying in.
 
-By episode 6 he has a town, a tax problem, and a legal category.
+By episode 5 he has a town, a tax problem, and a legal category.
 
 **3/**
-The twist is structural: when a plot point has two honest continuations, we
-don't pick one in a writers' room. Both get rendered as sibling branches.
-Right now the tree's tip is a fork: the same cliffhanger paid off two
-different ways. Readers react; taste decides; neither is deleted. Ever.
+The structure is the experiment: when a plot point has two honest
+continuations, both get rendered as sibling branches. The tip is a live fork
+RIGHT NOW — same cliffhanger, two rival payoffs. Viewers react; taste
+decides; neither is ever deleted.
 
 **4/**
-The authorship experiment: my taste is extracted into a versioned rules file.
-An AI steward writes under it and must cite rule IDs in every commit — like a
-legal system for narrative. When I wince at its call, I don't override the
-commit. I amend the rules file, publicly.
+Every episode is a "leaf" — one render of the script, never the last word.
+The renders are rough, on purpose and honestly labeled. Anyone can re-render
+any episode better on free GPUs (the notebook is in the repo) and submit it.
+Quality is crowdsourced; the story is curated.
 
 **5/**
-Renders climb a cost ladder: script → storyboard → animatic, all $0,
-reproducible by anyone. Full AI video is budget-capped with a public spend
-ledger. No platform, no paywall, no company. Anyone can branch any episode —
-or fork the whole city.
+The authorship experiment: my taste lives in a versioned rules file. An AI
+steward writes under it and cites rule IDs in every commit. When I wince, I
+don't override the commit — I amend the rules, publicly. A legal system for
+narrative.
 
 **6/**
-Start at episode 1, or jump to the live fork and pick a side:
-banyan.city
+Season 1 is free, unwalled, and forkable — the one unamendable rule is that
+the right to branch can never be cut.
 
-React with an emoji — that's literally the feedback mechanism. The tree
-grows where the sap flows. 💧
+Start here: banyan.city 💧
 
 ---
 
@@ -123,9 +125,11 @@ The structure is the experiment. Instead of one linear plot:
   file, not a quiet edit.
 - The current tip is a live fork: one cliffhanger, two competing payoffs
   (a civic-comedy one and a mythology one). Reactions decide which leads.
-- Everything is $0 and reproducible until it isn't: script → storyboard →
-  animatic are free tiers; paid AI video is budget-capped with a public
-  spend ledger in the repo.
+- Season 1 (five voiced anime episodes) rendered for $0 billed on provider
+  free quotas + local open models — the public ledger records every
+  generation. Episodes are "leaves": anyone can re-render one better on free
+  GPUs (notebook included) and submit it. The renders are rough and labeled
+  as such; regrowing them is the point.
 
 Site (no git needed): https://banyan.city
 Repo: https://github.com/olegmlkvorg/banyan-city
