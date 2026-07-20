@@ -87,6 +87,14 @@ footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line
   color: var(--muted); font-size: 0.85rem; text-align: center; }
 .notice { background: var(--panel); border: 1px dashed var(--leaf-dim); border-radius: 12px;
   padding: 0.9rem 1.1rem; font-size: 0.92rem; color: var(--muted); }
+.hero video { width: 100%; max-width: 300px; border-radius: 16px;
+  border: 1px solid var(--line); margin: 1rem auto 0.4rem; display: block; }
+.season { display: flex; gap: 0.8rem; overflow-x: auto; padding: 0.6rem 0 1rem; }
+.season figure { margin: 0; flex: 0 0 172px; }
+.season video { width: 172px; border-radius: 12px; border: 1px solid var(--line); display: block; }
+.season figcaption { font: 600 0.75rem/1.35 ui-monospace, Menlo, monospace;
+  color: var(--muted); margin-top: 0.4rem; }
+.season figcaption a { color: var(--leaf); }
 """
 
 
@@ -300,8 +308,44 @@ def live_fork(g: dict):
     return None
 
 
+def trunk_chain(g: dict) -> list:
+    chain, cur = [], next((r for r in g["roots"] if r.get("trunk")), None)
+    while cur:
+        chain.append(cur)
+        cur = next((c for c in cur["children"] if c.get("trunk")), None)
+    return chain
+
+
+def best_t3(n: dict) -> dict | None:
+    vids = [l for l in n["leaf_meta"] if str(l.get("tier")) == "T3"
+            and str(l.get("content", "")).endswith(".mp4") and l.get("status") == "live"]
+    return vids[-1] if vids else None
+
+
+def season_strip(g: dict) -> str:
+    figs = []
+    for i, n in enumerate(trunk_chain(g), 1):
+        leaf = best_t3(n)
+        if not leaf:
+            continue
+        gid = g["tree"]["id"]
+        figs.append(
+            f'<figure><video controls playsinline preload="metadata" '
+            f'src="{gid}/leaves/{html.escape(str(leaf["content"]))}"></video>'
+            f'<figcaption>ep {i} · <a href="{gid}/{html.escape(n["slug"])}.html">'
+            f'{html.escape(n["title"])}</a></figcaption></figure>')
+    return f'<div class="season">{"".join(figs)}</div>' if figs else ""
+
+
 def render_index(genomes: list) -> str:
     sections = []
+    hero_video = ""
+    for g in genomes:
+        chain = trunk_chain(g)
+        lead = best_t3(chain[0]) if chain else None
+        if lead and not hero_video:
+            hero_video = (f'<video controls playsinline preload="metadata" '
+                          f'src="{g["tree"]["id"]}/leaves/{html.escape(str(lead["content"]))}"></video>')
     for g in genomes:
         t = g["tree"]
         tree_html = "<ul class='tree'>" + "".join(node_card(t["id"], r, 0) for r in g["roots"]) + "</ul>"
@@ -319,21 +363,23 @@ def render_index(genomes: list) -> str:
                          f'{html.escape(tip["id"])} — {html.escape(tip["title"])}</a> ends on one cliffhanger, '
                          f'paid off {len(kids)} different ways: {vs}. '
                          f'Same debt, competing payments — read both, react; the tree decides on material, not votes.</p>')
-        sections.append(f"""<h2>🌱 {html.escape(t['title'])} <span class="chip">{n_nodes} nodes</span> <span class="chip">{n_leaves} leaves</span></h2>
+        sections.append(f"""<h2>🌱 {html.escape(t['title'])} — Season 1, all episodes <span class="chip">{n_nodes} nodes</span> <span class="chip">{n_leaves} leaves</span></h2>
+{season_strip(g)}
 {fork_html}
 <p class="notice">An engineer dies debugging production at 3 a.m. and reincarnates as a banyan sapling.
 He can't move, fight, or flee — only sense, grow, and make the space around him worth staying in.
-After node 001 the story <em>branches</em>: three continuations of the same moment, all alive, none rejected.
-Read them; react; the sap decides what runs hot.</p>
+The story <em>branches</em>: rival continuations coexist as siblings, all alive, none rejected.
+Watch, react — the sap decides what runs hot.</p>
 {tree_html}""")
 
     body = f"""<div class="hero">
 <div class="seal">🌳</div>
 <h1>Banyan City</h1>
-<p>Story trees that branch instead of running linear — AI-rendered micro-drama,
-curated by one human's extracted taste, screened and funded by the citizens watching,
-every decision auditable in git.</p>
-<a class="btn" href="sapling/001-capability-inventory.html">▶ Watch node 001</a>
+<p>An anime series that <strong>branches</strong> — viewers pick which sequel survives.
+Written, rendered, and voiced by an open AI pipeline for $0,
+every decision and dollar auditable in git.</p>
+{hero_video}
+<a class="btn" href="sapling/001-capability-inventory.html">▶ Start at episode 1</a>
 <a class="btn ghost" href="city.html">Read the Promise</a>
 </div>
 {''.join(sections)}
