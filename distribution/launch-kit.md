@@ -6,9 +6,12 @@ pipeline or the steward, ever. Edit freely — these are candidates, not canon;
 your voice wins. Every draft discloses AI authorship, matching the repo's
 provenance rule (§7.2).
 
-Suggested order: HN first (the repo-is-the-product angle is strongest there),
-then X, then one Reddit community at a time — each post links a different
-door into the tree.
+Suggested order: X + Reddit now; HN LATER — as of 2026-07-20 HN is
+temporarily blocking Show HNs from new accounts (news.ycombinator.com/showlim).
+Plan: the founder participates on HN normally for a few weeks (real comments,
+no self-promo games — do NOT dodge the gate by dropping the 'Show HN' prefix),
+then posts §1 with a living tree behind it. Each post links a different door
+into the tree.
 
 ---
 
