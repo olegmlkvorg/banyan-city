@@ -33,6 +33,11 @@ jobs:
           # (this killed every nightly run 2026-07-15 → 07-19)
           shopt -s nullglob
           files=(genomes/*/nodes/*/sap/summary.yaml genomes/*/nodes/*/sap/screening.yaml)
+          # reach.csv is a literal path (nullglob only saves globs) — guard it,
+          # since the traffic fetch skips itself when the token lacks push scope
+          if [ -f ledger/reach.csv ]; then
+            files+=(ledger/reach.csv)
+          fi
           if [ "${#files[@]}" -gt 0 ]; then
             git add -- "${files[@]}"
           fi

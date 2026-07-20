@@ -10,12 +10,17 @@ Checks every genome under genomes/ for:
   - leaf provenance: every leaf listed in lineage exists and publishes
     tier, cost, model/prompt/seed keys, and status (PRD §7.2 — every
     render publishes its metadata; transparency integrity metric §12)
+  - shots.md shot lists: every fenced prompt carries the format contract
+    ('9:16', 'no text') and the style-bible clause ('No photorealism' —
+    genomes/sapling/style.md); beat headings' time ranges appear verbatim
+    in the node.md script (canon-drift guard); beat numbers run 01, 02, …
   - ledger header shape
 
 Exit 0 = healthy tree. Exit 1 = list of violations.
 """
 
 import csv
+import re
 import sys
 from pathlib import Path
 
@@ -23,6 +28,8 @@ import yaml
 
 REPO = Path(__file__).resolve().parent.parent
 VALID_STATUS = {"hot", "hardened", "dormant"}
+# '## Beat NN — TITLE (M:SS–M:SS)'; trailing status markers allowed
+BEAT_HEADING = re.compile(r"^## Beat (\d{2}) — .+?\((\d+:\d{2}[–-]\d+:\d{2})\)")
 LEAF_REQUIRED_KEYS = {"leaf", "node", "tier", "form", "cost_usd", "status", "model", "prompt", "seed"}
 VALID_TIERS = {"T0", "T1", "T2", "T3"}
 LEDGER_HEADER = ["date", "node", "leaf", "citizen", "type", "amount_usd", "compute_desc", "split_applied", "notes"]
@@ -107,6 +114,54 @@ def lint_genome(genome_dir: Path) -> None:
             for f in leaves_dir.glob("*.yaml"):
                 if f.stem not in declared:
                     err(f"{where}: leaves/{f.name} exists but is not listed in lineage.yaml")
+
+    for shots_file in sorted((genome_dir / "nodes").glob("*/shots.md")):
+        lint_shots(name, shots_file)
+
+
+def lint_shots(genome_name: str, shots_file: Path) -> None:
+    where = f"{genome_name}/{shots_file.parent.name}/shots.md"
+    node_md = shots_file.parent / "node.md"
+    script = node_md.read_text() if node_md.exists() else None
+    if script is None:
+        err(f"{where}: node.md missing — beat times cannot be checked against the script")
+
+    beat_nums = []
+    beat_label = None  # heading context for prompt errors; None above the first beat
+    block = None  # accumulates lines while inside a fence
+    for line in shots_file.read_text().splitlines():
+        if line.startswith("```"):
+            if block is None:
+                block = []
+                continue
+            # closing fence — blocks above the first beat heading aren't prompts
+            if beat_label is not None:
+                prompt = "\n".join(block).lower()
+                for phrase in ("9:16", "no text"):
+                    if phrase not in prompt:
+                        err(f"{where}: {beat_label} prompt missing '{phrase}' (base-footage contract)")
+                if "no photorealism" not in prompt:
+                    err(f"{where}: {beat_label} prompt missing 'No photorealism' (style bible — genomes/sapling/style.md)")
+            block = None
+            continue
+        if block is not None:
+            block.append(line)
+            continue
+        if line.startswith("## Beat"):
+            m = BEAT_HEADING.match(line)
+            if not m:
+                err(f"{where}: malformed beat heading '{line[:60]}' — expected '## Beat NN — TITLE (M:SS–M:SS)'")
+                continue
+            num, time_range = m.groups()
+            beat_label = f"beat {num}"
+            beat_nums.append(int(num))
+            # the range must appear verbatim in the script — guards against
+            # canon drift like the 1:05/1:10 typo found 2026-07-19
+            if script is not None and time_range not in script:
+                err(f"{where}: beat {num} time range ({time_range}) not found in node.md script")
+
+    if beat_nums != list(range(1, len(beat_nums) + 1)):
+        err(f"{where}: beat numbers {beat_nums} not sequential from 01")
 
 
 def lint_ledger() -> None:

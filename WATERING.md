@@ -27,6 +27,8 @@ API keys and submit the results — compute as watering:
 
 A compute contribution is watering the branch exactly as money is: it appears in
 the ledger, it orders sibling branches, and it keeps a branch from going dormant.
+The end-to-end walkthrough — pick an episode, re-render it better (free Kaggle
+GPU, your own key, or any tool), submit the leaf — is [REGROW.md](REGROW.md).
 
 ## The ledger
 

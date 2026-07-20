@@ -12,6 +12,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import render_t2 as t2
 import render_t3 as t3
 from render_t1 import extract_script, parse_frames
 
@@ -64,6 +65,79 @@ def test_wrap_never_drops_words():
     wrapped = t3.wrap(text, font, 200)
     joined = " ".join(wrapped).split()
     check("wrap preserves all words", joined == text.split())
+
+
+def test_parse_frames_bold_emphasis_in_quote():
+    # regression: a quote line opening with bold emphasis ('> **fires**. rest')
+    # is a wrapped speech continuation — only a colon marks a new speaker
+    md = ("**SCENE — 0:00–0:12**\n"
+          "\n"
+          "> **ROOT:** the line before\n"
+          "> **fires**. rest of the sentence\n")
+    items = parse_frames(md)[0]["items"]
+    check("colon quote parses as speaker line", items[0] == ("line", "ROOT", "the line before"))
+    check("bold-emphasis quote is speakerless", items[1][:2] == ("line", ""))
+    check("bold-emphasis quote keeps its text", items[1][2] == "**fires**. rest of the sentence")
+
+
+def test_parse_frames_bold_line_needs_timing():
+    # regression: a full-bold line is a beat heading only WITH a timing range;
+    # without one it is emphasis inside the scene → action item
+    md = ("**SCENE — 0:00–0:12**\n"
+          "\n"
+          "**Both leaves tilt at once.**\n"
+          "\n"
+          "**NEXT BEAT — 0:12–0:20**\n")
+    frames = parse_frames(md)
+    check("bold line without timing is not a beat", len(frames) == 2)
+    check("bold line without timing becomes action",
+          frames[0]["items"] == [("action", "Both leaves tilt at once.")])
+    check("bold line with timing is a beat", frames[1]["slug"] == "NEXT BEAT — 0:12–0:20")
+
+
+def test_build_shots_merges_continuations():
+    # regression: a wrapped speech (speakerless quote continuations, incl. one
+    # opening with bold emphasis) stays one card — no mid-sentence cuts
+    md = ("**SCENE — 0:00–0:12**\n"
+          "\n"
+          "> **ROOT:** The survey says the lot is empty. It\n"
+          "> **lies**. Someone lives in every ring\n"
+          "> of this trunk.\n")
+    shots = t2.build_shots(parse_frames(md), "test-node")
+    spoken = [s for s in shots if s["type"] in ("line", "vo")]
+    check("wrapped speech is one card", len(spoken) == 1)
+    check("merged card keeps its speaker", spoken[0]["who"] == "ROOT")
+    check("merged card keeps the whole sentence",
+          spoken[0]["text"] == "The survey says the lot is empty. It lies. "
+                               "Someone lives in every ring of this trunk.")
+    check("merged card re-times to the full text",
+          spoken[0]["dur"] == t2.clamp(1.4, len(spoken[0]["text"]) / 18.0, 6.0))
+
+
+def test_overlay_font_px():
+    # regression: an 80-col terminal line must fit the ~578px card interior
+    # (mono glyphs ≈ 0.62em); short lines cap at 17px, never balloon
+    wide = "x" * 80
+    px = t2.overlay_font_px(wide)
+    check("80-col line fits the card", px <= 578 / (80 * 0.62))
+    check("80-col line stays legible (>=9px)", px >= 9)
+    check("widest line drives the size", t2.overlay_font_px("short\n" + wide) == px)
+    check("short lines cap at 17px", t2.overlay_font_px("$ leaf status") == 17)
+
+
+def test_speaker_key_strips_parentheticals():
+    # regression: '(writing)' is a stage direction, not part of the cast key
+    check("parenthetical stripped", t2.speaker_key("ASSESSOR (writing)") == "ASSESSOR")
+    check("multi-word parenthetical stripped",
+          t2.speaker_key("ASSESSOR (writing, without emotion)") == "ASSESSOR")
+    check("plain speaker normalizes upper", t2.speaker_key(" root ") == "ROOT")
+
+
+def test_clean_speech_drops_parentheticals():
+    # regression: the voice must not read stage directions aloud
+    check("stage parentheticals dropped",
+          t2.clean_speech("(beat) I heard it. (softly) Everything.") == "I heard it. Everything.")
+    check("plain speech untouched", t2.clean_speech("I heard it.") == "I heard it.")
 
 
 def test_node_001_beats_parse():
@@ -162,6 +236,12 @@ def main():
     with tempfile.TemporaryDirectory() as td:
         test_find_audio_naming(Path(td))
     test_wrap_never_drops_words()
+    test_parse_frames_bold_emphasis_in_quote()
+    test_parse_frames_bold_line_needs_timing()
+    test_build_shots_merges_continuations()
+    test_overlay_font_px()
+    test_speaker_key_strips_parentheticals()
+    test_clean_speech_drops_parentheticals()
     test_node_001_beats_parse()
     test_shot_prompt_extraction()
     test_generate_shots_parsing()

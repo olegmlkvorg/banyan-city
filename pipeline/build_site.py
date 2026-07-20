@@ -95,6 +95,13 @@ footer { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--line
 .season figcaption { font: 600 0.75rem/1.35 ui-monospace, Menlo, monospace;
   color: var(--muted); margin-top: 0.4rem; }
 .season figcaption a { color: var(--leaf); }
+.binge { max-width: 420px; margin: 0 auto; }
+.binge figure { margin: 0 0 2.4rem; }
+.binge video { width: 100%; aspect-ratio: 9 / 16; object-fit: contain; display: block;
+  background: var(--code-bg); border: 1px solid var(--line); border-radius: 16px; }
+.binge figcaption { font: 600 0.8rem/1.4 ui-monospace, Menlo, monospace;
+  color: var(--muted); margin-top: 0.5rem; }
+.binge figcaption a { color: var(--leaf); }
 """
 
 
@@ -357,6 +364,31 @@ def season_strip(g: dict) -> str:
     return f'<div class="season">{"".join(figs)}</div>' if figs else ""
 
 
+def render_watch(genomes: list) -> str:
+    """One-thumb binge page: the trunk's official T3 cut of every episode,
+    top to bottom in story order — no tree, no tables, just the season."""
+    figs = []
+    for g in genomes:
+        gid = g["tree"]["id"]
+        for i, n in enumerate(trunk_chain(g), 1):
+            leaf = best_t3(n)
+            if not leaf:
+                continue
+            figs.append(
+                f'<figure><video controls playsinline preload="metadata" '
+                f'src="{gid}/leaves/{html.escape(str(leaf["content"]))}"></video>'
+                f'<figcaption>ep {i} · <a href="{gid}/{html.escape(n["slug"])}.html">'
+                f'{html.escape(n["title"])}</a></figcaption></figure>')
+    body = f"""<h1>▶ Season 1, all episodes</h1>
+<p class="notice">The trunk's official cut of each episode, in order — every one a $0 render,
+every one re-renderable. Scripts, provenance, and rival branches live on each episode's page.</p>
+<div class="binge">{''.join(figs)}</div>
+<p><a class="btn ghost" href="index.html">← Back to the tree</a></p>"""
+    return page("Watch — Banyan City, Season 1", body, path="watch.html",
+                desc="Binge Season 1 of Banyan City: the trunk's official episodes, "
+                     "in order, in one vertical feed.")
+
+
 def render_index(genomes: list) -> str:
     sections = []
     hero_video = ""
@@ -405,6 +437,7 @@ can re-render any of them better. The whole pipeline, every decision, and every
 dollar are public in git.</p>
 {hero_video}
 <a class="btn" href="sapling/001-capability-inventory.html">▶ Start at episode 1</a>
+<a class="btn ghost" href="watch.html">▶ Binge season 1</a>
 <a class="btn ghost" href="city.html">Read the Promise</a>
 </div>
 {''.join(sections)}
@@ -536,6 +569,7 @@ def main() -> None:
     genomes = [load_genome(p) for p in sorted((REPO / "genomes").iterdir()) if p.is_dir()]
 
     (OUT / "index.html").write_text(render_index(genomes))
+    (OUT / "watch.html").write_text(render_watch(genomes))
     (OUT / "city.html").write_text(render_city())
     (OUT / "feed.xml").write_text(render_feed(genomes))
     (OUT / ".nojekyll").write_text("")

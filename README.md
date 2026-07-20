@@ -44,6 +44,8 @@ Anyone may branch any released node. Your only obligation: **declare your parent
 
 Your branch may contradict, subvert, or outgrow its parent. The tree polices lineage, never direction. It can never be deleted — only go dormant if unwatered, and anyone may revive it.
 
+Don't want to write new story? **Re-render existing story better** — any episode, free GPU included: [REGROW.md](REGROW.md).
+
 ## How to fork the city
 
 Take everything — guidelines, structure, vocabulary, pipeline. Rename it. Go. The concrete checklist is **[SEED.md](SEED.md)**, and the taste-extraction interview (the framework's front door, [PRD.md §7.3](PRD.md)) is runnable:

@@ -9,10 +9,13 @@ the tree's public vital signs.
 Auth: GITHUB_TOKEN env var (provided automatically in Actions).
 """
 
+import csv
+import io
 import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -140,6 +143,67 @@ def harvest_screening(genome_dirs: list) -> int:
     return changed
 
 
+REACH_FIELDS = ["date", "views", "uniques", "clones", "clone_uniques", "top_referrers"]
+
+
+def harvest_reach() -> bool:
+    """Record repo traffic (views/clones/referrers) in ledger/reach.csv.
+
+    Views and clones arrive per-day for a rolling 14-day window; rows for
+    dates already in the csv are replaced, because GitHub revises recent
+    days and the current day is always partial. Referrers have no per-day
+    breakdown, so each refreshed row carries the current 14-day snapshot.
+    """
+    try:
+        views = gh(f"/repos/{GH_REPO}/traffic/views")
+        clones = gh(f"/repos/{GH_REPO}/traffic/clones")
+        referrers = gh(f"/repos/{GH_REPO}/traffic/popular/referrers")
+    except urllib.error.HTTPError as e:
+        # traffic endpoints need push access — a read-only token gets 403;
+        # skip rather than fail the whole harvest
+        print(f"reach: traffic API returned {e.code} — skipped (token needs push access)")
+        return False
+    except urllib.error.URLError as e:
+        print(f"reach: traffic API unreachable ({e.reason}) — skipped")
+        return False
+
+    days = {}
+
+    def day(ts):
+        return days.setdefault(ts[:10], {"views": 0, "uniques": 0, "clones": 0, "clone_uniques": 0})
+
+    for v in views.get("views", []):
+        d = day(v["timestamp"])
+        d["views"], d["uniques"] = v["count"], v["uniques"]
+    for c in clones.get("clones", []):
+        d = day(c["timestamp"])
+        d["clones"], d["clone_uniques"] = c["count"], c["uniques"]
+    ref_str = ";".join(f"{r['referrer']}:{r['count']}" for r in referrers)
+
+    out = REPO_DIR / "ledger" / "reach.csv"
+    rows = {}
+    if out.exists():
+        with out.open(newline="") as f:
+            rows = {row["date"]: row for row in csv.DictReader(f)}
+    for date, d in days.items():
+        rows[date] = {"date": date, **{k: str(v) for k, v in d.items()}, "top_referrers": ref_str}
+
+    buf = io.StringIO()
+    # csv defaults to \r\n, which read_text() normalizes away — the
+    # no-change comparison (and git) needs plain \n
+    writer = csv.DictWriter(buf, fieldnames=REACH_FIELDS, restval="", lineterminator="\n")
+    writer.writeheader()
+    for date in sorted(rows):
+        writer.writerow(rows[date])
+    body = buf.getvalue()
+    if out.exists() and out.read_text() == body:
+        return False
+    out.parent.mkdir(exist_ok=True)
+    out.write_text(body)
+    print(f"reach: {out.relative_to(REPO_DIR)}")
+    return True
+
+
 def main() -> int:
     changed = 0
     genome_dirs = [p for p in sorted((REPO_DIR / "genomes").iterdir()) if (p / "lineage.yaml").exists()]
@@ -150,6 +214,7 @@ def main() -> int:
                 print(f"harvested: {node_dir.relative_to(REPO_DIR)}")
                 changed += 1
     changed += harvest_screening(genome_dirs)
+    changed += harvest_reach()
     print(f"✓ sap harvest complete — {changed} file(s) updated")
     return 0
 
