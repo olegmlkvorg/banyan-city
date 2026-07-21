@@ -56,6 +56,14 @@ that answers questions. He counted the rocks individually.
 Sapling ep 5 · banyan.city — and next, YOU pick what happens
 #anime #aianimation #isekai
 
+## Standing rules (every post, every platform)
+
+- **Always enable the platform's AI-generated content label** (TikTok's
+  AIGC toggle, YouTube's altered-content disclosure, etc.) — honest per
+  §7.2, required by platform policy, and unlabeled AI content gets
+  suppressed. Adopted 2026-07-21 after the ep-1 repost.
+- Post from the app on a warmed account, not the web uploader.
+
 ## Mechanics per slot (5 min)
 
 1. Post the file + caption on each platform (native upload, not links).
