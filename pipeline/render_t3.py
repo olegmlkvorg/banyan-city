@@ -84,10 +84,17 @@ def beat_duration(slug: str, items: list) -> float:
     return min(MAX_SEC, max(MIN_SEC, len(text) / READ_CPS))
 
 
-def find_clip(clips_dir: Path, num: int) -> Path | None:
+def find_clips(clips_dir: Path, num: int) -> list:
+    """All footage for a beat, sorted (NN-slug.mp4, NN-slug-alt1.mp4, …).
+    Multiple clips are SEQUENCED to fill the beat before any looping starts —
+    a beat with 3 distinct clips loops a 30s sequence, not a 5s shot."""
     if not clips_dir:
-        return None
-    hits = sorted(clips_dir.glob(f"{num:02d}-*.mp4")) or sorted(clips_dir.glob(f"{num:02d}.mp4"))
+        return []
+    return sorted(clips_dir.glob(f"{num:02d}-*.mp4")) or sorted(clips_dir.glob(f"{num:02d}.mp4"))
+
+
+def find_clip(clips_dir: Path, num: int) -> Path | None:
+    hits = find_clips(clips_dir, num)
     return hits[0] if hits else None
 
 
@@ -223,13 +230,27 @@ def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
     return parts
 
 
-def render_beat(beat: dict, num: int, dur: float, clip: Path, workdir: Path,
+def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
                 manifest: dict | None = None) -> Path:
     """Encode one beat: fitted footage (or slate) + overlays + captions.
-    Footage shorter than the slot LOOPS (an anime-idiomatic hold) instead of
-    freezing on a cloned last frame; captions follow the VO manifest's
-    measured line timings when one exists."""
+    Multiple clips per beat are sequenced (concat) to fill the slot; only the
+    full sequence loops (anime-idiomatic hold) — never a freeze. Captions
+    follow the VO manifest's measured line timings when one exists."""
     inputs, chains = [], []
+    clip = clips[0] if clips else None
+    if len(clips) > 1:
+        seq_list = workdir / f"seq-{num:02d}.txt"
+        seq_list.write_text("\n".join(f"file '{c.resolve()}'" for c in clips))
+        seq = workdir / f"seq-{num:02d}.mp4"
+        r = subprocess.run(
+            [FFMPEG, "-y", "-f", "concat", "-safe", "0", "-i", str(seq_list),
+             "-vf", f"scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,"
+                    f"crop={WIDTH}:{HEIGHT},fps={FPS}",
+             "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", str(seq)],
+            capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(f"beat {num} sequence concat failed:\n{r.stderr[-800:]}")
+        clip = seq
     if clip:
         inputs += ["-stream_loop", "-1", "-i", str(clip)]
         chains.append(
@@ -342,8 +363,8 @@ def main() -> int:
 
     for i, beat in enumerate(beats, 1):
         dur = beat_duration(beat["slug"], beat["items"])
-        clip = find_clip(args.clips, i)
-        if not clip:
+        beat_clips = find_clips(args.clips, i)
+        if not beat_clips:
             missing += 1
         # audio: a pre-supplied per-beat track wins; else generate VO via TTS
         audio = find_audio(args.clips, i)
@@ -353,18 +374,18 @@ def main() -> int:
                 audio = workdir / f"vo-{i:02d}.mp3"
                 tts_cost += tts_fn(text, audio)
         manifest = vo_manifest(args.clips, i)
-        if clip:
+        if beat_clips:
             # fit the slot to the material, not the script's paper timing:
             # exactly long enough for the footage and the FULL voice track —
             # dialogue is never trimmed mid-line, and short footage loops
             # (see render_beat). Script timings only size slate beats.
-            cdur = media_duration(clip) or dur
+            cdur = sum(media_duration(c) or 0 for c in beat_clips) or dur
             vdur = (manifest or {}).get("total_s") or (media_duration(audio) if audio else 0) or 0
             dur = round(max(cdur, vdur + 0.4), 2)
-        timeline.append((render_beat(beat, i, dur, clip, workdir, manifest), dur, audio))
-        prov = clip_provenance(clip)
+        timeline.append((render_beat(beat, i, dur, beat_clips, workdir, manifest), dur, audio))
+        prov = clip_provenance(beat_clips[0] if beat_clips else None)
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),
-                        "clip": clip.name if clip else "slate (no footage yet)",
+                        "clip": "+".join(c.name for c in beat_clips) if beat_clips else "slate (no footage yet)",
                         "audio": audio.name if audio else "none",
                         "platform": prov.get("platform", "none"),
                         "model": prov.get("model", "none"),
