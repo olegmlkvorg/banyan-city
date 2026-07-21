@@ -1,0 +1,24 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.1-t2v-plus
+cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+shot_beat: 4
+prompt: 'Vertical 9:16 shot, dusk falling into night, amber light collapsing to deep
+  indigo — silhouettes read before faces. The magistrate — a sharp angular silhouette
+  in dark robes of office, a seal on a chain, her face drawn for one raised eyebrow
+  — walks away from the tiny settlement down the dirt road, then stops at the exact
+  edge of the clearing without turning around, a still black cut-out against the last
+  band of amber sky, and says something we do not hear. Behind her, small in frame:
+  a broad squarish farmer in a straw hat with a three-line face and a small round
+  goblin with enormous ears, one broken tusk, and a patchwork cloak stand motionless
+  beside a mascot-simple 50cm sapling with a thin curved trunk and oversized expressive
+  leaves. She walks on into the dark and is gone. The camera holds long on the little
+  tree alone against the dying light, its leaves unnaturally, perfectly still, slow
+  push-in as indigo swallows the amber. Heavy quiet. Hand-drawn 2D anime style, low
+  detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow
+  tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas,
+  gentle pastel-leaning palette, expressive minimal faces. No photorealism, no 3D
+  render look, no heavy texture. 9:16 vertical, no text.'
+duration_s: 5
+aspect: '9:16'
+date: '2026-07-20'

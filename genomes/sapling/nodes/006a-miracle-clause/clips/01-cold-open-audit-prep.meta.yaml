@@ -1,22 +1,11 @@
 # Shot provenance (§7.2)
 platform: alibaba-model-studio
-model: wan2.2-t2v-plus
-cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
 shot_beat: 1
-prompt: 'Vertical 9:16 shot, morning. A tiny settlement being frantically tidied for
-  inspection: a small round goblin — enormous ears that act like a second face, one
-  broken tusk, huge expressive eyes, patchwork cloak in faded greens and browns —
-  carefully re-stacks a three-stone cairn by size, steps back to squint at it, then
-  re-stacks the same three stones by color. Beside him a mascot-simple 50cm sapling
-  with a thin curved trunk and one or two oversized expressive leaves, a crooked lean-to
-  behind it. A farmer with a broad squarish silhouette, straw hat, and three-line
-  unimpressed face walks in and solemnly sets a second clay jug down beside the first,
-  perfectly aligned. Fussy, nervous comedy of preparation; warm peach and gold morning
-  washes, long soft shadows. Hand-drawn 2D anime style, low detail: flat cel-shaded
-  colors, bold clean linework, minimal shading (single shadow tone), simplified shapes,
-  soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette,
-  expressive minimal faces. No photorealism, no 3D render look, no heavy texture.
-  9:16 vertical, no text.'
-duration_s: 5
-aspect: '9:16'
-date: '2026-07-20'
+prompt: "Vertical 9:16 shot, morning. A tiny settlement being frantically tidied for inspection: a small round goblin \u2014 enormous ears that act like a second face, one broken tusk, huge expressive eyes, patchwork cloak in faded greens and browns \u2014 carefully re-stacks a three-stone cairn by size, steps back to squint at it, then re-stacks the same three stones by color. Beside him a mascot-simple 50cm sapling with a thin curved trunk and one or two oversized expressive leaves, a crooked lean-to behind it. A farmer with a broad squarish silhouette, straw hat, and three-line unimpressed face walks in and solemnly sets a second clay jug down beside the first, perfectly aligned. Fussy, nervous comedy of preparation; warm peach and gold morning washes, long soft shadows. Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text."
+keyframe_prompt_suffix: ""
+duration_s: 10
+aspect: "9:16 (720P)"
+cost_usd: 0.0
+cost_note: provider free quota (list-price ~$1.00); founder-authorized re-shoot 15:00 2026-07-21
+date: 2026-07-21

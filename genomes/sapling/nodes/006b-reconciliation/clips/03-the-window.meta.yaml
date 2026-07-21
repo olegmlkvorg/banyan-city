@@ -1,30 +1,11 @@
 # Shot provenance (§7.2)
 platform: alibaba-model-studio
-model: wan2.1-t2v-plus
-cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
 shot_beat: 3
-prompt: 'Vertical 9:16 shot, the instant of sunset. Open on warm dusk over a tiny
-  settlement — a mascot-simple 50cm sapling with oversized expressive leaves, a crooked
-  lean-to, a three-stone cairn, a clay jug — then the whole world flickers and reduces
-  to clean glowing neon-green vector wireframe geometry on near-black: the grass becomes
-  a flat green lattice, the cairn a low-poly stack of outlined stones, the jug a labeled
-  glowing cylinder outline with a small empty tag-frame beside it, the lean-to bare
-  glowing edges, and a small empty rectangular frame of green light hangs in the dark
-  sky above the clearing. Inside this wireframe world, the magistrate — a sharp angular
-  silhouette in dark robes of office, her face drawn for one raised eyebrow — has
-  turned her back on everyone and gazes up, reading the sky; she raises her seal on
-  its chain and the seal itself renders as glowing green wireframe with a small empty
-  tag-frame beside it. Behind her, drawn as simple dark outlines, a small round goblin
-  with enormous ears, one broken tusk, and a patchwork cloak in faded greens and browns
-  chatters obliviously and offers up the wireframe jug, while a broad squarish farmer
-  in a straw hat with a three-line face stands unmoved — the humans notice nothing.
-  She steps close to the little tree''s trunk, her eyes still on the sky, and speaks
-  quietly to it — her mouth moving as she says something we do not hear. Then the
-  wireframe flickers out and the world snaps back solid: warm amber-into-indigo dusk,
-  quiet. Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean
-  linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash
-  backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal
-  faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text.'
-duration_s: 5
-aspect: '9:16'
-date: '2026-07-20'
+prompt: "Vertical 9:16 shot, the instant of sunset. Open on warm dusk over a tiny settlement \u2014 a mascot-simple 50cm sapling with oversized expressive leaves, a crooked lean-to, a three-stone cairn, a clay jug \u2014 then the whole world flickers and reduces to clean glowing neon-green vector wireframe geometry on near-black: the grass becomes a flat green lattice, the cairn a low-poly stack of outlined stones, the jug a labeled glowing cylinder outline with a small empty tag-frame beside it, the lean-to bare glowing edges, and a small empty rectangular frame of green light hangs in the dark sky above the clearing. Inside this wireframe world, the magistrate \u2014 a sharp angular silhouette in dark robes of office, her face drawn for one raised eyebrow \u2014 has turned her back on everyone and gazes up, reading the sky; she raises her seal on its chain and the seal itself renders as glowing green wireframe with a small empty tag-frame beside it. Behind her, drawn as simple dark outlines, a small round goblin with enormous ears, one broken tusk, and a patchwork cloak in faded greens and browns chatters obliviously and offers up the wireframe jug, while a broad squarish farmer in a straw hat with a three-line face stands unmoved \u2014 the humans notice nothing. She steps close to the little tree's trunk, her eyes still on the sky, and speaks quietly to it \u2014 her mouth moving as she says something we do not hear. Then the wireframe flickers out and the world snaps back solid: warm amber-into-indigo dusk, quiet. Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text."
+keyframe_prompt_suffix: ""
+duration_s: 10
+aspect: "9:16 (720P)"
+cost_usd: 0.0
+cost_note: provider free quota (list-price ~$1.00); founder-authorized re-shoot 15:00 2026-07-21
+date: 2026-07-21

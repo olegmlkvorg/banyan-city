@@ -1,0 +1,11 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+shot_beat: 4
+prompt: "Vertical 9:16 shot, late morning. The magistrate \u2014 a sharp angular silhouette in dark, travel-worn robes of office, a seal on a chain, a face drawn for one raised eyebrow \u2014 stamps a form with ceremonial finality, then stops on its last line and, for the first time, looks faintly entertained. She says something brief over her shoulder and walks out of the clearing; at its exact edge she pauses for one measured beat \u2014 the same spot on the road where a previous official once paused \u2014 then continues off down the dirt road into the morning light. Left behind: a small round goblin (enormous ears, one broken tusk, huge expressive eyes, patchwork cloak in faded greens and browns) staring down at a small sealed slip of paper in both hands; a farmer (broad squarish silhouette, straw hat, three-line face) turning to look at the tree; and a mascot-simple 50cm sapling \u2014 thin curved trunk, oversized expressive leaves, never a face \u2014 its leaves held very, very still. Slow push-in on the motionless little tree to end. Quiet weight after comedy; warm gold morning washes, long soft shadows. Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text."
+keyframe_prompt_suffix: " Alternate camera setup on the same scene: closer framing on the speaking character, same style and palette."
+duration_s: 10
+aspect: "9:16 (720P)"
+cost_usd: 0.0
+cost_note: provider free quota (list-price ~$1.00); founder-authorized re-shoot 15:00 2026-07-21
+date: 2026-07-21

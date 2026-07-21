@@ -1,27 +1,11 @@
 # Shot provenance (§7.2)
 platform: alibaba-model-studio
-model: wan2.2-t2v-plus
-cost_note: free new-account quota while it lasts, then ~$0.10/s; see console billing
+model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
 shot_beat: 3
-prompt: 'Vertical 9:16 montage-style shot, late morning. The magistrate — a sharp
-  angular silhouette in dark, travel-worn robes of office, a seal on a chain, a face
-  drawn for one raised eyebrow — paces a tiny clearing in crisp lines, ticking categories
-  off on her fingers, deadpan and rapid, while a small round goblin (enormous ears
-  that act like a second face, one broken tusk, huge expressive eyes, patchwork cloak
-  in faded greens and browns) trails her offering helpless interjections. She stops
-  mid-stride. Her gaze travels slowly across the evidence: two clay jugs set like
-  offerings at the roots of a mascot-simple 50cm sapling with oversized expressive
-  leaves, a neat three-stone cairn, a farmer (broad squarish silhouette, straw hat,
-  three-line face) and the goblin arranged around the little tree like a congregation.
-  Realization lands. She writes briskly on a form, then hands the goblin a small slip
-  of paper with a seal; he receives it in both cupped hands like it might evaporate,
-  ears drooping with emotion. She turns and addresses the tree formally; one oversized
-  leaf tilts; she makes a precise note. Escalating bureaucratic comedy arriving at
-  reverence; high flat greens, pale blue-white sky, minimal shadow. Hand-drawn 2D
-  anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading
-  (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large
-  empty areas, gentle pastel-leaning palette, expressive minimal faces. No photorealism,
-  no 3D render look, no heavy texture. 9:16 vertical, no text.'
-duration_s: 5
-aspect: '9:16'
-date: '2026-07-20'
+prompt: "Vertical 9:16 montage-style shot, late morning. The magistrate \u2014 a sharp angular silhouette in dark, travel-worn robes of office, a seal on a chain, a face drawn for one raised eyebrow \u2014 paces a tiny clearing in crisp lines, ticking categories off on her fingers, deadpan and rapid, while a small round goblin (enormous ears that act like a second face, one broken tusk, huge expressive eyes, patchwork cloak in faded greens and browns) trails her offering helpless interjections. She stops mid-stride. Her gaze travels slowly across the evidence: two clay jugs set like offerings at the roots of a mascot-simple 50cm sapling with oversized expressive leaves, a neat three-stone cairn, a farmer (broad squarish silhouette, straw hat, three-line face) and the goblin arranged around the little tree like a congregation. Realization lands. She writes briskly on a form, then hands the goblin a small slip of paper with a seal; he receives it in both cupped hands like it might evaporate, ears drooping with emotion. She turns and addresses the tree formally; one oversized leaf tilts; she makes a precise note. Escalating bureaucratic comedy arriving at reverence; high flat greens, pale blue-white sky, minimal shadow. Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text."
+keyframe_prompt_suffix: ""
+duration_s: 10
+aspect: "9:16 (720P)"
+cost_usd: 0.0
+cost_note: provider free quota (list-price ~$1.00); founder-authorized re-shoot 15:00 2026-07-21
+date: 2026-07-21
