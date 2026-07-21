@@ -317,7 +317,7 @@ No account? Just tell someone about it — word of mouth is sap too.</p>"""
 {water_html}
 <h2>Branch this node</h2>
 <p class="notice">Anyone may continue this moment differently. Declare <code>{html.escape(n['id'])}</code> as your parent —
-that's the only obligation. <a href="{REPO_URL}#how-to-branch-a-story">How to branch →</a></p>"""
+that's the only obligation. <a href="../create.html">Write your own episode →</a></p>"""
     return page(f"{n['id']} — {n['title']} · {g['tree']['title']}", body, depth=1,
                 path=f"{g['tree']['id']}/{n['slug']}.html", desc=n.get("teaser") or "")
 
@@ -362,6 +362,57 @@ def season_strip(g: dict) -> str:
             f'<figcaption>ep {i} · <a href="{gid}/{html.escape(n["slug"])}.html">'
             f'{html.escape(n["title"])}</a></figcaption></figure>')
     return f'<div class="season">{"".join(figs)}</div>' if figs else ""
+
+
+def render_create() -> str:
+    """The participation storefront: how to write your own episode (or plant
+    your own tree), in plain words, with the security model spelled out."""
+    body = f"""<h1>✍️ Write your own episode</h1>
+<p class="notice">Every episode of this tree can be continued <em>differently</em> — by you.
+No permission needed, no writing credits checked. The tree polices lineage, never direction.</p>
+
+<h2>The five steps</h2>
+<p><strong>1 · Pick your parent.</strong> Any episode — the latest, or one from way back whose
+story you'd have turned another way. Your episode declares which one it continues. That
+declaration is the only obligation in the entire system.</p>
+<p><strong>2 · Write it.</strong> A ~90-second script (<code>node.md</code> — copy any
+existing episode's file as a template). Two rules bind everyone, including the AI steward:
+something real must change (a relationship, the world, what someone knows), and it must end
+on a hook that's a real state change, not a tease.</p>
+<p><strong>3 · Submit it.</strong> Two doors:</p>
+<p>· <strong>Git door:</strong> fork the <a href="{REPO_URL}">repo</a>, add your node folder +
+one line in <code>lineage.yaml</code> naming your parent, open a pull request.<br>
+· <strong>No-git door:</strong> paste your script into
+<a href="{REPO_URL}/issues/new?template=branch-submission.yml">this form</a> — the steward
+turns it into a proper branch with your name on it.</p>
+<p><strong>4 · It gets rendered.</strong> The $0 pipeline (storyboard → voiced animatic) runs
+for anyone's episode. Want it <em>filmed</em>? <a href="{REPO_URL}/blob/main/REGROW.md">Render
+it yourself with free tools</a> — or let watering fund it.</p>
+<p><strong>5 · The tree decides its place.</strong> Readers react (💧 on each episode page);
+the crowd narrows; the author's <a href="{REPO_URL}/blob/main/taste/sapling.founder.v0.2.md">public
+taste rules</a> pick what leads the canon — citing which rule drove the call, in the commit log.
+Branches that don't lead are <strong>never deleted</strong>: they stay alive, watchable, and can
+take the lead later if readers water them.</p>
+
+<h2>"Wait — can anyone just edit the story?"</h2>
+<p class="notice">No. The repo is world-<em>readable</em>, but only the founder can merge.
+Your submission arrives as a pull request — publicly visible, untouchable by anyone else,
+and part of the tree only once merged. A well-formed branch (parent declared, lint passing)
+gets merged as policy; vandalism dies in the queue. One pair of hands on the canon,
+everyone's hands on the pen.</p>
+
+<h2>Or plant your own tree entirely</h2>
+<p>Don't want to write in this world? Take the whole framework — pipeline, site, governance —
+rename it, and grow your own story from seed: <a href="{REPO_URL}/blob/main/SEED.md">SEED.md</a>
+is the checklist, and the taste-extraction interview turns <em>your</em> instincts into
+<em>your</em> rulebook. The one unamendable rule of this place is that this right can never
+be revoked.</p>
+
+<p><a class="btn" href="{REPO_URL}/issues/new?template=branch-submission.yml">Submit an episode
+(no git needed)</a> <a class="btn ghost" href="watch.html">▶ Watch the season first</a></p>"""
+    return page("Write your own episode — Banyan City", body, path="create.html",
+                desc="Continue any episode of the tree your way — no permission needed. "
+                     "Fork, write, declare your parent. The tree decides in the open.")
 
 
 def render_watch(genomes: list) -> str:
@@ -438,6 +489,7 @@ dollar are public in git.</p>
 {hero_video}
 <a class="btn" href="sapling/001-capability-inventory.html">▶ Start at episode 1</a>
 <a class="btn ghost" href="watch.html">▶ Binge season 1</a>
+<a class="btn ghost" href="create.html">✍️ Write your own episode</a>
 <a class="btn ghost" href="city.html">Read the Promise</a>
 </div>
 {''.join(sections)}
@@ -570,6 +622,7 @@ def main() -> None:
 
     (OUT / "index.html").write_text(render_index(genomes))
     (OUT / "watch.html").write_text(render_watch(genomes))
+    (OUT / "create.html").write_text(render_create())
     (OUT / "city.html").write_text(render_city())
     (OUT / "feed.xml").write_text(render_feed(genomes))
     (OUT / ".nojekyll").write_text("")
