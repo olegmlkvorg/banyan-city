@@ -178,3 +178,37 @@ The story branches. You pick what survives. banyan.city
 Every episode's script, render prompts, costs, and even the editorial
 rulebook are public: github.com/olegmlkvorg/banyan-city — you can write a
 rival next episode yourself. Declaring the parent episode is the only rule.
+
+---
+
+## 5 · Fork day runbook (Thursday 2026-07-23, after ep-5's Wed drop)
+
+The payoff post: the audience has the whole season; now show them the fork.
+Files: `banyan-006a-THE-MIRACLE-CLAUSE.mp4` + `banyan-006b-RECONCILIATION.mp4`
+(Desktop/Downloads). Post A first, B ~2h later, all platforms, AI labels on.
+
+**TikTok/IG caption (video A):**
+Episode 6 has two endings. You pick which becomes canon 🌳
+This is Ending A: the tree is now legally a shrine. Miracle due by full moon.
+Ending B + how to vote: banyan.city
+#anime #aianimation #interactivefiction
+
+**TikTok/IG caption (video B, ~2h later):**
+Ending B, for the undecided: the kingdom has been reading the sky's debug
+overlay for centuries — and the sky says this town doesn't add up.
+Both endings + voting: banyan.city 🌳
+#anime #aianimation #interactivefiction
+
+**YouTube title A (≤100):** Sapling ep 6, Ending A: the tree is now legally a shrine — you pick which ending becomes canon
+**YouTube title B (≤100):** Sapling ep 6, Ending B: the kingdom has been reading the sky — you pick which ending becomes canon
+(descriptions: reuse the caption + banyan.city/watch + banyan.city/create links)
+
+**Reddit (account should clear the age gate ~today):** r/generativeAI post
+from §the playbook first; r/ClaudeAI retry with the steward angle;
+r/interactivefiction with the mechanism angle. One sub per day, comments
+answered same-day.
+
+**Voting mechanics honesty (for replies):** reactions on the two episodes'
+GitHub issues (#13/#14) + on-platform engagement inform the call; the
+founder's taste file makes the final trunk decision in the open, and the
+losing branch stays alive forever (R6). "The crowd narrows, taste decides."
