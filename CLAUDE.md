@@ -60,15 +60,15 @@ T3 v2 fitting: slots fit material, footage loops (never freezes), dialogue
 never trimmed. Parser hardened twice (speaker-colon rule; headings require
 timing ranges). Voice upgrade (emotional TTS — CosyVoice on same quota)
 parked: founder said voice doesn't matter for now; dad wants human touch
-eventually. NIGHT 07-20→21: TikTok live (@banyan.city, ep 1 posted; link in
-distribution memory). Reddit age-gated ~days; HN parked. Fork FILMED both
-sides (founder-authorized 80s; 40s spent, ~90s quota left): benches on
-founder Desktop — 006a THE MIRACLE CLAUSE (127s) vs 006b RECONCILIATION
-(108s). All four fork shots.md written+verified. taste/proposals/v0.3-draft
-(R7 mystery-as-relationship-debt) awaits founder verdict. NEXT (founder):
-006 trunk call (watch both benches!), taste v0.3 verdict, ep-2 drop 09:00,
-watering keys. NOTE: wan2.2/2.1 are 5s-fixed (duration customization
-unsupported — failed asks unbilled); wan2.5/2.6/2.7 do 2-15s.
+eventually. DAY 07-21: distribution live — TikTok/YouTube/Instagram each carry eps
+1-2 (AI-labeled; standing rule). X suspended (new-acct false positive,
+appeal filed — NO replacement account). Reddit ~Thu (playbook:
+distribution/reddit-playbook.md). Site: /watch, /create, cleanUrls. Fork
+RE-SHOT in anime (keyframe→i2v; QA-gated; sapling-face retakes; multi-clip
+beats fix in render_t3) — benches on Desktop AWAIT TRUNK CALL (006a vs
+006b), taste v0.3 verdict also open. Ep-3 drop 21:00 tonight (reminders
+armed, all platforms). Quota: ~60-80s mixed grants left, expires ~Oct 18.
+Standing: warm new accounts 2-3 days before posting links.
 Do NOT suggest multi-account quota cycling — declined on ToS + provenance
 grounds, founder accepted.
 
