@@ -63,6 +63,10 @@ Sapling ep 5 · banyan.city — and next, YOU pick what happens
   §7.2, required by platform policy, and unlabeled AI content gets
   suppressed. Adopted 2026-07-21 after the ep-1 repost.
 - Post from the app on a warmed account, not the web uploader.
+- Platforms (2026-07-21): TikTok @banyan.city + YouTube Shorts @banyancity
+  ("Altered content: Yes") + Instagram Reels @banyan.city (Made-with-AI
+  label) + Snapchat Spotlight (lowest priority). Mirror already-dropped
+  episodes freely; NEW episodes follow the 12h schedule on all platforms.
 
 ## Mechanics per slot (5 min)
 
