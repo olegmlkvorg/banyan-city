@@ -18,7 +18,7 @@ unloads itself. The earlier cloud routines are dead (environment deleted).
 |---|---|---|---|---|
 | ✅ | 2026-07-20 | 001 — Capability Inventory | `banyan-001-anime-v2.mp4` | A |
 | ✅ | 2026-07-21 | 002b — The First Citizen | `banyan-002b-episode.mp4` | B |
-| 3 | **2026-07-22 21:00** | 003b — One Leaf for Yes | `banyan-003b-episode.mp4` | C |
+| ✅ | 2026-07-22 (posted ~23:30) | 003b — One Leaf for Yes | `banyan-003b-episode.mp4` | C |
 | 4 | 2026-07-23 21:00 | 004 — Shade | `banyan-004-episode.mp4` | D |
 | 5 | 2026-07-24 21:00 | 005 — The Assessor | `banyan-005-episode.mp4` | E |
 | 6 | 2026-07-25 21:00 | 006a — The Miracle Clause | `banyan-006a-episode.mp4` | F |
