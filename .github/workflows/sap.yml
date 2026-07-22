@@ -21,6 +21,7 @@ jobs:
       - run: python pipeline/harvest_sap.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
       - name: Commit sap summaries
         run: |
           git config user.name "sap-harvester"

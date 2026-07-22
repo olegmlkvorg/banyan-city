@@ -26,16 +26,20 @@ REPO_DIR = Path(__file__).resolve().parent.parent
 API = "https://api.github.com"
 GH_REPO = os.environ.get("GITHUB_REPOSITORY", "olegmlkvorg/banyan-city")
 TOKEN = os.environ.get("GITHUB_TOKEN", "")
+# traffic endpoints need admin:read, which Actions' built-in token lacks —
+# a founder-created fine-grained PAT (secret TRAFFIC_TOKEN) covers them
+TRAFFIC_TOKEN = os.environ.get("TRAFFIC_TOKEN") or TOKEN
 
 # GitHub reaction content types, in display order
 REACTION_KINDS = ["+1", "-1", "laugh", "confused", "heart", "hooray", "rocket", "eyes"]
 
 
-def gh(path: str):
+def gh(path: str, token: str | None = None):
     req = urllib.request.Request(f"{API}{path}")
     req.add_header("Accept", "application/vnd.github+json")
-    if TOKEN:
-        req.add_header("Authorization", f"Bearer {TOKEN}")
+    tok = token or TOKEN
+    if tok:
+        req.add_header("Authorization", f"Bearer {tok}")
     with urllib.request.urlopen(req) as r:
         return json.load(r)
 
@@ -165,9 +169,9 @@ def harvest_reach() -> bool:
     breakdown, so each refreshed row carries the current 14-day snapshot.
     """
     try:
-        views = gh(f"/repos/{GH_REPO}/traffic/views")
-        clones = gh(f"/repos/{GH_REPO}/traffic/clones")
-        referrers = gh(f"/repos/{GH_REPO}/traffic/popular/referrers")
+        views = gh(f"/repos/{GH_REPO}/traffic/views", token=TRAFFIC_TOKEN)
+        clones = gh(f"/repos/{GH_REPO}/traffic/clones", token=TRAFFIC_TOKEN)
+        referrers = gh(f"/repos/{GH_REPO}/traffic/popular/referrers", token=TRAFFIC_TOKEN)
     except urllib.error.HTTPError as e:
         # traffic endpoints need push access — a read-only token gets 403;
         # skip rather than fail the whole harvest
