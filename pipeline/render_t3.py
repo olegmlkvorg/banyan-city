@@ -167,6 +167,26 @@ def fit_duration(script_s: float, cdur: float, vdur: float) -> float:
     return script_s
 
 
+def previously_line(genome_dir: Path, node: dict, all_nodes: list) -> str | None:
+    """One-sentence recap from the PARENT's '## State change' — rough renders
+    lean on captions, so a cold viewer gets the story state in one line
+    (comprehension wince, edl 2026-07-22). Root episodes have no recap."""
+    pid = node.get("parent")
+    if not pid:
+        return None
+    parent = next((n for n in all_nodes if n["id"] == pid), None)
+    if not parent:
+        return None
+    md = (genome_dir / "nodes" / parent["slug"] / "node.md").read_text()
+    m = re.search(r"^## State change[^\n]*\n+(.+?)(?:\n\n|\n#)", md, re.M | re.S)
+    if not m:
+        return None
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", m.group(1))
+    text = re.sub(r"[*_`>#]", "", text).replace("\n", " ").strip()
+    first = re.split(r"(?<=[.!?])\s", text)[0]
+    return (first[:110] + "…") if len(first) > 110 else first
+
+
 def vo_manifest(clips_dir: Path, num: int) -> dict | None:
     """NN-vo.json (written by the VO synth): measured per-line timings that
     drive exact caption sync; without it captions fall back to even slicing."""
@@ -428,11 +448,17 @@ def main() -> int:
         tts_fn = tts_openai
 
     if not args.no_cards:
-        title = card_png([
+        lines = [
             ("BANYAN CITY", 30, (147, 166, 152, 255)),
             (f"{node['id']} — {node['title']}", 40, GREEN),
             ("a story that branches", 22, (147, 166, 152, 255)),
-        ], workdir / "title.png")
+        ]
+        prev = previously_line(genome_dir, node, lineage["nodes"])
+        if prev:
+            # card_png doesn't wrap — pre-wrap the recap to the card width
+            for seg in wrap(f"Previously: {prev}", mono_font(20), WIDTH - 120):
+                lines.append((seg, 20, (230, 239, 232, 255)))
+        title = card_png(lines, workdir / "title.png")
         timeline.append((card_clip([(title, 2.5)], workdir, "title")[0], 2.5, None))
 
     for i, beat in enumerate(beats, 1):

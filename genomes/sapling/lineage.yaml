@@ -117,16 +117,16 @@ nodes:
     slug: 006a-miracle-clause
     title: "The Miracle Clause"
     parent: "005"
-    trunk: false              # R4 sibling pair w/ 006b — trunk call reserved to founder (see edl.md)
+    trunk: true               # trunk call 2026-07-22 (steward, founder-delegated) — see edl.md
     status: hot
-    leaves: [006a-t0-a, 006a-t1-a, 006a-t2-a]
+    leaves: [006a-t0-a, 006a-t1-a, 006a-t2-a, 006a-t3-a]
 
   - id: "006b"
     released: 2026-07-19
     slug: 006b-reconciliation
     title: "Reconciliation"
     parent: "005"
-    trunk: false              # R4 sibling pair w/ 006a — trunk call reserved to founder (see edl.md)
+    trunk: false              # alive per R6; 006 trunk is 006a (edl.md 2026-07-22)
     status: hot
     leaves: [006b-t0-a, 006b-t1-a, 006b-t2-a]
 
@@ -135,7 +135,7 @@ nodes:
     slug: 007a-the-demo
     title: "The Demo"
     parent: "006a"
-    trunk: false              # deepens the 006a side of the live fork; trunk call still the founder's
+    trunk: true               # sole continuation of the 006a tip (precedent: 003b) — edl.md 2026-07-22
     status: hot
     leaves: [007a-t0-a, 007a-t1-a, 007a-t2-a]
 
@@ -144,7 +144,7 @@ nodes:
     slug: 007b-the-hearth
     title: "The Hearth"
     parent: "006b"
-    trunk: false              # deepens the 006b side of the live fork; trunk call still the founder's
+    trunk: false              # alive per R6 on the 006b branch
     status: hot
     leaves: [007b-t0-a, 007b-t1-a, 007b-t2-a]
 

@@ -181,9 +181,13 @@ rival next episode yourself. Declaring the parent episode is the only rule.
 
 ---
 
-## 5 · Fork day runbook (Thursday 2026-07-23, after ep-5's Wed drop)
+## 5 · Fork day runbook (Fri 2026-07-24 target, after ep-5 drops)
 
-The payoff post: the audience has the whole season; now show them the fork.
+UPDATE 2026-07-22: the trunk call is MADE — 006a "The Miracle Clause" is
+canon (edl.md, steward under founder delegation). Reframe the posts: not
+"you decide" but "the tree chose Ending A — Ending B lives on as a branch;
+water it if you'd have chosen differently." Same two videos, stronger story:
+the governance actually ran.
 Files: `banyan-006a-THE-MIRACLE-CLAUSE.mp4` + `banyan-006b-RECONCILIATION.mp4`
 (Desktop/Downloads). Post A first, B ~2h later, all platforms, AI labels on.
 
@@ -208,7 +212,7 @@ from §the playbook first; r/ClaudeAI retry with the steward angle;
 r/interactivefiction with the mechanism angle. One sub per day, comments
 answered same-day.
 
-**Voting mechanics honesty (for replies):** reactions on the two episodes'
-GitHub issues (#13/#14) + on-platform engagement inform the call; the
-founder's taste file makes the final trunk decision in the open, and the
-losing branch stays alive forever (R6). "The crowd narrows, taste decides."
+**Mechanics honesty (for replies):** the call was made by the AI steward
+under the founder's published taste rules, cited line-by-line in the public
+editorial log (genomes/sapling/edl.md, 2026-07-22). Ending B is not dead:
+branches never die here — react on issue #14 and it keeps growing.

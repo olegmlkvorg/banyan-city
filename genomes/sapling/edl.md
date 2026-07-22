@@ -92,3 +92,34 @@ anchors); all generation prompts rewritten against it. Shot content, camera
 direction, and continuity facts unchanged — only the rendering style moved.
 v1 photoreal trial clips stay archived as evidence (R6: nothing is deleted);
 the D8 bake-off should be re-judged in the new style before resolution.
+
+
+## 2026-07-22 — Trunk call, 006 generation → **006a "The Miracle Clause"**
+
+Made by the steward under founder delegation ("just choose whatever,"
+2026-07-22, after the founder screened both anime benches — the reservation
+was his to waive for this call).
+
+- **R3 (laughter as resolution):** 006a's central conflict resolves on
+  screen by absurdity-escalation — the law defeats its own categories until
+  *shrine* stands; 006b's central tension opens rather than resolves (its
+  own taste notes say so).
+- **R1 (economy of attention):** 006a's changes land between people — a
+  legal category, a keeper's papers, a deadline — the smallest changes with
+  the largest downstream consequences for every relationship in Shade.
+- **R6 (rejection is only deferral):** 006b stays hot. Its
+  kingdom-reads-the-sky reveal is the strongest cosmology beat the tree has,
+  and the designed graft path: it arrives on trunk later *through*
+  relationships (the magistrate already carries it), as 002c's wireframes
+  did through 004.
+- **007a** becomes trunk as sole continuation of the new tip (precedent:
+  003b, 2026-07-11).
+- **Note:** taste/proposals/v0.3-draft.md predicted the founder would pick
+  006a; the founder delegated instead of choosing, so that calibration is
+  VOID — the proposal awaits an explicit founder verdict, unclaimed by this
+  call.
+- **Wince note (comprehension, founder, 2026-07-22):** "the story becomes
+  hard to understand after ep 3-4 — because of the rough videos, not the
+  idea." Addressed in-render (per-episode "Previously:" recap line derived
+  from the parent's state change); the structural fix — character
+  consistency across episodes — is the priority for the regrow era.

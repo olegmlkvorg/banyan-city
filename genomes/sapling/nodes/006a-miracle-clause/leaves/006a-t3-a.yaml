@@ -1,0 +1,42 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 006a-t3-a
+node: 006a
+tier: T3
+form: full-video-mp4
+content: 006a-t3-a.mp4
+author: pipeline/render_t3.py (assembly; per-beat footage sources below)
+model: "per-beat \u2014 see sources"
+prompt: "per-beat \u2014 see sources"
+seed: "per-beat \u2014 see sources"
+cost_usd: 0.0
+status: live
+platform_urls: []
+sources:
+- beat: 1
+  slug: "COLD OPEN \u2014 0:00\u20130:10"
+  clip: 01-cold-open-audit-prep.mp4
+  audio: 01-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 2
+  slug: "THE ARRIVAL \u2014 0:10\u20130:30"
+  clip: 02-the-arrival.mp4
+  audio: 02-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 3
+  slug: "THE HEARING \u2014 0:30\u20131:00"
+  clip: 03-the-hearing.mp4+03-the-hearing-alt2.mp4
+  audio: 03-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 4
+  slug: "THE CLAUSE \u2014 1:00\u20131:25"
+  clip: 04-the-clause.mp4+04-the-clause-alt1.mp4
+  audio: 04-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
