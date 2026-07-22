@@ -177,6 +177,19 @@ platform_urls: []
     return leaf_id
 
 
+def register_leaf(lineage_text: str, node_id: str, leaf_id: str) -> str:
+    """Append a leaf to a node's `leaves: [...]` in lineage.yaml text,
+    preserving comments. The separator is emitted only when the list already
+    has entries — a bare ', ' into an empty list would write 'leaves: [, X]',
+    which is invalid YAML. (render_t2/t3 inline this same pattern.)"""
+    return re.sub(
+        rf"(- id: \"{re.escape(node_id)}\"\n(?:.*\n)*?    leaves: \[)([^\]]*)",
+        lambda m: m.group(1) + (f"{m.group(2)}, {leaf_id}" if m.group(2).strip() else leaf_id),
+        lineage_text,
+        count=1,
+    )
+
+
 def main() -> None:
     if len(sys.argv) < 3:
         raise SystemExit(__doc__)
@@ -192,12 +205,7 @@ def main() -> None:
         leaf_id = render_node(genome, node, genome_dir)
         if leaf_id not in (node.get("leaves") or []):
             # register the new leaf in lineage.yaml, preserving comments
-            lineage_text = re.sub(
-                rf"(- id: \"{re.escape(node['id'])}\"\n(?:.*\n)*?    leaves: \[)([^\]]*)",
-                rf"\g<1>\g<2>, {leaf_id}",
-                lineage_text,
-                count=1,
-            )
+            lineage_text = register_leaf(lineage_text, node["id"], leaf_id)
         print(f"✓ rendered {leaf_id}")
     lineage_file.write_text(lineage_text)
 

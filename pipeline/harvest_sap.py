@@ -97,7 +97,13 @@ def parse_screening_issue(body: str):
 
 def harvest_screening(genome_dirs: list) -> int:
     """Tally screening-form issues into each node's sap/screening.yaml."""
-    issues = gh(f"/repos/{GH_REPO}/issues?labels=screening&state=all&per_page=100")
+    try:
+        issues = gh(f"/repos/{GH_REPO}/issues?labels=screening&state=all&per_page=100")
+    except urllib.error.URLError as e:
+        # HTTPError subclasses URLError — one guard covers both;
+        # skip the tally rather than fail the whole harvest
+        print(f"screening: issues API failed ({e}) — skipped")
+        return 0
     by_leaf = {}
     for issue in issues:
         leaf, scores, note = parse_screening_issue(issue.get("body", ""))
@@ -114,32 +120,36 @@ def harvest_screening(genome_dirs: list) -> int:
     for genome_dir in genome_dirs:
         lineage = yaml.safe_load((genome_dir / "lineage.yaml").read_text())
         for node in lineage["nodes"]:
-            leaves = {l: by_leaf[l] for l in (node.get("leaves") or []) if l in by_leaf}
-            if not leaves:
-                continue
-            summary = {
-                "harvested_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "leaves": {
-                    leaf: {
-                        "ratings": e["ratings"],
-                        "means": {k: round(s / e["ratings"], 2) for k, s in e["sums"].items()},
-                        "winces": e["winces"],
-                    }
-                    for leaf, e in leaves.items()
-                },
-            }
-            out = genome_dir / "nodes" / node["slug"] / "sap" / "screening.yaml"
-            header = "# Screening summary — open data, written by pipeline/harvest_sap.py\n"
-            if out.exists():
-                old = yaml.safe_load(out.read_text())
-                old.pop("harvested_at", None)
-                cmp = dict(summary)
-                cmp.pop("harvested_at")
-                if old == cmp:
+            try:
+                leaves = {l: by_leaf[l] for l in (node.get("leaves") or []) if l in by_leaf}
+                if not leaves:
                     continue
-            out.write_text(header + yaml.safe_dump(summary, sort_keys=False))
-            print(f"screening: {out.relative_to(REPO_DIR)}")
-            changed += 1
+                summary = {
+                    "harvested_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "leaves": {
+                        leaf: {
+                            "ratings": e["ratings"],
+                            "means": {k: round(s / e["ratings"], 2) for k, s in e["sums"].items()},
+                            "winces": e["winces"],
+                        }
+                        for leaf, e in leaves.items()
+                    },
+                }
+                out = genome_dir / "nodes" / node["slug"] / "sap" / "screening.yaml"
+                header = "# Screening summary — open data, written by pipeline/harvest_sap.py\n"
+                if out.exists():
+                    old = yaml.safe_load(out.read_text())
+                    old.pop("harvested_at", None)
+                    cmp = dict(summary)
+                    cmp.pop("harvested_at")
+                    if old == cmp:
+                        continue
+                out.write_text(header + yaml.safe_dump(summary, sort_keys=False))
+                print(f"screening: {out.relative_to(REPO_DIR)}")
+                changed += 1
+            except Exception as e:
+                # one node's corrupt summary must not abort the tally
+                print(f"screening: node {node.get('id', '?')} failed ({e}) — skipped")
     return changed
 
 
@@ -210,9 +220,16 @@ def main() -> int:
     for genome_dir in genome_dirs:
         nodes_dir = genome_dir / "nodes"
         for node_dir in sorted(nodes_dir.iterdir()):
-            if node_dir.is_dir() and harvest_node(node_dir):
-                print(f"harvested: {node_dir.relative_to(REPO_DIR)}")
-                changed += 1
+            if not node_dir.is_dir():
+                continue
+            try:
+                if harvest_node(node_dir):
+                    print(f"harvested: {node_dir.relative_to(REPO_DIR)}")
+                    changed += 1
+            except Exception as e:
+                # one node's failed fetch or corrupt yaml must not abort
+                # the whole nightly harvest — note it and move on
+                print(f"harvest: {node_dir.relative_to(REPO_DIR)} failed ({e}) — skipped")
     changed += harvest_screening(genome_dirs)
     changed += harvest_reach()
     print(f"✓ sap harvest complete — {changed} file(s) updated")

@@ -92,6 +92,13 @@ def ffmpeg_exe() -> str:
         return "ffmpeg"
 
 
+def media_duration(ff: str, f: Path) -> float | None:
+    """Container duration via ffmpeg banner (no ffprobe dependency)."""
+    r = subprocess.run([ff, "-i", str(f)], capture_output=True, text=True)
+    m = re.search(r"Duration: (\d+):(\d+):(\d+\.?\d*)", r.stderr)
+    return int(m[1]) * 3600 + int(m[2]) * 60 + float(m[3]) if m else None
+
+
 def clamp(lo: float, v: float, hi: float) -> float:
     return max(lo, min(hi, v))
 
@@ -303,7 +310,8 @@ def build_audio_track(ff: str, video: Path, shots: list, workdir: Path) -> None:
                    check=True, capture_output=True)
     voiced = workdir / "voiced.mp4"
     subprocess.run([ff, "-y", "-i", str(video), "-i", str(mixed),
-                    "-c:v", "copy", "-c:a", "copy", "-shortest", str(voiced)],
+                    "-c:v", "copy", "-c:a", "copy", "-shortest",
+                    "-movflags", "+faststart", str(voiced)],
                    check=True, capture_output=True)
     voiced.replace(video)
 
@@ -320,6 +328,23 @@ def tts_openai(text: str, out: Path) -> float:
     with urllib.request.urlopen(req) as r:
         out.write_bytes(r.read())
     return round(len(text) / 1_000_000 * 12.0, 5)  # $12/1M chars, published estimate
+
+
+def synth_openai(ff: str, shots: list, workdir: Path) -> float:
+    """--tts openai (paid): narrate the spoken shots up front, then stretch
+    each shot to fit its audio like synth_kokoro — the reading-time estimate
+    must never trim the voice mid-sentence. Returns cost (USD)."""
+    cost = 0.0
+    for i, s in enumerate(shots):
+        if s["type"] not in ("line", "vo", "action"):
+            continue
+        mp3 = workdir / f"vo-{i:03d}.mp3"
+        cost += tts_openai(s["text"], mp3)
+        s["audio"] = mp3
+        adur = media_duration(ff, mp3)
+        if adur:
+            s["dur"] = round(max(s["dur"], adur + 0.35), 2)
+    return cost
 
 
 def kenburns_clip(ff: str, img: Path, dur: float, idx: int, is_title: bool, outdir: Path) -> Path:
@@ -354,16 +379,15 @@ def assemble(ff: str, clips: list, out: Path) -> None:
                        check=True, capture_output=True)
 
 
-def mux_voice(ff: str, video: Path, shots: list, workdir: Path) -> float:
-    """--tts openai: narrate spoken shots, pad each to its shot duration,
-    concat into one track, mux. Returns cost (USD)."""
-    cost, segs = 0.0, []
+def mux_voice(ff: str, video: Path, shots: list, workdir: Path) -> None:
+    """--tts openai: pad each pre-synthesized narration (synth_openai runs
+    before the cut, so every shot already fits its audio) to its shot
+    duration, concat into one track, mux."""
+    segs = []
     for i, s in enumerate(shots):
         seg = workdir / f"aud-{i:03d}.m4a"
-        if s["type"] in ("line", "vo", "action"):
-            mp3 = workdir / f"vo-{i:03d}.mp3"
-            cost += tts_openai(s["text"], mp3)
-            subprocess.run([ff, "-y", "-i", str(mp3), "-af", "apad", "-t", f"{s['dur']:.2f}",
+        if s.get("audio"):
+            subprocess.run([ff, "-y", "-i", str(s["audio"]), "-af", "apad", "-t", f"{s['dur']:.2f}",
                             "-c:a", "aac", str(seg)], check=True, capture_output=True)
         else:
             subprocess.run([ff, "-y", "-f", "lavfi", "-i", "anullsrc=r=24000:cl=mono",
@@ -374,10 +398,10 @@ def mux_voice(ff: str, video: Path, shots: list, workdir: Path) -> float:
     alist.write_text("\n".join(f"file '{a.resolve()}'" for a in segs))
     voiced = workdir / "voiced.mp4"
     subprocess.run([ff, "-y", "-i", str(video), "-f", "concat", "-safe", "0", "-i", str(alist),
-                    "-c:v", "copy", "-c:a", "aac", "-shortest", str(voiced)],
+                    "-c:v", "copy", "-c:a", "aac", "-shortest",
+                    "-movflags", "+faststart", str(voiced)],
                    check=True, capture_output=True)
     voiced.replace(video)
-    return cost
 
 
 def main() -> int:
@@ -414,9 +438,13 @@ def main() -> int:
         return 0
 
     workdir = Path(tempfile.mkdtemp(prefix="t2-"))
+    ff = ffmpeg_exe()
     voices_used = set()
+    cost = 0.0
     if args.tts == "kokoro":
         voices_used = synth_kokoro(shots, load_voices(genome_dir), workdir)
+    elif args.tts == "openai":
+        cost = synth_openai(ff, shots, workdir)
     total = round(sum(s["dur"] for s in shots), 1)
 
     page = workdir / "shots.html"
@@ -425,17 +453,15 @@ def main() -> int:
     if len(stills) != len(shots):
         raise SystemExit(f"{leaf_id}: {len(stills)} stills for {len(shots)} shots")
 
-    ff = ffmpeg_exe()
     clips = [kenburns_clip(ff, img, s["dur"], i, s["type"] == "title", workdir)
              for i, (img, s) in enumerate(zip(stills, shots))]
     out = node_dir / "leaves" / f"{leaf_id}.mp4"
     assemble(ff, clips, out)
 
-    cost = 0.0
     if args.tts == "kokoro":
         build_audio_track(ff, out, shots, workdir)
     elif args.tts == "openai":
-        cost = mux_voice(ff, out, shots, workdir)
+        mux_voice(ff, out, shots, workdir)
     size_kb = out.stat().st_size // 1024
     if args.tts == "kokoro":
         model_line = (f"kokoro-82M via kokoro-onnx (local neural TTS, $0) — cast: "
@@ -460,9 +486,11 @@ status: live
 platform_urls: []
 """)
     if leaf_id not in (node.get("leaves") or []):
+        # separator only when the list is non-empty — '[, X]' is invalid YAML
         new_text = re.sub(
             rf"(- id: \"{re.escape(node['id'])}\"\n(?:.*\n)*?    leaves: \[)([^\]]*)",
-            rf"\g<1>\g<2>, {leaf_id}", lineage_text, count=1)
+            lambda m: m.group(1) + (f"{m.group(2)}, {leaf_id}" if m.group(2).strip() else leaf_id),
+            lineage_text, count=1)
         (genome_dir / "lineage.yaml").write_text(new_text)
 
     print(f"✓ rendered {leaf_id}: {len(shots)} shots, ~{total}s, {size_kb}KB, cost ${cost:.2f}")

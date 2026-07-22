@@ -227,6 +227,212 @@ def test_trials_page_renders():
     check("trials page has prompts section", "three prompts" in html)
 
 
+def test_generate_shots_fence_binding():
+    # regression: an info-string fence (```text) or a beat with a missing fence
+    # skidded prompts across beats — the wrong prompt went to a paid API. Each
+    # fence must bind to ITS beat's section; fence-less beats are skipped.
+    from generate_shots import parse_shots
+    md = ("## Beat 01 — ALPHA (0:00–0:10) ⬜ needs footage\n\n"
+          "```text\nprompt alpha 9:16\n```\n\n"
+          "## Beat 02 — BRAVO (0:10–0:20) ⬜ needs footage\n\n"
+          "commentary but no prompt fence at all\n\n"
+          "## Beat 03 — CHARLIE (0:20–0:30) ✅ generated\n\n"
+          "```\nprompt charlie 9:16\n```\n")
+    shots = parse_shots(md)
+    check("fence-less beat skipped, not swallowed", [s["num"] for s in shots] == [1, 3])
+    check("info-string fence binds to its own beat",
+          [s["prompt"] for s in shots] == ["prompt alpha 9:16", "prompt charlie 9:16"])
+    check("done status survives fence rework", [s["done"] for s in shots] == [False, True])
+
+
+def test_generate_shots_effective_duration():
+    # regression: the budget gate must price the seconds the provider actually
+    # bills (veo clamps to 4/6/8s, wan floors at 2s), not the raw --duration ask
+    from generate_shots import effective_duration
+    check("veo clamps 10s ask to 8s billed", effective_duration("veo", None, 10) == 8)
+    check("veo keeps a native 6s ask", effective_duration("veo", None, 6) == 6)
+    check("fal-hosted veo clamps too", effective_duration("fal", "fal-ai/veo3.1/fast", 10) == 8)
+    check("fal kling passes duration through",
+          effective_duration("fal", "kling-video/v3/turbo/standard/text-to-video", 10) == 10)
+    check("wan floors at 2s", effective_duration("wan", None, 1) == 2)
+    check("wan caps at 15s", effective_duration("wan", None, 20) == 15)
+    check("kling passes duration through", effective_duration("kling", None, 10) == 10)
+
+
+def test_generate_shots_download_atomic(tmp: Path):
+    # regression: download wrote straight to the final NN-*.mp4, so a crash
+    # left a truncated file the resume check counted as footage — must land
+    # via .part + rename, and a failed fetch must leave nothing behind
+    from generate_shots import download
+    src = tmp / "src.bin"
+    src.write_bytes(b"clip-bytes")
+    dest = tmp / "01-alpha.mp4"
+    download(src.as_uri(), dest)
+    check("download lands complete at final path", dest.read_bytes() == b"clip-bytes")
+    check("no .part temp left behind", not list(tmp.glob("*.part")))
+    try:
+        download((tmp / "missing.bin").as_uri(), tmp / "02-bravo.mp4")
+        check("failed download raises", False)
+    except OSError:
+        check("failed download raises", True)
+    check("failed download leaves no partial file",
+          not (tmp / "02-bravo.mp4").exists() and not list(tmp.glob("*.part")))
+
+
+def test_register_leaf_list_separator():
+    # regression: registering a leaf into an empty `leaves: []` wrote
+    # 'leaves: [, X]' — invalid YAML. The separator must appear only when
+    # the list already has entries. render_t2/t3 inline the same regex +
+    # replacement for their lineage writes; render_t1.register_leaf is the
+    # named form under test.
+    import yaml
+    from render_t1 import register_leaf
+    stub = ('nodes:\n'
+            '  - id: "001"\n'
+            '    slug: 001-x\n'
+            '    leaves: []\n')
+    out = register_leaf(stub, "001", "001-t1-a")
+    check("empty list: no leading comma", "leaves: [001-t1-a]" in out)
+    check("empty list result is valid YAML",
+          yaml.safe_load(out)["nodes"][0]["leaves"] == ["001-t1-a"])
+    out2 = register_leaf(stub.replace("[]", "[001-t0-a]"), "001", "001-t1-a")
+    check("non-empty list appends with ', '", "leaves: [001-t0-a, 001-t1-a]" in out2)
+    check("non-empty list result is valid YAML",
+          yaml.safe_load(out2)["nodes"][0]["leaves"] == ["001-t0-a", "001-t1-a"])
+
+
+def test_t2_openai_shots_stretch_to_audio(tmp: Path):
+    # regression: --tts openai trimmed narration to the reading-time estimate
+    # (-t dur) and never stretched the shot — synth_openai must extend dur to
+    # the measured mp3 length + 0.35s tail, exactly like synth_kokoro
+    shots = [{"type": "title", "who": "n", "text": "T", "dur": 1.3},
+             {"type": "line", "who": "ROOT", "text": "a long speech", "dur": 1.4}]
+    orig_tts, orig_dur = t2.tts_openai, t2.media_duration
+    t2.tts_openai = lambda text, out: (out.write_bytes(b"mp3"), 0.001)[1]
+    t2.media_duration = lambda ff, f: 4.0  # narration far longer than the card
+    try:
+        cost = t2.synth_openai("ffmpeg", shots, tmp)
+    finally:
+        t2.tts_openai, t2.media_duration = orig_tts, orig_dur
+    check("openai narration stretches its shot", shots[1]["dur"] == 4.35)
+    check("openai shot records its audio file", shots[1].get("audio") == tmp / "vo-001.mp3")
+    check("title card stays silent and untimed", "audio" not in shots[0] and shots[0]["dur"] == 1.3)
+    check("openai cost accumulates", cost == 0.001)
+
+
+def test_t2_final_mux_keeps_faststart(tmp: Path):
+    # regression: build_audio_track/mux_voice replace the assembled leaf, so
+    # their final mux must carry assemble()'s -movflags +faststart — otherwise
+    # every voiced render ships with the moov atom at the tail (no fast play)
+    calls = []
+
+    def fake_run(cmd, **kw):
+        calls.append([str(c) for c in cmd])
+        out = Path(cmd[-1])
+        if out.suffix in (".mp4", ".m4a", ".wav"):
+            out.write_bytes(b"x")
+
+    mp3 = tmp / "vo-000.mp3"
+    mp3.write_bytes(b"a")
+    shots = [{"type": "line", "who": "R", "text": "hi", "dur": 2.0, "audio": mp3}]
+    orig_run = t2.subprocess.run
+    t2.subprocess.run = fake_run
+    try:
+        video = tmp / "leaf.mp4"
+        video.write_bytes(b"v")
+        t2.build_audio_track("ffmpeg", video, shots, tmp)
+        kokoro_muxes = [c for c in calls if c[-1].endswith("voiced.mp4")]
+        calls.clear()
+        video.write_bytes(b"v")
+        t2.mux_voice("ffmpeg", video, shots, tmp)
+        openai_muxes = [c for c in calls if c[-1].endswith("voiced.mp4")]
+    finally:
+        t2.subprocess.run = orig_run
+    check("kokoro final mux keeps +faststart",
+          bool(kokoro_muxes) and all("+faststart" in c for c in kokoro_muxes))
+    check("openai final mux keeps +faststart",
+          bool(openai_muxes) and all("+faststart" in c for c in openai_muxes))
+    check("openai mux voices the pre-synthesized mp3",
+          any(str(mp3) in c for c in calls))
+
+
+def test_t3_find_clips_primary_first(tmp: Path):
+    # regression: '-' < '.' so a plain filename sort put NN-slug-alt1.mp4 ahead
+    # of the primary NN-slug.mp4 — every multi-take beat led with the alt take
+    for name in ("01-cold-open-alt2.mp4", "01-cold-open.mp4", "01-cold-open-alt1.mp4"):
+        (tmp / name).write_bytes(b"x")
+    order = [c.name for c in t3.find_clips(tmp, 1)]
+    check("primary take sorts first",
+          order == ["01-cold-open.mp4", "01-cold-open-alt1.mp4", "01-cold-open-alt2.mp4"])
+    check("find_clip returns the primary", t3.find_clip(tmp, 1).name == "01-cold-open.mp4")
+
+
+def test_t3_fit_duration():
+    # footage beats: slot = max(sequence, VO + 0.4) — never the paper timing
+    check("footage sizes its slot", t3.fit_duration(12.0, 10.0, 0.0) == 10.0)
+    check("footage stretches for VO", t3.fit_duration(12.0, 10.0, 11.0) == 11.4)
+    # slate beats: script timing, but a longer VO is never trimmed mid-sentence
+    check("slate keeps script timing", t3.fit_duration(12.0, 0.0, 0.0) == 12.0)
+    check("slate holds for longer VO", t3.fit_duration(12.0, 0.0, 14.0) == 14.4)
+    check("slate ignores shorter VO", t3.fit_duration(12.0, 0.0, 5.0) == 12.0)
+
+
+def test_t3_beat_provenance_aggregates(tmp: Path):
+    # regression: multi-clip beats credited only clip[0]'s sidecar — later
+    # clips' platform/model vanished and their cost dropped out of the leaf
+    (tmp / "01-open.mp4").write_bytes(b"x")
+    (tmp / "01-open.meta.yaml").write_text("platform: veo\nmodel: veo-3\ncost_usd: 0.40\n")
+    (tmp / "01-open-alt1.mp4").write_bytes(b"x")
+    (tmp / "01-open-alt1.meta.yaml").write_text("platform: kling\nmodel: kling-2.5\ncost_usd: 0.25\n")
+    prov = t3.beat_provenance(t3.find_clips(tmp, 1))
+    check("platforms aggregate in clip order", prov["platform"] == "veo+kling")
+    check("models aggregate in clip order", prov["model"] == "veo-3+kling-2.5")
+    check("cost sums across clips", prov["cost_usd"] == 0.65)
+    check("no clips → none/zero provenance",
+          t3.beat_provenance([]) == {"platform": "none", "model": "none", "cost_usd": 0.0})
+
+
+def test_t3_sidecar_errors_named(tmp: Path):
+    # regression: a corrupt sidecar died with a raw traceback that never said
+    # which file — both parsers must fail loud AND name the offender
+    (tmp / "01-vo.json").write_text("{not json")
+    try:
+        t3.vo_manifest(tmp, 1)
+        ok = False
+    except SystemExit as e:
+        ok = "01-vo.json" in str(e)
+    check("bad VO manifest names its file", ok)
+    clip = tmp / "02-x.mp4"
+    clip.write_bytes(b"x")
+    (tmp / "02-x.meta.yaml").write_text("platform: [unclosed\n")
+    try:
+        t3.clip_provenance(clip)
+        ok = False
+    except SystemExit as e:
+        ok = "02-x.meta.yaml" in str(e)
+    check("bad clip meta names its file", ok)
+
+
+def test_t3_check_clips_dir(tmp: Path):
+    # regression: a typo'd --clips path silently rendered an all-slate episode
+    # over a published leaf; only an OMITTED --clips may render all-slate
+    def aborts(d):
+        try:
+            t3.check_clips_dir(d)
+            return False
+        except SystemExit:
+            return True
+    check("no --clips passes (all-slate path)", not aborts(None))
+    check("nonexistent --clips aborts", aborts(tmp / "nope"))
+    d = tmp / "trial"
+    d.mkdir()
+    check("empty --clips aborts", aborts(d))
+    (d / "01-vo.mp3").write_bytes(b"x")
+    check("audio-only --clips still aborts", aborts(d))
+    (d / "01-shot.mp4").write_bytes(b"x")
+    check("--clips with footage passes", not aborts(d))
+
+
 def main():
     import tempfile
     test_beat_duration_from_timecode()
@@ -248,6 +454,24 @@ def main():
     test_budget_guard()
     test_all_leaf_content_exists()
     test_trials_page_renders()
+    test_generate_shots_fence_binding()
+    test_generate_shots_effective_duration()
+    with tempfile.TemporaryDirectory() as td:
+        test_generate_shots_download_atomic(Path(td))
+    test_register_leaf_list_separator()
+    with tempfile.TemporaryDirectory() as td:
+        test_t2_openai_shots_stretch_to_audio(Path(td))
+    with tempfile.TemporaryDirectory() as td:
+        test_t2_final_mux_keeps_faststart(Path(td))
+    with tempfile.TemporaryDirectory() as td:
+        test_t3_find_clips_primary_first(Path(td))
+    test_t3_fit_duration()
+    with tempfile.TemporaryDirectory() as td:
+        test_t3_beat_provenance_aggregates(Path(td))
+    with tempfile.TemporaryDirectory() as td:
+        test_t3_sidecar_errors_named(Path(td))
+    with tempfile.TemporaryDirectory() as td:
+        test_t3_check_clips_dir(Path(td))
     print()
     if FAILURES:
         print(f"✗ {len(FAILURES)} failure(s): {', '.join(FAILURES)}")

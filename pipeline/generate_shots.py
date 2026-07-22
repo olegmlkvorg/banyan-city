@@ -91,15 +91,27 @@ def log_spend(node: str, beat: int, provider: str, model: str, est: float, note:
 # ---------------------------------------------------------------- shot list --
 
 def parse_shots(shots_md: str) -> list:
-    """`## Beat NN — TITLE ... ```prompt``` ` → [{num, slug, prompt, done}]"""
+    """`## Beat NN — TITLE ... ```prompt``` ` → [{num, slug, prompt, done}]
+
+    Each prompt fence is bound to ITS beat's section (never read past the next
+    `## Beat` heading — a missing fence must not swallow the next beat's prompt
+    and send the wrong prompt to a paid API). Openers with an info string
+    (```text) are accepted. A beat without a fence is skipped with a loud
+    warning rather than silently."""
     shots = []
-    for m in re.finditer(
-            r"^## Beat (\d+) — ([^\n]*?)(✅[^\n]*|⬜[^\n]*)?$\n(.*?)```\n(.*?)```",
-            shots_md, re.M | re.S):
-        num, title, status = int(m.group(1)), m.group(2).strip(), (m.group(3) or "")
+    heads = list(re.finditer(r"^## Beat (\d+) — ([^\n]*?)(✅[^\n]*|⬜[^\n]*)?$", shots_md, re.M))
+    for i, h in enumerate(heads):
+        num, title, status = int(h.group(1)), h.group(2).strip(), (h.group(3) or "")
+        body_end = heads[i + 1].start() if i + 1 < len(heads) else len(shots_md)
+        fence = re.search(r"^```[^\n]*\n(.*?)^```\s*$",
+                          shots_md[h.end():body_end], re.M | re.S)
+        if not fence:
+            print(f"WARNING: shots.md beat {num:02d} ({title}) has no ``` prompt fence "
+                  f"— beat SKIPPED, write the prompt before generating", file=sys.stderr)
+            continue
         slug = re.sub(r"[^a-z0-9]+", "-", title.split("(")[0].lower()).strip("-")
         shots.append({"num": num, "slug": slug or f"beat{num}",
-                      "prompt": " ".join(m.group(5).split()),
+                      "prompt": " ".join(fence.group(1).split()),
                       "done": "✅" in status})
     return shots
 
@@ -151,7 +163,13 @@ def gen_veo(prompt: str, model: str, dur: int) -> tuple:
         if st.get("done"):
             if "error" in st:
                 raise RuntimeError(f"veo: {st['error']}")
-            vids = st["response"]["generateVideoResponse"]["generatedSamples"]
+            resp = st.get("response", {}).get("generateVideoResponse", {})
+            vids = resp.get("generatedSamples") or []
+            if not vids:
+                raise RuntimeError(
+                    "veo: generation finished but returned no video — prompt likely "
+                    "blocked by Google's RAI safety filter; rewrite the prompt "
+                    f"(response: {json.dumps(resp)[:300]})")
             return vids[0]["video"]["uri"] + f"&key={key}", {
                 "platform": "google-veo-api", "model": model,
                 "cost_note": "per-second API billing; see ai.google.dev/pricing"}
@@ -254,11 +272,30 @@ def gen_wan(prompt: str, model: str, dur: int) -> tuple:
 PROVIDERS = {"kling": gen_kling, "veo": gen_veo, "fal": gen_fal, "wan": gen_wan}
 
 
+def effective_duration(provider: str, model: str, dur: int) -> int:
+    """Seconds the provider will actually generate and bill — mirrors the
+    clamps inside each adapter (veo and fal-hosted veo: 4/6/8s only, else 8s;
+    wan: 2-15s) so the budget gate estimates the real API cost, not the raw
+    --duration ask."""
+    if provider == "veo" or (provider == "fal" and "veo" in (model or "").lower()):
+        return dur if dur in (4, 6, 8) else 8
+    if provider == "wan":
+        return max(2, min(15, dur))
+    return dur
+
+
 # --------------------------------------------------------------------- main --
 
 def download(url: str, dest: Path) -> None:
-    with urllib.request.urlopen(url) as r, open(dest, "wb") as f:
-        f.write(r.read())
+    """Fetch to a .part temp then rename — a crash mid-download must never
+    leave a truncated NN-*.mp4 that the resume check counts as a finished clip."""
+    tmp = dest.with_suffix(dest.suffix + ".part")
+    try:
+        with urllib.request.urlopen(url) as r, open(tmp, "wb") as f:
+            f.write(r.read())
+        tmp.replace(dest)
+    finally:
+        tmp.unlink(missing_ok=True)
 
 
 def main() -> int:
@@ -275,10 +312,13 @@ def main() -> int:
     p.add_argument("--yes", action="store_true",
                    help="REQUIRED to spend: confirms the printed estimate. No flag, no API call.")
     p.add_argument("--quota-covered", action="store_true",
-                   help="founder attests this run is covered by a provider free quota: "
+                   help="wan only: founder attests this run is covered by the provider free quota: "
                         "ledger records $0.00 (with the list-price noted) and the money caps "
                         "don't count it. Still requires --yes. Do NOT pass once quota is exhausted.")
     args = p.parse_args()
+    if args.quota_covered and args.provider != "wan":
+        p.error("--quota-covered applies only to --provider wan — the sole provider "
+                "with a free quota (pipeline/t3-trials/free-routes.md)")
 
     genome_dir = REPO / "genomes" / args.genome
     lineage = yaml.safe_load((genome_dir / "lineage.yaml").read_text())
@@ -297,9 +337,9 @@ def main() -> int:
     for s in shots:
         if wanted is not None and s["num"] not in wanted:
             continue
-        existing = list(clips_dir.glob(f"{s['num']:02d}-*.mp4"))
+        existing = [c for c in clips_dir.glob(f"{s['num']:02d}-*.mp4") if c.stat().st_size > 0]
         if existing and wanted is None:
-            continue  # already have footage; explicit --beats regenerates
+            continue  # already have footage (0-byte stubs don't count); explicit --beats regenerates
         todo.append(s)
     if not todo:
         print("nothing to generate — every requested beat already has a clip")
@@ -308,12 +348,13 @@ def main() -> int:
     # ---- budget gate: estimate → print → require --yes → enforce caps ------
     rate = price_per_sec(args.model or {"kling": "kling-video-v2_5", "veo": "veo-3.1-fast",
                                         "fal": "kling-video/v3/turbo", "wan": "wan2.7-t2v"}[args.provider])
-    est_run = round(len(todo) * args.duration * rate, 2)
+    eff_dur = effective_duration(args.provider, args.model, args.duration)
+    est_run = round(len(todo) * eff_dur * rate, 2)
     caps, prior = budget(), spent_total()
     quota_note = " · QUOTA-COVERED (founder-attested: bills $0, list-price shown)" if args.quota_covered else ""
     print(f"{node['id']}: {len(todo)} shot(s) via {args.provider}"
           + (f" [{args.model}]" if args.model else "")
-          + f" — estimated cost ${est_run:.2f} (${rate:.3f}/s x {args.duration}s x {len(todo)})"
+          + f" — estimated cost ${est_run:.2f} (${rate:.3f}/s x {eff_dur}s effective x {len(todo)})"
           f" · spent so far ${prior:.2f} · caps: ${caps['hard_cap_per_run_usd']:.2f}/run,"
           f" ${caps['hard_cap_total_usd']:.2f} lifetime{quota_note}")
     if args.dry_run:
@@ -335,8 +376,11 @@ def main() -> int:
     gen = PROVIDERS[args.provider]
     for s in todo:
         print(f"  beat {s['num']:02d} ({s['slug']}) … ", end="", flush=True)
-        url, meta = gen(s["prompt"], args.model, args.duration)
-        beat_est = round(args.duration * rate, 2)
+        try:
+            url, meta = gen(s["prompt"], args.model, args.duration)
+        except RuntimeError as e:
+            raise SystemExit(f"\nbeat {s['num']:02d} ({s['slug']}): {e}") from e
+        beat_est = round(eff_dur * rate, 2)
         if args.quota_covered:
             log_spend(node["id"], s["num"], args.provider, meta.get("model", args.model or ""),
                       0.0, f"provider free quota (list-price ${beat_est:.2f})")

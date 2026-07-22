@@ -37,6 +37,7 @@ Usage:
 
 import argparse
 import json
+import math
 import re
 import subprocess
 import sys
@@ -85,17 +86,34 @@ def beat_duration(slug: str, items: list) -> float:
 
 
 def find_clips(clips_dir: Path, num: int) -> list:
-    """All footage for a beat, sorted (NN-slug.mp4, NN-slug-alt1.mp4, …).
-    Multiple clips are SEQUENCED to fill the beat before any looping starts —
-    a beat with 3 distinct clips loops a 30s sequence, not a 5s shot."""
+    """All footage for a beat, primary take first (NN-slug.mp4, then
+    NN-slug-alt1.mp4, …). Multiple clips are SEQUENCED to fill the beat before
+    any looping starts — a beat with 3 distinct clips loops a 30s sequence,
+    not a 5s shot. Sorted on the stem, not the filename: '-' < '.' would put
+    NN-slug-alt1.mp4 ahead of the primary NN-slug.mp4 otherwise."""
     if not clips_dir:
         return []
-    return sorted(clips_dir.glob(f"{num:02d}-*.mp4")) or sorted(clips_dir.glob(f"{num:02d}.mp4"))
+    return (sorted(clips_dir.glob(f"{num:02d}-*.mp4"), key=lambda p: p.stem)
+            or sorted(clips_dir.glob(f"{num:02d}.mp4")))
 
 
 def find_clip(clips_dir: Path, num: int) -> Path | None:
     hits = find_clips(clips_dir, num)
     return hits[0] if hits else None
+
+
+def check_clips_dir(clips_dir: Path | None) -> None:
+    """An explicit --clips that doesn't exist or holds no per-beat footage is
+    almost certainly a typo'd path: rendering on would silently produce an
+    all-slate episode and could overwrite a published leaf. Abort loudly —
+    omitting --clips keeps the legitimate all-slate path."""
+    if clips_dir is None:
+        return
+    if not clips_dir.is_dir():
+        raise SystemExit(f"--clips {clips_dir}: not a directory")
+    if not any(clips_dir.glob("[0-9][0-9]*.mp4")):
+        raise SystemExit(f"--clips {clips_dir}: no per-beat clips (NN-*.mp4) found — "
+                         "omit --clips to render an all-slate episode")
 
 
 AUDIO_EXT = ("mp3", "wav", "m4a", "aac", "ogg")
@@ -120,13 +138,50 @@ def media_duration(f: Path) -> float | None:
     return int(m[1]) * 3600 + int(m[2]) * 60 + float(m[3]) if m else None
 
 
+def video_duration(f: Path) -> float | None:
+    """Video-stream-only duration: exact packet count from a decode-free remux
+    to the null muxer, over the stream's frame rate. The container duration
+    includes the audio track, which generators pad ~20-30ms past the video;
+    summing THAT overshoots the video-only sequence render_beat builds and
+    loops a 1-frame flash of the first clip onto the beat's end. (The remux
+    progress `time=` is DTS-based and lags B-frames — count frames instead.)
+    Falls back to container duration."""
+    r = subprocess.run([FFMPEG, "-i", str(f), "-map", "0:v:0", "-c", "copy",
+                        "-f", "null", "-"], capture_output=True, text=True)
+    fps = re.search(r"(\d+(?:\.\d+)?) fps[,\s]", r.stderr)  # first hit = input banner
+    frames = re.findall(r"frame=\s*(\d+)", r.stderr)        # last hit = final count
+    if r.returncode == 0 and fps and frames and float(fps[1]) > 0:
+        return int(frames[-1]) / float(fps[1])
+    return media_duration(f)
+
+
+def fit_duration(script_s: float, cdur: float, vdur: float) -> float:
+    """A beat slot sized to its material. Footage beats run exactly as long as
+    the clip sequence and the FULL voice track — max(footage, VO + 0.4s pad).
+    Slate beats (cdur 0) keep the script's paper timing, stretching only when
+    the VO runs longer; dialogue is never hard-trimmed mid-sentence."""
+    if cdur:
+        return round(max(cdur, vdur + 0.4), 2)
+    if vdur:
+        return round(max(script_s, vdur + 0.4), 2)
+    return script_s
+
+
 def vo_manifest(clips_dir: Path, num: int) -> dict | None:
     """NN-vo.json (written by the VO synth): measured per-line timings that
     drive exact caption sync; without it captions fall back to even slicing."""
     if not clips_dir:
         return None
     f = clips_dir / f"{num:02d}-vo.json"
-    return json.loads(f.read_text()) if f.exists() else None
+    if not f.exists():
+        return None
+    try:
+        data = json.loads(f.read_text())
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
+        raise SystemExit(f"VO manifest {f} is unreadable: {e}")
+    if not isinstance(data, dict):
+        raise SystemExit(f"VO manifest {f} must be a JSON object, got {type(data).__name__}")
+    return data
 
 
 def audio_segment(dur: float, audio: Path, workdir: Path, tag: str) -> Path:
@@ -315,9 +370,27 @@ def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
 
 def clip_provenance(clip: Path) -> dict:
     meta = clip.with_suffix(".meta.yaml") if clip else None
-    if meta and meta.exists():
-        return yaml.safe_load(meta.read_text()) or {}
-    return {}
+    if not (meta and meta.exists()):
+        return {}
+    try:
+        data = yaml.safe_load(meta.read_text()) or {}
+    except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
+        raise SystemExit(f"clip metadata {meta} is unreadable: {e}")
+    if not isinstance(data, dict):
+        raise SystemExit(f"clip metadata {meta} must be a YAML mapping, got {type(data).__name__}")
+    return data
+
+
+def beat_provenance(clips: list) -> dict:
+    """Provenance across ALL of a beat's clips (§7.2): platform/model joined
+    unique in sequence order, cost summed — a multi-clip beat credits every
+    sidecar, not just the first clip's."""
+    provs = [clip_provenance(c) for c in clips]
+    plats = dict.fromkeys(str(p.get("platform") or "none") for p in provs)
+    models = dict.fromkeys(str(p.get("model") or "none") for p in provs)
+    return {"platform": "+".join(plats) or "none",
+            "model": "+".join(models) or "none",
+            "cost_usd": round(sum((float(p.get("cost_usd", 0) or 0) for p in provs), 0.0), 4)}
 
 
 def main() -> int:
@@ -331,6 +404,7 @@ def main() -> int:
     p.add_argument("--suffix", default="a", help="leaf suffix (default a)")
     p.add_argument("--no-cards", action="store_true", help="skip title/end cards")
     args = p.parse_args()
+    check_clips_dir(args.clips)
 
     genome_dir = REPO / "genomes" / args.genome
     lineage_text = (genome_dir / "lineage.yaml").read_text()
@@ -374,22 +448,24 @@ def main() -> int:
                 audio = workdir / f"vo-{i:02d}.mp3"
                 tts_cost += tts_fn(text, audio)
         manifest = vo_manifest(args.clips, i)
+        # fit the slot to the material, not the script's paper timing:
+        # exactly long enough for the footage and the FULL voice track —
+        # dialogue is never trimmed mid-line (slate beats included), and
+        # short footage loops (see render_beat / fit_duration). Footage is
+        # measured video-only and floored to the frame grid: container
+        # durations include audio padded past the video, and that overshoot
+        # looped a 1-frame flash of the first clip onto the beat's end.
+        vdur = (manifest or {}).get("total_s") or (media_duration(audio) if audio else 0) or 0
+        cdur = 0.0
         if beat_clips:
-            # fit the slot to the material, not the script's paper timing:
-            # exactly long enough for the footage and the FULL voice track —
-            # dialogue is never trimmed mid-line, and short footage loops
-            # (see render_beat). Script timings only size slate beats.
-            cdur = sum(media_duration(c) or 0 for c in beat_clips) or dur
-            vdur = (manifest or {}).get("total_s") or (media_duration(audio) if audio else 0) or 0
-            dur = round(max(cdur, vdur + 0.4), 2)
+            csum = sum(video_duration(c) or 0 for c in beat_clips)
+            cdur = (math.floor(csum * FPS) / FPS) or dur
+        dur = fit_duration(dur, cdur, vdur)
         timeline.append((render_beat(beat, i, dur, beat_clips, workdir, manifest), dur, audio))
-        prov = clip_provenance(beat_clips[0] if beat_clips else None)
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),
                         "clip": "+".join(c.name for c in beat_clips) if beat_clips else "slate (no footage yet)",
                         "audio": audio.name if audio else "none",
-                        "platform": prov.get("platform", "none"),
-                        "model": prov.get("model", "none"),
-                        "cost_usd": float(prov.get("cost_usd", 0) or 0)})
+                        **beat_provenance(beat_clips)})
 
     if not args.no_cards:
         end = card_png([
@@ -452,9 +528,11 @@ def main() -> int:
             "status": "live", "platform_urls": [], "sources": sources,
         }, sort_keys=False))
     if leaf_id not in (node.get("leaves") or []):
+        # separator only when the list is non-empty — '[, X]' is invalid YAML
         (genome_dir / "lineage.yaml").write_text(re.sub(
             rf"(- id: \"{re.escape(node['id'])}\"\n(?:.*\n)*?    leaves: \[)([^\]]*)",
-            rf"\g<1>\g<2>, {leaf_id}", lineage_text, count=1))
+            lambda m: m.group(1) + (f"{m.group(2)}, {leaf_id}" if m.group(2).strip() else leaf_id),
+            lineage_text, count=1))
     return 0
 
 
