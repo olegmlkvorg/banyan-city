@@ -420,11 +420,18 @@ def main() -> int:
                         "-c", "copy", str(atrack)], check=True, capture_output=True)
         r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-i", str(atrack),
                             "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-                            "-c:a", "aac", "-shortest", str(out)], capture_output=True, text=True)
+                            "-c:a", "aac", "-shortest",
+                            "-movflags", "+faststart", str(out)], capture_output=True, text=True)
         if r.returncode:
             raise SystemExit(f"mux failed:\n{r.stderr[-1500:]}")
     else:
-        video.replace(out)
+        # remux (not rename) so the FINAL file is faststart — the per-part
+        # encodes are, but concat -c copy rewrites the container with moov
+        # at the end, which stalls browser playback (regression class 068988d)
+        r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-c", "copy",
+                            "-movflags", "+faststart", str(out)], capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(f"faststart remux failed:\n{r.stderr[-1500:]}")
 
     total = sum(d for _, d, _ in timeline)
     cost = round(tts_cost + sum(s["cost_usd"] for s in sources), 2)
