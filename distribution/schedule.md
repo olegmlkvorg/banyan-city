@@ -1,26 +1,33 @@
-# Season 1 drop schedule — one episode every 12 hours
+# Season 1 drop schedule — one episode per day, 21:00 local
 
-Posting is founder-only; this file is the run-sheet. Files are on the
-Desktop (`banyan-*.mp4`) and in `genomes/*/leaves/`. Post the same clip to
-TikTok + YouTube Shorts + Instagram Reels + X each slot; pin the comment
-from `launch-kit.md` §4 everywhere. Times local (edit freely — the cadence
-matters more than the clock).
+Posting is founder-only; this file is the run-sheet. **Rebased 2026-07-22:**
+the original 12-hour plan didn't survive contact with real life (only eps
+1–2 shipped), so the cadence is now one episode per evening. Drop files are
+staged in `~/Downloads` (`banyan-*.mp4`); masters live on the Desktop and in
+`genomes/*/leaves/`. Post the same clip to TikTok + YouTube Shorts +
+Instagram Reels each slot; pin the comment from `launch-kit.md` §4.
 
-| # | When (local, +04) | Episode | File | Hook line |
+**The reminder is local now:** a launchd agent
+(`city.banyan.drop-reminder`, script at `distribution/reminder/remind.sh`)
+fires daily at 21:00 — macOS notification, the tree's own voice announcing
+the episode (kokoro bm_fable, $0), caption pre-copied to the clipboard,
+Downloads opened. After the last drop it announces the season complete and
+unloads itself. The earlier cloud routines are dead (environment deleted).
+
+| # | When (local, +04) | Episode | File (in ~/Downloads) | Caption |
 |---|---|---|---|---|
-| 1 | **2026-07-20 21:00** | 001 — Capability Inventory | `banyan-001-anime-v2.mp4` | see caption A |
-| 2 | 2026-07-21 09:00 | 002b — The First Citizen | `banyan-002b-episode.mp4` | caption B |
-| 3 | 2026-07-21 21:00 | 003b — One Leaf for Yes | `banyan-003b-episode.mp4` | caption C |
-| 4 | 2026-07-22 09:00 | 004 — Shade | `banyan-004-episode.mp4` | caption D |
-| 5 | 2026-07-22 21:00 | 005 — The Assessor | `banyan-005-episode.mp4` | caption E |
+| ✅ | 2026-07-20 | 001 — Capability Inventory | `banyan-001-anime-v2.mp4` | A |
+| ✅ | 2026-07-21 | 002b — The First Citizen | `banyan-002b-episode.mp4` | B |
+| 3 | **2026-07-22 21:00** | 003b — One Leaf for Yes | `banyan-003b-episode.mp4` | C |
+| 4 | 2026-07-23 21:00 | 004 — Shade | `banyan-004-episode.mp4` | D |
+| 5 | 2026-07-24 21:00 | 005 — The Assessor | `banyan-005-episode.mp4` | E |
+| 6 | 2026-07-25 21:00 | 006a — The Miracle Clause | `banyan-006a-episode.mp4` | F |
+| 7 | 2026-07-26 21:00 | 007a — The Demo (finale) | `banyan-007a-episode.mp4` | G |
 
-Cloud reminder routines are armed for each slot (claude.ai/code/routines) —
-each pings the founder with the episode, file, and caption letter, then
-expires. Reschedule = edit this table + the routines.
-
-After #5: the season supercut (`banyan-sapling-season-1.mp4`, 6:55) as a
-weekend "binge the whole season" post, and the 006 fork as the first
-"you decide what happens next" interactive post — the payoff of the format.
+After #7: the season supercut (`banyan-sapling-season-1-COMPLETE.mp4`,
+10:41) as a "binge the whole season" post, and the fork post — "the tree
+chose A" runbook in `launch-kit.md` §5. Reschedule = edit this table +
+the dates in `reminder/remind.sh`.
 
 ## Captions (per episode)
 
@@ -56,6 +63,20 @@ that answers questions. He counted the rocks individually.
 Sapling ep 5 · banyan.city — and next, YOU pick what happens
 #anime #aianimation #isekai
 
+**F — 006a:**
+The verdict: the talking tree is legally a SHRINE. The fugitive goblin is
+now its official keeper. One catch — they owe the kingdom a verified
+miracle by the full moon.
+Sapling ep 6 · full season at banyan.city
+#anime #aianimation #interactivefiction
+
+**G — 007a:**
+They rehearsed a miracle for two weeks. The wind ruined it in four seconds.
+What happened next was not rehearsed.
+Season finale · whole season free at banyan.city · the story branches —
+you pick what happens next
+#anime #aianimation #interactivefiction
+
 ## Standing rules (every post, every platform)
 
 - **Always enable the platform's AI-generated content label** (TikTok's
@@ -66,11 +87,14 @@ Sapling ep 5 · banyan.city — and next, YOU pick what happens
 - Platforms (2026-07-21): TikTok @banyan.city + YouTube Shorts @banyancity
   ("Altered content: Yes") + Instagram Reels @banyan.city (Made-with-AI
   label) + Snapchat Spotlight (lowest priority). Mirror already-dropped
-  episodes freely; NEW episodes follow the 12h schedule on all platforms.
+  episodes freely; NEW episodes follow the daily schedule on all platforms.
+- X is suspended (appeal pending); Reddit waits for account age (~07-24+,
+  playbook ready).
 
 ## Mechanics per slot (5 min)
 
-1. Post the file + caption on each platform (native upload, not links).
-2. Pin the open-source comment (launch-kit §4).
-3. Drop the episode link in the node's GitHub reactions issue.
-4. That's it — reactions harvest into the repo nightly on their own.
+1. 21:00 — the tree speaks; caption is already on the clipboard.
+2. Post the file + caption on each platform (native upload, not links).
+3. Pin the open-source comment (launch-kit §4).
+4. Drop the episode link in the node's GitHub reactions issue.
+5. That's it — reactions harvest into the repo nightly on their own.
