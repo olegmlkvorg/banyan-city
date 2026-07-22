@@ -1,0 +1,49 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 007a-t3-a
+node: 007a
+tier: T3
+form: full-video-mp4
+content: 007a-t3-a.mp4
+author: pipeline/render_t3.py (assembly; per-beat footage sources below)
+model: "per-beat \u2014 see sources"
+prompt: "per-beat \u2014 see sources"
+seed: "per-beat \u2014 see sources"
+cost_usd: 0.0
+status: live
+platform_urls: []
+sources:
+- beat: 1
+  slug: "COLD OPEN \u2014 0:00\u20130:10"
+  clip: 01-cold-open-the-miracle-backlog.mp4
+  audio: 01-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 2
+  slug: "THE REHEARSALS \u2014 0:10\u20130:30"
+  clip: 02-the-rehearsals.mp4
+  audio: 02-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 3
+  slug: "THE DEMO \u2014 0:30\u20130:55"
+  clip: 03-the-demo.mp4+03-the-demo-alt1.mp4
+  audio: 03-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 4
+  slug: "THE TRUE THING \u2014 0:55\u20131:15"
+  clip: 04-the-true-thing.mp4+04-the-true-thing-alt1.mp4
+  audio: 04-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0
+- beat: 5
+  slug: "THE HOOK \u2014 1:15\u20131:25"
+  clip: 05-the-hook.mp4
+  audio: 05-vo.mp3
+  platform: alibaba-model-studio
+  model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+  cost_usd: 0.0

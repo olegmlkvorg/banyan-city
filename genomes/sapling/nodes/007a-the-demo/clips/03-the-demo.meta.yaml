@@ -1,0 +1,11 @@
+# Shot provenance (§7.2)
+platform: alibaba-model-studio
+model: wan2.7-i2v-2026-04-25 (i2v from wan2.6-t2i keyframe)
+shot_beat: 3
+prompt: "Vertical 9:16 shot, full-moon night. Under a huge flat full moon, the magistrate \u2014 a sharp angular silhouette in dark, travel-worn robes of office, a seal on a chain, a face drawn for one raised eyebrow \u2014 unfolds a small travelling chair at a clearing's edge and sits, perfectly composed. Facing a tiny mascot-simple 50cm sapling with a small fan of slender branches \u2014 never a face, its acting entirely leaf angle and timing \u2014 a small round goblin (enormous ears that act like a second face, one broken tusk, huge expressive eyes, patchwork cloak in faded greens and browns) raises a conductor's stick, visibly sweating. As the sapling's oversized leaves gather to move, the wind rises: the entire field of flat-color grass ripples in waves, and a distant treeline on the horizon performs the same choreography \u2014 the one rehearsed wave indistinguishable from weather. The goblin flails, conducting bigger and bigger, at one point gesturing grandly up at the moon as if he ordered it. The magistrate's face does not move. Behind them a farmer (broad squarish silhouette, straw hat, three-line face) covers his eyes with one hand. Deadpan catastrophe; deep indigo night palette with silver rim light on every figure, flat and quiet under the moon. Hand-drawn 2D anime style, low detail: flat cel-shaded colors, bold clean linework, minimal shading (single shadow tone), simplified shapes, soft watercolor-wash backgrounds with large empty areas, gentle pastel-leaning palette, expressive minimal faces. No photorealism, no 3D render look, no heavy texture. 9:16 vertical, no text."
+keyframe_prompt_suffix: ""
+duration_s: 10
+aspect: "9:16 (720P)"
+cost_usd: 0.0
+cost_note: provider free quota (list-price ~$1.00); founder-authorized re-shoot 15:00 2026-07-21
+date: 2026-07-22

@@ -1,0 +1,18 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "VO",
+   "text": "Two weeks to ship a miracle. So we did what every team does with an",
+   "start": 0.0,
+   "end": 3.968
+  },
+  {
+   "who": "VO",
+   "text": "impossible deadline: cut scope until the miracle was a demo.",
+   "start": 4.248,
+   "end": 8.344
+  }
+ ],
+ "total_s": 8.624
+}

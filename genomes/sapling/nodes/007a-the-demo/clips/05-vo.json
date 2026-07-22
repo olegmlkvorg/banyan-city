@@ -1,0 +1,36 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Who's that?",
+   "start": 0.0,
+   "end": 0.896
+  },
+  {
+   "who": "FARMER",
+   "text": "Word travels. That's the first one.",
+   "start": 1.176,
+   "end": 3.672
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "First what?",
+   "start": 3.952,
+   "end": 4.699
+  },
+  {
+   "who": "VO",
+   "text": "Patrol wanted taxes. Assessor wanted a count. Magistrate wanted a",
+   "start": 4.979,
+   "end": 9.565
+  },
+  {
+   "who": "VO",
+   "text": "category. I could give all of those. \u2026What does she want?",
+   "start": 9.845,
+   "end": 13.131
+  }
+ ],
+ "total_s": 13.411
+}
