@@ -38,4 +38,4 @@ The episode being remade is just the loop's test bench.
 
 | Cycle | Diagnosed | Top defects | Fixes | Verdict |
 |---|---|---|---|---|
-| 001 | 2026-07-23 | see `loop/cycle-001.md` | — | pending |
+| 001 | 2026-07-23 | silent 2.5s open; −22 LUFS + dead-air holes; wall-of-text captions (15 confirmed, `loop/cycle-001.md`) | 3 chosen, all render_t3 assembly — v3 re-cuts at $0 | pending founder screening |
