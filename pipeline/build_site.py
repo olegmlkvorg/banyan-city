@@ -384,7 +384,8 @@ on a hook that's a real state change, not a tease.</p>
 one line in <code>lineage.yaml</code> naming your parent, open a pull request.<br>
 · <strong>No-git door:</strong> paste your script into
 <a href="{REPO_URL}/issues/new?template=branch-submission.yml">this form</a> — the steward
-turns it into a proper branch with your name on it.</p>
+turns it into a proper branch with your name on it. (Takes any free GitHub account —
+no git commands, just the form.)</p>
 <p><strong>4 · It gets rendered.</strong> The $0 pipeline (storyboard → voiced animatic) runs
 for anyone's episode. Want it <em>filmed</em>? <a href="{REPO_URL}/blob/main/REGROW.md">Render
 it yourself with free tools</a> — or let watering fund it.</p>
