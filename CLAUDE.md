@@ -65,12 +65,30 @@ eventually. SEASON COMPLETE (2026-07-22): 7 trunk episodes filmed, voiced, live 
 founder delegation (edl 07-22); 006b/007b alive per R6. 'Previously:'
 recap cards on all episodes (comprehension wince). Free quota SPENT
 (~$35 list, $0 billed, ledgered); next renders = Kaggle/paid/watering.
-MAKING ERA CLOSED by design: no ep 8 until sap says so — priorities are
-distribution (drops eps 3-7 per schedule; Reddit opens ~07-24, playbook
-ready; fork post Friday reframed 'tree chose A'), X appeal pending,
-Vercel analytics toggle pending (founder), v0.3 verdict pending (founder;
-calibration VOID — founder delegated). Regrow-era top fix: character
-consistency across episodes. Supercut: Desktop, 10:41.
+MAKING ERA CLOSED by design: no ep 8 until sap says so.
+**THE LOOP (2026-07-23, dad's directive — `pipeline/loop.md`):** the
+standing process is now diagnose→fix-in-pipeline→re-render→founder
+screens→log (`pipeline/loop/cycle-NNN.md`). Cycle 001: killed the silent
+2.5s title-card open (title is an overlay now), added wind bed + 2-pass
+loudnorm to −14 LUFS, chunked 46px bold captions — KEPT. Cycle 002:
+measured caption sync + directed pauses (`synth_vo.py`) — founder saw no
+difference → engine was the ceiling. Cycle 003: **Chatterbox 0.5B local
+on MPS** (cb-venv, python3.11: chatterbox-tts + setuptools<81 for perth;
+torch.load patched to map_location cpu), voice-cloned from kokoro cast
+via `build_refs.py` (~/.cache/banyan-tts/cb-refs/), per-line emotion
+direction from script cues, ~3x realtime, $0 — founder: "improving for
+sure", rolled to eps 2-7. VO manifests now carry measured lines[].chunks;
+render_t3 prefers them. Old VO takes in clips/vo-archive/ (R6).
+Distribution: drops re-based to 1/day 21:00 (`distribution/schedule.md`);
+a launchd agent `city.banyan.drop-reminder` (script
+`distribution/reminder/remind.sh`, voiced by the tree) fires nightly,
+copies the caption to clipboard, self-retires after the finale. Eps 1-3
+posted (TikTok/Shorts/Reels, AI-labeled). Reddit: post auto-removed on
+r/generativeAI (new account); founder declined modmail; warming continues,
+retry ~+1wk; drafts in `distribution/reddit-drafts.md` (project-first
+angle — founder: the PROJECT is the hook, not the rough videos). X appeal
+pending, Vercel analytics pending (founder), v0.3 verdict pending.
+Regrow-era top fix: character consistency across episodes.
 Standing: warm new accounts 2-3 days before posting links.
 Do NOT suggest multi-account quota cycling — declined on ToS + provenance
 grounds, founder accepted.
