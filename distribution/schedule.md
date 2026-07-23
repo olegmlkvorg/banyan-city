@@ -3,7 +3,7 @@
 Posting is founder-only; this file is the run-sheet. **Rebased 2026-07-22:**
 the original 12-hour plan didn't survive contact with real life (only eps
 1–2 shipped), so the cadence is now one episode per evening. Drop files are
-staged in `~/Downloads` (`banyan-*.mp4`); masters live on the Desktop and in
+staged in `~/Desktop/banyan-drops/` (an auto-organizer sweeps ~/Downloads);
 `genomes/*/leaves/`. Post the same clip to TikTok + YouTube Shorts +
 Instagram Reels each slot; pin the comment from `launch-kit.md` §4.
 
@@ -11,10 +11,10 @@ Instagram Reels each slot; pin the comment from `launch-kit.md` §4.
 (`city.banyan.drop-reminder`, script at `distribution/reminder/remind.sh`)
 fires daily at 21:00 — macOS notification, the tree's own voice announcing
 the episode (kokoro bm_fable, $0), caption pre-copied to the clipboard,
-Downloads opened. After the last drop it announces the season complete and
+the drops folder opened. After the last drop it announces the season complete and
 unloads itself. The earlier cloud routines are dead (environment deleted).
 
-| # | When (local, +04) | Episode | File (in ~/Downloads) | Caption |
+| # | When (local, +04) | Episode | File (in ~/Desktop/banyan-drops) | Caption |
 |---|---|---|---|---|
 | ✅ | 2026-07-20 | 001 — Capability Inventory | `banyan-001-anime-v2.mp4` | A |
 | ✅ | 2026-07-21 | 002b — The First Citizen | `banyan-002b-episode.mp4` | B |
