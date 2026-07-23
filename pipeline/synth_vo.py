@@ -178,7 +178,12 @@ def measured_chunks(engine, text: str, voice: str, spd: float, direction: tuple,
         return [{"text": chunks[0], "start": round(start, 3), "end": round(end, 3)}]
     durs = []
     for c in chunks:
-        speak = clean_speech(c) or c
+        speak = clean_speech(c)
+        if not speak:
+            # display-only stage direction ('(aggressively nothing)') —
+            # nominal read time, the voice never says it
+            durs.append(0.6)
+            continue
         samples, sr = engine.synth(speak, voice, spd, direction)
         durs.append(len(trim_silence(samples, sr)) / sr)
     total = sum(durs) or 1.0

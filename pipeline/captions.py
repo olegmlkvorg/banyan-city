@@ -17,7 +17,7 @@ def caption_chunks(text: str, max_words: int = CAPTION_MAX_WORDS) -> list:
     for sent in re.split(r"(?<=[.!?…])\s+", text.strip()):
         if not sent.split():
             continue
-        buf = []
+        sent_units, buf = [], []
         # a mid-line em dash ends its clause but stays VISIBLE (it carries
         # tone): \x00 marks the split point after it
         for clause in re.split(r"(?<=[,;:])\s+|\x00",
@@ -25,19 +25,23 @@ def caption_chunks(text: str, max_words: int = CAPTION_MAX_WORDS) -> list:
             for word in clause.split():
                 buf.append(word)
                 if len(buf) == max_words:
-                    units.append(" ".join(buf))
+                    sent_units.append(" ".join(buf))
                     buf = []
             # a clause end past half the cap is a natural caption break
             if len(buf) > max_words // 2:
-                units.append(" ".join(buf))
+                sent_units.append(" ".join(buf))
                 buf = []
         if buf:
-            units.append(" ".join(buf))
-        # fold a 1-2 word orphan into its predecessor
-        if (len(units) >= 2 and len(units[-1].split()) <= 2
-                and len(units[-2].split()) + len(units[-1].split()) <= max_words + 2):
-            orphan = units.pop()
-            units[-1] += " " + orphan
+            sent_units.append(" ".join(buf))
+        # fold a 1-2 word remnant into its predecessor — WITHIN this
+        # sentence only. Folding across sentences cascades: a run of tiny
+        # sentences ('Newhaven!' '(no leaf) Greenrest?' …) re-assembles
+        # into the very text wall chunking exists to prevent.
+        if (len(sent_units) >= 2 and len(sent_units[-1].split()) <= 2
+                and len(sent_units[-2].split()) + len(sent_units[-1].split()) <= max_words + 2):
+            orphan = sent_units.pop()
+            sent_units[-1] += " " + orphan
+        units.extend(sent_units)
     return units or [text.strip()]
 
 

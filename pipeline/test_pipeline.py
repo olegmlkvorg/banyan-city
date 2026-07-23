@@ -79,6 +79,9 @@ def test_caption_chunks():
           all(len(c.split()) <= t3.CAPTION_MAX_WORDS + 2 for c in chunks))
     check("wall becomes multiple units", len(chunks) >= 3)
     check("short line stays one unit", t3.caption_chunks("Huh. Green.") == ["Huh. Green."])
+    rapid = t3.caption_chunks("Newhaven! (no leaf) Greenrest? (nothing) Fig… holm? (aggressively nothing)")
+    check("tiny sentences never fold across boundaries (004 caption wall)",
+          rapid[0] == "Newhaven!" and len(rapid) == 5)
     check("empty-ish input survives", t3.caption_chunks("  ") == [""])
     spans = t3.chunk_spans("One two three. Four five six seven eight nine.", 2.0, 8.0)
     check("spans cover the window", abs(spans[0][1] - 2.0) < 1e-6 and abs(spans[-1][2] - 8.0) < 1e-6)
