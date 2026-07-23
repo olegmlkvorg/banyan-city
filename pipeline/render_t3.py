@@ -13,13 +13,18 @@ footage; everything the platform is bad at stays deterministic post:
              beat's duration. A beat with no clip renders as a $0 slate —
              the episode always assembles end-to-end, footage lands later.
   overlays   the script's terminal code-fences are burned in as green
-             monospace panels; VO lines appear as timed bottom captions.
-             Text is rasterized by Pillow and composited with ffmpeg's
-             core `overlay` filter — no freetype/drawtext build needed.
+             monospace panels; VO lines appear as timed bottom captions,
+             chunked to short phrase units (loop cycle 001). The episode
+             title is a compact overlay on the opening footage — never a
+             full-screen leading card. Text is rasterized by Pillow and
+             composited with ffmpeg's core `overlay` filter — no
+             freetype/drawtext build needed.
   voice      per-beat audio, muxed in sync: a supplied track (NN-*.mp3 in the
              clips dir) wins, else optional --tts openai narration (render_t2's
-             engine). Cards are silent; each beat's audio is padded/trimmed to
-             its slot so VO stays aligned. No audio anywhere → silent animatic.
+             engine). Each beat's audio is padded/trimmed to its slot so VO
+             stays aligned; a whisper wind bed runs under the whole episode
+             and the final track is loudness-normalized for short-form
+             platforms. No audio anywhere → silent animatic.
   assembly   per-beat encodes concatenated losslessly, then a single aligned
              audio track muxed on, into <node>-t3-<sfx>.mp4.
 
@@ -58,12 +63,18 @@ FPS = 24
 MIN_SEC, MAX_SEC = 3.0, 12.0
 READ_CPS = 15.0
 GREEN, INK, BG = (111, 206, 138, 255), (230, 239, 232, 255), (10, 15, 11, 255)
-PANEL_BG, CAPTION_BG = (10, 15, 11, 200), (0, 0, 0, 150)
+PANEL_BG, CAPTION_BG = (10, 15, 11, 200), (0, 0, 0, 200)
+CAPTION_SIZE, CAPTION_MAX_WORDS = 46, 7
 
 MONO_FONTS = [
     "/System/Library/Fonts/Menlo.ttc",                       # macOS
     "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",   # debian/ubuntu CI
     "/usr/share/fonts/dejavu/DejaVuSansMono.ttf",
+]
+BOLD_FONTS = [
+    ("/System/Library/Fonts/Menlo.ttc", None),  # collection — scan for the Bold face
+    ("/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf", 0),
+    ("/usr/share/fonts/dejavu/DejaVuSansMono-Bold.ttf", 0),
 ]
 
 
@@ -72,6 +83,26 @@ def mono_font(size: int) -> ImageFont.FreeTypeFont:
         if Path(f).exists():
             return ImageFont.truetype(f, size)
     raise SystemExit("no monospace font found — extend MONO_FONTS")
+
+
+def mono_bold(size: int) -> ImageFont.FreeTypeFont:
+    """Bold face for captions — regular-weight 28px measured ~2/3 of
+    platform-native caption size and smears after re-encode (loop cycle 001,
+    defect 9). Menlo.ttc packs its faces in one collection, so the Bold
+    index is found by name; falls back to regular rather than failing."""
+    for path, idx in BOLD_FONTS:
+        if not Path(path).exists():
+            continue
+        if idx is not None:
+            return ImageFont.truetype(path, size, index=idx)
+        for i in range(6):
+            try:
+                f = ImageFont.truetype(path, size, index=i)
+            except OSError:
+                break
+            if f.getname()[1] == "Bold":
+                return f
+    return mono_font(size)
 
 
 def beat_duration(slug: str, items: list) -> float:
@@ -223,6 +254,68 @@ def audio_segment(dur: float, audio: Path, workdir: Path, tag: str) -> Path:
     return out
 
 
+def loudnorm_measure(track: Path) -> dict | None:
+    """First pass of two-pass loudnorm: measured levels for a linear-gain
+    second pass (dynamic single-pass loudnorm pumps on dialogue)."""
+    r = subprocess.run([FFMPEG, "-i", str(track), "-af",
+                        "loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json",
+                        "-f", "null", "-"], capture_output=True, text=True)
+    m = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", r.stderr, re.S)
+    if not m:
+        return None
+    try:
+        data = json.loads(m.group(0))
+    except json.JSONDecodeError:
+        return None
+    keys = ("input_i", "input_tp", "input_lra", "input_thresh", "target_offset")
+    if any(k not in data or "inf" in str(data[k]) for k in keys):
+        return None  # unmeasurable (e.g. digital silence) — caller falls back
+    return data
+
+
+def caption_chunks(text: str, max_words: int = CAPTION_MAX_WORDS) -> list:
+    """Split a VO line into short caption units. Whole lines burned in as
+    4-6-line paragraph blocks read as homework on a phone (loop cycle 001,
+    defects 8/11/12): break on sentence ends, then clause marks, then a hard
+    word cap, so each unit rasterizes to <=2 lines at caption size."""
+    units = []
+    for sent in re.split(r"(?<=[.!?…])\s+", text.strip()):
+        if not sent.split():
+            continue
+        buf = []
+        for clause in re.split(r"(?<=[,;:])\s+|\s+—\s+", sent):
+            for word in clause.split():
+                buf.append(word)
+                if len(buf) == max_words:
+                    units.append(" ".join(buf))
+                    buf = []
+            # a clause end past half the cap is a natural caption break
+            if len(buf) > max_words // 2:
+                units.append(" ".join(buf))
+                buf = []
+        if buf:
+            units.append(" ".join(buf))
+        # fold a 1-2 word orphan into its predecessor
+        if (len(units) >= 2 and len(units[-1].split()) <= 2
+                and len(units[-2].split()) + len(units[-1].split()) <= max_words + 2):
+            orphan = units.pop()
+            units[-1] += " " + orphan
+    return units or [text.strip()]
+
+
+def chunk_spans(text: str, w0: float, w1: float) -> list:
+    """Chunk a line and time each unit inside the line's audio window,
+    proportional to word count: (chunk, start, end) triples."""
+    chunks = caption_chunks(strip_inline_md(text))
+    total = sum(len(c.split()) for c in chunks) or 1
+    spans, t = [], w0
+    for c in chunks:
+        dt = (w1 - w0) * len(c.split()) / total
+        spans.append((c, t, t + dt))
+        t += dt
+    return spans
+
+
 def wrap(text: str, font: ImageFont.FreeTypeFont, max_w: int) -> list:
     out = []
     for raw in text.split("\n"):
@@ -239,9 +332,9 @@ def wrap(text: str, font: ImageFont.FreeTypeFont, max_w: int) -> list:
 
 
 def text_png(text: str, path: Path, size: int, fg: tuple, bg: tuple,
-             max_w: int = WIDTH - 100, pad: int = 18) -> Path:
+             max_w: int = WIDTH - 100, pad: int = 18, bold: bool = False) -> Path:
     """Rasterize a text block into a tight RGBA panel."""
-    font = mono_font(size)
+    font = mono_bold(size) if bold else mono_font(size)
     lines = wrap(text, font, max_w - 2 * pad)
     lh = size + 8
     w = min(max_w, max(font.getbbox(l)[2] for l in lines) + 2 * pad)
@@ -291,6 +384,31 @@ def card_png(lines: list, path: Path) -> Path:
     return path
 
 
+def title_overlay_png(node: dict, prev: str | None, path: Path) -> Path:
+    """Series wordmark + episode title (+ recap) as a compact centered panel,
+    composited over the opening seconds of live footage. The old full-screen
+    leading card spent the entire scroll-decision window on 2.5s of silent
+    black (loop cycle 001, defects 1-3); footage and VO now start at t=0."""
+    specs = [("BANYAN CITY", 24, (147, 166, 152, 255)),
+             (f"{node['id']} — {node['title']}", 34, GREEN),
+             ("a story that branches", 18, (147, 166, 152, 255))]
+    if prev:
+        for seg in wrap(f"Previously: {prev}", mono_font(20), WIDTH - 200):
+            specs.append((seg, 20, INK))
+    rendered = [(t, mono_font(s), c) for t, s, c in specs]
+    pad, gap = 22, 12
+    w = min(WIDTH - 80, max(f.getbbox(t)[2] for t, f, _ in rendered) + 2 * pad)
+    h = sum(f.getbbox(t)[3] + gap for t, f, _ in rendered) - gap + 2 * pad
+    img = Image.new("RGBA", (w, h), PANEL_BG)
+    d = ImageDraw.Draw(img)
+    y = pad
+    for t, f, c in rendered:
+        _centered(d, w // 2, y, t, f, c)
+        y += f.getbbox(t)[3] + gap
+    img.save(path)
+    return path
+
+
 def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
     """Encode one or more still cards into a short silent mp4 segment."""
     parts = []
@@ -306,11 +424,14 @@ def card_clip(pngs_and_durs: list, workdir: Path, tag: str) -> Path:
 
 
 def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
-                manifest: dict | None = None) -> Path:
+                manifest: dict | None = None, extra_layers: list | None = None) -> Path:
     """Encode one beat: fitted footage (or slate) + overlays + captions.
     Multiple clips per beat are sequenced (concat) to fill the slot; only the
     full sequence loops (anime-idiomatic hold) — never a freeze. Captions
-    follow the VO manifest's measured line timings when one exists."""
+    follow the VO manifest's measured line timings when one exists, chunked
+    to short phrase units within each line's window. extra_layers appends
+    caller-supplied (png, x, y, enable) overlays — e.g. the episode title
+    panel on beat 1."""
     inputs, chains = [], []
     clip = clips[0] if clips else None
     if len(clips) > 1:
@@ -347,26 +468,24 @@ def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
     lines = [i[2] for i in beat["items"] if i[0] == "line"]
     if lines:
         timed = (manifest or {}).get("lines")
-        if timed and len(timed) == len(lines):
-            # exact sync: each caption spans its measured audio window,
-            # holding until the next line starts (last holds to slot end)
-            for j, text in enumerate(lines):
-                png = text_png(strip_inline_md(text), workdir / f"cap-{num:02d}-{j}.png",
-                               28, INK, CAPTION_BG)
-                start = timed[j]["start"]
-                end = timed[j + 1]["start"] if j + 1 < len(timed) else dur
+        for j, text in enumerate(lines):
+            if timed and len(timed) == len(lines):
+                # exact sync: the line spans its measured audio window,
+                # holding until the next line starts (last holds to slot end)
+                w0 = timed[j]["start"]
+                w1 = timed[j + 1]["start"] if j + 1 < len(timed) else dur
+            else:
+                w0 = j * dur / len(lines)
+                w1 = (j + 1) * dur / len(lines) if j + 1 < len(lines) else dur
+            # half-open [start, end) windows per chunk avoid the 1-frame
+            # flash where two captions overlap at an inclusive boundary
+            for k, (chunk, s, e) in enumerate(chunk_spans(text, w0, w1)):
+                png = text_png(chunk, workdir / f"cap-{num:02d}-{j}-{k}.png",
+                               CAPTION_SIZE, INK, CAPTION_BG, bold=True)
                 layers.append((png, "(W-w)/2", "H-h-160",
-                               f"gte(t,{start:.2f})*lt(t,{end:.2f})"))
-        else:
-            slice_s = dur / len(lines)
-            for j, text in enumerate(lines):
-                png = text_png(strip_inline_md(text), workdir / f"cap-{num:02d}-{j}.png",
-                               28, INK, CAPTION_BG)
-                # half-open [start, end): last caption holds to the end; avoids the
-                # 1-frame flash where two lines overlap at an inclusive boundary
-                end = "" if j == len(lines) - 1 else f"*lt(t,{(j + 1) * slice_s:.2f})"
-                layers.append((png, "(W-w)/2", "H-h-160",
-                               f"gte(t,{j * slice_s:.2f}){end}"))
+                               f"gte(t,{s:.2f})*lt(t,{e:.2f})"))
+
+    layers += list(extra_layers or [])
 
     prev = "base"
     for k, (png, x, yy, enable) in enumerate(layers):
@@ -447,19 +566,10 @@ def main() -> int:
         from render_t2 import tts_openai
         tts_fn = tts_openai
 
+    title_ovl = None
     if not args.no_cards:
-        lines = [
-            ("BANYAN CITY", 30, (147, 166, 152, 255)),
-            (f"{node['id']} — {node['title']}", 40, GREEN),
-            ("a story that branches", 22, (147, 166, 152, 255)),
-        ]
         prev = previously_line(genome_dir, node, lineage["nodes"])
-        if prev:
-            # card_png doesn't wrap — pre-wrap the recap to the card width
-            for seg in wrap(f"Previously: {prev}", mono_font(20), WIDTH - 120):
-                lines.append((seg, 20, (230, 239, 232, 255)))
-        title = card_png(lines, workdir / "title.png")
-        timeline.append((card_clip([(title, 2.5)], workdir, "title")[0], 2.5, None))
+        title_ovl = title_overlay_png(node, prev, workdir / "title-ovl.png")
 
     for i, beat in enumerate(beats, 1):
         dur = beat_duration(beat["slug"], beat["items"])
@@ -487,7 +597,10 @@ def main() -> int:
             csum = sum(video_duration(c) or 0 for c in beat_clips)
             cdur = (math.floor(csum * FPS) / FPS) or dur
         dur = fit_duration(dur, cdur, vdur)
-        timeline.append((render_beat(beat, i, dur, beat_clips, workdir, manifest), dur, audio))
+        extra = ([(title_ovl, "(W-w)/2", "110", "lt(t,2.8)")]
+                 if i == 1 and title_ovl else None)
+        timeline.append((render_beat(beat, i, dur, beat_clips, workdir, manifest,
+                                     extra_layers=extra), dur, audio))
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),
                         "clip": "+".join(c.name for c in beat_clips) if beat_clips else "slate (no footage yet)",
                         "audio": audio.name if audio else "none",
@@ -520,9 +633,37 @@ def main() -> int:
         atrack = workdir / "audio.m4a"
         subprocess.run([FFMPEG, "-y", "-f", "concat", "-safe", "0", "-i", str(alist),
                         "-c", "copy", str(atrack)], check=True, capture_output=True)
-        r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-i", str(atrack),
+        # sound floor (loop cycle 001, defects 6/7): raw TTS concat mastered
+        # ~8 LU quiet with digital-zero holes between lines. A whisper wind
+        # bed (T2's chain) runs under the whole episode — no frame is ever
+        # digitally silent, fading out over the end card — then two-pass
+        # loudnorm brings the master to short-form platform level.
+        total_s = sum(d for _, d, _ in timeline)
+        mixed = workdir / "mixed.m4a"
+        r = subprocess.run(
+            [FFMPEG, "-y", "-i", str(atrack), "-f", "lavfi", "-i",
+             f"anoisesrc=color=brown:seed=42:r=24000:d={total_s:.2f}",
+             "-filter_complex",
+             f"[1:a]lowpass=f=300,volume=0.05,"
+             f"afade=t=out:st={max(total_s - 3.0, 0):.2f}:d=3[wind];"
+             "[0:a][wind]amix=inputs=2:duration=first:normalize=0[mix]",
+             "-map", "[mix]", "-ar", str(AUDIO_SR), "-ac", "2",
+             "-c:a", "aac", "-b:a", "160k", str(mixed)],
+            capture_output=True, text=True)
+        if r.returncode:
+            raise SystemExit(f"bed mix failed:\n{r.stderr[-1500:]}")
+        af = "loudnorm=I=-14:TP=-1.0:LRA=11"
+        measured = loudnorm_measure(mixed)
+        if measured:  # linear gain — dynamic single-pass pumps on dialogue
+            af += (f":measured_I={measured['input_i']}:measured_TP={measured['input_tp']}"
+                   f":measured_LRA={measured['input_lra']}"
+                   f":measured_thresh={measured['input_thresh']}"
+                   f":offset={measured['target_offset']}:linear=true")
+        af += ",alimiter=limit=0.891:level=0"  # ~-1 dB ceiling; level=0: no auto-makeup
+        r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-i", str(mixed),
                             "-map", "0:v", "-map", "1:a", "-c:v", "copy",
-                            "-c:a", "aac", "-shortest",
+                            "-af", af, "-ar", str(AUDIO_SR),
+                            "-c:a", "aac", "-b:a", "160k", "-shortest",
                             "-movflags", "+faststart", str(out)], capture_output=True, text=True)
         if r.returncode:
             raise SystemExit(f"mux failed:\n{r.stderr[-1500:]}")

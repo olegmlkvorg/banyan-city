@@ -67,6 +67,25 @@ def test_wrap_never_drops_words():
     check("wrap preserves all words", joined == text.split())
 
 
+def test_caption_chunks():
+    """Loop cycle 001 defects 8/11/12: captions are short phrase units, never
+    paragraph walls, and never lose or reorder a word."""
+    wall = ("Right. Sev-1. You know the drill: stay calm, assess capabilities, "
+            "work the problem. Step two: what do we actually know?")
+    chunks = t3.caption_chunks(wall)
+    check("chunker preserves every word in order",
+          " ".join(chunks).split() == wall.split())
+    check("no chunk exceeds the cap (+orphan margin)",
+          all(len(c.split()) <= t3.CAPTION_MAX_WORDS + 2 for c in chunks))
+    check("wall becomes multiple units", len(chunks) >= 3)
+    check("short line stays one unit", t3.caption_chunks("Huh. Green.") == ["Huh. Green."])
+    check("empty-ish input survives", t3.caption_chunks("  ") == [""])
+    spans = t3.chunk_spans("One two three. Four five six seven eight nine.", 2.0, 8.0)
+    check("spans cover the window", abs(spans[0][1] - 2.0) < 1e-6 and abs(spans[-1][2] - 8.0) < 1e-6)
+    check("spans are contiguous",
+          all(abs(spans[i][2] - spans[i + 1][1]) < 1e-6 for i in range(len(spans) - 1)))
+
+
 def test_parse_frames_bold_emphasis_in_quote():
     # regression: a quote line opening with bold emphasis ('> **fires**. rest')
     # is a wrapped speech continuation — only a colon marks a new speaker
@@ -442,6 +461,7 @@ def main():
     with tempfile.TemporaryDirectory() as td:
         test_find_audio_naming(Path(td))
     test_wrap_never_drops_words()
+    test_caption_chunks()
     test_parse_frames_bold_emphasis_in_quote()
     test_parse_frames_bold_line_needs_timing()
     test_build_shots_merges_continuations()

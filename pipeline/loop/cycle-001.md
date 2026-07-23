@@ -68,6 +68,20 @@ Deferred to later cycles: hook-beat shot grammar + in-point selection (4,
 beat/clip coverage lint (15), character bible + keyframe pipeline
 (pending cluster).
 
+## Fixes applied (2026-07-23, same day)
+
+All three landed in `render_t3.py` (+7 chunker/span tests in
+`test_pipeline.py`); ep 001 v3 bench-rendered from existing clips at $0:
+`~/Desktop/banyan-001-v3-LOOP1.mp4`. Measured against the diagnosis:
+
+| Defect | v2 (001-t3-b) | v3 |
+|---|---|---|
+| silent black open | 2.5s card, story at 2.7s | footage + VO at t=0, title as 2.8s overlay |
+| digital-zero holes | 0–2.6s, 9.5–12.6s, 68–71.7s | **none** (silencedetect −45dB: zero events) |
+| loudness | −22.3 LUFS | **−14.4 LUFS** (two-pass loudnorm + wind bed) |
+| captions | 4–6-line walls, 28px regular | ≤2-line chunks, 46px bold, VO-proportional timing |
+
 ## Verdict
 
-Pending founder screening of v3 (loop.md step 4).
+Pending founder screening of v3 vs v2 (loop.md step 4). If kept: re-assemble
+eps 2–7 with the same renderer (pure re-cut, $0) before their drop nights.
