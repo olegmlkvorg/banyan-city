@@ -1,8 +1,9 @@
 #!/bin/bash
 # The tree reminds the founder to post tonight's episode — daily 21:00 via
 # launchd (city.banyan.drop-reminder). Speaks in the show's narrator voice,
-# puts the caption on the clipboard, opens Downloads. Retires itself after
-# the season is fully dropped.
+# puts the caption on the clipboard, opens ~/Desktop/banyan-drops (Downloads
+# is swept by an auto-organizer — files there get moved and renamed).
+# Retires itself after the season is fully dropped.
 REPO="/Users/artovonkugler/banyan-city"
 V="$REPO/distribution/reminder/voices"
 today=$(date +%Y-%m-%d)
@@ -43,6 +44,6 @@ if [ "$EP" = "done" ]; then
 fi
 
 printf '%s' "$CAP" | pbcopy
-osascript -e "display notification \"$FILE → Downloads. Caption on clipboard. AI label ON.\" with title \"🌳 $TITLE\" sound name \"Glass\""
-open ~/Downloads
+osascript -e "display notification \"$FILE → Desktop/banyan-drops. Caption on clipboard. AI label ON.\" with title \"🌳 $TITLE\" sound name \"Glass\""
+open ~/Desktop/banyan-drops
 afplay "$V/$EP.mp3" 2>/dev/null
