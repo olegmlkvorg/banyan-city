@@ -123,7 +123,13 @@ class ChatterboxEngine:
         self.torch.manual_seed(abs(hash((text, voice))) % (2 ** 31))
         wav = self.model.generate(text, audio_prompt_path=str(ref),
                                   exaggeration=ex, cfg_weight=cfg)
-        return wav.squeeze(0).cpu().numpy(), self.model.sr
+        out = wav.squeeze(0).cpu().numpy()
+        if self.dev == "mps":
+            # MPS accumulates across generate() calls; a long dialogue beat
+            # (002b: 8 lines + chunk measures) climbs until the OS SIGKILLs
+            # the process with no traceback. Release after every take.
+            self.torch.mps.empty_cache()
+        return out, self.model.sr
 
 
 def trim_silence(x: np.ndarray, sr: int) -> np.ndarray:
