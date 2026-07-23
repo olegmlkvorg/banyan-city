@@ -1,0 +1,36 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "ASSESSOR",
+   "text": "And you. Occupation?",
+   "start": 0.0,
+   "end": 1.557
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "The magistrate reviews all new",
+   "start": 1.837,
+   "end": 3.971
+  },
+  {
+   "who": "VO",
+   "text": "settlements. She will want to see this one personally.",
+   "start": 4.251,
+   "end": 7.408
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\u2026Population three.",
+   "start": 7.688,
+   "end": 9.331
+  },
+  {
+   "who": "VO",
+   "text": "I've been called a lot of things. \"Population\" is new.",
+   "start": 9.611,
+   "end": 13.131
+  }
+ ],
+ "total_s": 13.411
+}

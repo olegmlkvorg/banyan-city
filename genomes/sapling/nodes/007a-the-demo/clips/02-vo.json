@@ -1,42 +1,126 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "SCAVENGER",
    "text": "From the top! And \u2014 ripple! (the ripple stalls halfway)",
    "start": 0.0,
-   "end": 1.237
+   "end": 1.938,
+   "chunks": [
+    {
+     "text": "From the top!",
+     "start": 0.0,
+     "end": 0.599
+    },
+    {
+     "text": "And \u2014 ripple!",
+     "start": 0.599,
+     "end": 1.49
+    },
+    {
+     "text": "(the ripple stalls halfway)",
+     "start": 1.49,
+     "end": 1.938
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "You dropped it at branch three again! Branch three is our weakest performer!",
-   "start": 1.517,
-   "end": 5.656
+   "start": 2.438,
+   "end": 6.059,
+   "chunks": [
+    {
+     "text": "You dropped it at branch three again!",
+     "start": 2.438,
+     "end": 4.197
+    },
+    {
+     "text": "Branch three is our weakest performer!",
+     "start": 4.197,
+     "end": 6.059
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "I am being given notes. By a goblin. With a stick. \u2026Branch three",
-   "start": 5.936,
-   "end": 10.053
+   "start": 6.559,
+   "end": 10.261,
+   "chunks": [
+    {
+     "text": "I am being given notes.",
+     "start": 6.559,
+     "end": 7.937
+    },
+    {
+     "text": "By a goblin.",
+     "start": 7.937,
+     "end": 8.798
+    },
+    {
+     "text": "With a stick.",
+     "start": 8.798,
+     "end": 9.665
+    },
+    {
+     "text": "\u2026Branch three",
+     "start": 9.665,
+     "end": 10.261
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "is our weakest performer though.",
-   "start": 10.333,
-   "end": 12.573
+   "start": 10.761,
+   "end": 12.318,
+   "chunks": [
+    {
+     "text": "is our weakest performer though.",
+     "start": 10.761,
+     "end": 12.318
+    }
+   ]
   },
   {
    "who": "FARMER",
    "text": "Miracles don't rehearse.",
-   "start": 12.853,
-   "end": 14.795
+   "start": 12.818,
+   "end": 14.381,
+   "chunks": [
+    {
+     "text": "Miracles don't rehearse.",
+     "start": 12.818,
+     "end": 14.381
+    }
+   ]
   },
   {
    "who": "SCAVENGER",
    "text": "Everything rehearses. Sunrise rehearses. It's called dawn twilight.",
-   "start": 15.075,
-   "end": 18.808
+   "start": 14.881,
+   "end": 19.327,
+   "chunks": [
+    {
+     "text": "Everything rehearses.",
+     "start": 14.881,
+     "end": 16.191
+    },
+    {
+     "text": "Sunrise rehearses.",
+     "start": 16.191,
+     "end": 17.618
+    },
+    {
+     "text": "It's called dawn twilight.",
+     "start": 17.618,
+     "end": 19.327
+    }
+   ]
   }
  ],
- "total_s": 19.088
+ "total_s": 19.627
 }

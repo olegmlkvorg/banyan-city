@@ -1,0 +1,179 @@
+{
+ "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "Newhaven! (no leaf) Greenrest? (nothing) Fig\u2026 holm? (aggressively nothing)",
+   "start": 0.0,
+   "end": 2.426,
+   "chunks": [
+    {
+     "text": "Newhaven!",
+     "start": 0.0,
+     "end": 0.811
+    },
+    {
+     "text": "(no leaf) Greenrest? (nothing) Fig\u2026 holm? (aggressively nothing)",
+     "start": 0.811,
+     "end": 2.426
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Everything cannot be a no. You are a plant. Where did you get opinions?",
+   "start": 2.926,
+   "end": 7.625,
+   "chunks": [
+    {
+     "text": "Everything cannot be a no.",
+     "start": 2.926,
+     "end": 5.11
+    },
+    {
+     "text": "You are a plant.",
+     "start": 5.11,
+     "end": 6.457
+    },
+    {
+     "text": "Where did you get opinions?",
+     "start": 6.457,
+     "end": 7.625
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "Every one of those is the name of a place that already exists somewhere, waiting to disappoint someone. Name the thing after what it does, like every good system since the dawn of\u2014",
+   "start": 8.125,
+   "end": 17.447,
+   "chunks": [
+    {
+     "text": "Every one of those is the name",
+     "start": 8.125,
+     "end": 9.878
+    },
+    {
+     "text": "of a place that already exists somewhere,",
+     "start": 9.878,
+     "end": 11.824
+    },
+    {
+     "text": "waiting to disappoint someone.",
+     "start": 11.824,
+     "end": 13.316
+    },
+    {
+     "text": "Name the thing after what it does,",
+     "start": 13.316,
+     "end": 15.392
+    },
+    {
+     "text": "like every good system since the dawn of\u2014",
+     "start": 15.392,
+     "end": 17.447
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Whatever. It's just shade.",
+   "start": 17.797,
+   "end": 19.698,
+   "chunks": [
+    {
+     "text": "\u2026Whatever.",
+     "start": 17.797,
+     "end": 18.629
+    },
+    {
+     "text": "It's just shade.",
+     "start": 18.629,
+     "end": 19.698
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Shade? That's not a name, that's a \u2014 (the leaves tilt again, emphatic) \u2014 okay! Okay. Shade.",
+   "start": 20.198,
+   "end": 24.298,
+   "chunks": [
+    {
+     "text": "Shade?",
+     "start": 20.198,
+     "end": 20.685
+    },
+    {
+     "text": "That's not a name,",
+     "start": 20.685,
+     "end": 21.349
+    },
+    {
+     "text": "that's a \u2014 (the leaves tilt again,",
+     "start": 21.349,
+     "end": 22.554
+    },
+    {
+     "text": "emphatic) \u2014 okay! Okay. Shade.",
+     "start": 22.554,
+     "end": 24.298
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Welcome to Shade. Population: one. Amenities: (gestures at everything) shade.",
+   "start": 24.798,
+   "end": 28.515,
+   "chunks": [
+    {
+     "text": "Welcome to Shade. Population: one.",
+     "start": 24.798,
+     "end": 27.166
+    },
+    {
+     "text": "Amenities: (gestures at everything) shade.",
+     "start": 27.166,
+     "end": 28.515
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "Named after the first thing I ever gave anyone. Approved unanimously by the housing committee, which is me. \u2026I'd have accepted prod-east-1, but this is better.",
+   "start": 29.015,
+   "end": 38.233,
+   "chunks": [
+    {
+     "text": "Named after the first thing I ever gave anyone.",
+     "start": 29.015,
+     "end": 31.89
+    },
+    {
+     "text": "Approved unanimously by the housing committee,",
+     "start": 31.89,
+     "end": 34.24
+    },
+    {
+     "text": "which is me.",
+     "start": 34.24,
+     "end": 35.071
+    },
+    {
+     "text": "\u2026I'd have accepted prod-east-1,",
+     "start": 35.071,
+     "end": 36.928
+    },
+    {
+     "text": "but this is better.",
+     "start": 36.928,
+     "end": 38.233
+    }
+   ]
+  }
+ ],
+ "total_s": 38.533
+}

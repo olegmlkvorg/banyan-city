@@ -1,144 +1,387 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "MAGISTRATE",
    "text": "It cannot be a resident \u2014 residents owe hearth tax, and it",
    "start": 0.0,
-   "end": 3.541
+   "end": 3.709,
+   "chunks": [
+    {
+     "text": "It cannot be a resident \u2014",
+     "start": 0.0,
+     "end": 1.263
+    },
+    {
+     "text": "residents owe hearth tax, and it",
+     "start": 1.263,
+     "end": 3.709
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "has no hearth. It cannot be property \u2014 property is claimed, and whoever",
-   "start": 3.821,
-   "end": 8.259
+   "start": 4.209,
+   "end": 8.351,
+   "chunks": [
+    {
+     "text": "has no hearth.",
+     "start": 4.209,
+     "end": 5.095
+    },
+    {
+     "text": "It cannot be property \u2014",
+     "start": 5.095,
+     "end": 6.509
+    },
+    {
+     "text": "property is claimed, and whoever",
+     "start": 6.509,
+     "end": 8.351
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "claims it inherits liability for one (1) documented apple incident.",
-   "start": 8.539,
-   "end": 12.827
+   "start": 8.851,
+   "end": 13.2,
+   "chunks": [
+    {
+     "text": "claims it inherits liability for one (1)",
+     "start": 8.851,
+     "end": 11.634
+    },
+    {
+     "text": "documented apple incident.",
+     "start": 11.634,
+     "end": 13.2
+    }
+   ]
   },
   {
    "who": "SCAVENGER",
    "text": "No takers.",
-   "start": 13.107,
-   "end": 14.045
+   "start": 13.7,
+   "end": 16.294,
+   "chunks": [
+    {
+     "text": "No takers.",
+     "start": 13.7,
+     "end": 16.294
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Shocking. It cannot be livestock \u2014 livestock can be moved.",
-   "start": 14.325,
-   "end": 17.568
+   "start": 16.794,
+   "end": 20.725,
+   "chunks": [
+    {
+     "text": "Shocking.",
+     "start": 16.794,
+     "end": 17.645
+    },
+    {
+     "text": "It cannot be livestock \u2014",
+     "start": 17.645,
+     "end": 19.319
+    },
+    {
+     "text": "livestock can be moved.",
+     "start": 19.319,
+     "end": 20.725
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Can it be moved?",
-   "start": 17.848,
-   "end": 19.107
+   "start": 21.225,
+   "end": 22.339,
+   "chunks": [
+    {
+     "text": "Can it be moved?",
+     "start": 21.225,
+     "end": 22.339
+    }
+   ]
   },
   {
    "who": "SCAVENGER",
    "text": "He's more of a roommate\u2014",
-   "start": 19.387,
-   "end": 20.496
+   "start": 22.839,
+   "end": 24.217,
+   "chunks": [
+    {
+     "text": "He's more of a roommate\u2014",
+     "start": 22.839,
+     "end": 24.217
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Roommates are a tenancy. Tenancies have deeds. Do you have",
-   "start": 20.776,
-   "end": 24.125
+   "start": 24.567,
+   "end": 28.664,
+   "chunks": [
+    {
+     "text": "Roommates are a tenancy.",
+     "start": 24.567,
+     "end": 26.385
+    },
+    {
+     "text": "Tenancies have deeds.",
+     "start": 26.385,
+     "end": 28.067
+    },
+    {
+     "text": "Do you have",
+     "start": 28.067,
+     "end": 28.664
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "a deed?",
-   "start": 24.405,
-   "end": 25.31
+   "start": 29.164,
+   "end": 30.068,
+   "chunks": [
+    {
+     "text": "a deed?",
+     "start": 29.164,
+     "end": 30.068
+    }
+   ]
   },
   {
    "who": "SCAVENGER",
    "text": "\u2026I have a fig.",
-   "start": 25.59,
-   "end": 26.528
+   "start": 30.248,
+   "end": 31.062,
+   "chunks": [
+    {
+     "text": "\u2026I have a fig.",
+     "start": 30.248,
+     "end": 31.062
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "The kingdom has exactly one",
-   "start": 26.808,
-   "end": 28.728
+   "start": 31.562,
+   "end": 33.79,
+   "chunks": [
+    {
+     "text": "The kingdom has exactly one",
+     "start": 31.562,
+     "end": 33.79
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "category for a thing that stands in one place, belongs to no one, and",
-   "start": 29.008,
-   "end": 33.318
+   "start": 34.29,
+   "end": 38.835,
+   "chunks": [
+    {
+     "text": "category for a thing that stands in",
+     "start": 34.29,
+     "end": 36.4
+    },
+    {
+     "text": "one place, belongs to no one, and",
+     "start": 36.4,
+     "end": 38.835
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "answers questions.",
-   "start": 33.598,
-   "end": 35.454
+   "start": 39.335,
+   "end": 40.723,
+   "chunks": [
+    {
+     "text": "answers questions.",
+     "start": 39.335,
+     "end": 40.723
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Shrine.",
-   "start": 35.734,
-   "end": 36.566
+   "start": 41.923,
+   "end": 42.581,
+   "chunks": [
+    {
+     "text": "Shrine.",
+     "start": 41.923,
+     "end": 42.581
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Engineer. Tree. Town. And now a church. This career trajectory has",
-   "start": 36.846,
-   "end": 41.326
+   "start": 43.081,
+   "end": 48.28,
+   "chunks": [
+    {
+     "text": "Engineer.",
+     "start": 43.081,
+     "end": 43.662
+    },
+    {
+     "text": "Tree.",
+     "start": 43.662,
+     "end": 44.896
+    },
+    {
+     "text": "Town.",
+     "start": 44.896,
+     "end": 45.344
+    },
+    {
+     "text": "And now a church.",
+     "start": 45.344,
+     "end": 46.119
+    },
+    {
+     "text": "This career trajectory has",
+     "start": 46.119,
+     "end": 48.28
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "stopped being a line and become a scribble.",
-   "start": 41.606,
-   "end": 44.358
+   "start": 48.78,
+   "end": 50.848,
+   "chunks": [
+    {
+     "text": "stopped being a line and become a scribble.",
+     "start": 48.78,
+     "end": 50.848
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Shrines have keepers. Congratulations.",
-   "start": 44.638,
-   "end": 47.326
+   "start": 51.348,
+   "end": 53.834,
+   "chunks": [
+    {
+     "text": "Shrines have keepers.",
+     "start": 51.348,
+     "end": 52.883
+    },
+    {
+     "text": "Congratulations.",
+     "start": 52.883,
+     "end": 53.834
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Your community service is reclassified: employment.",
-   "start": 47.606,
-   "end": 51.254
+   "start": 54.334,
+   "end": 57.567,
+   "chunks": [
+    {
+     "text": "Your community service is reclassified: employment.",
+     "start": 54.334,
+     "end": 57.567
+    }
+   ]
   },
   {
    "who": "SCAVENGER",
    "text": "I've never been a line item before.",
-   "start": 51.534,
-   "end": 53.496
+   "start": 58.067,
+   "end": 59.92,
+   "chunks": [
+    {
+     "text": "I've never been a line item before.",
+     "start": 58.067,
+     "end": 59.92
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Registration requires consent of the venerated",
-   "start": 53.776,
-   "end": 57.019
+   "start": 60.42,
+   "end": 63.763,
+   "chunks": [
+    {
+     "text": "Registration requires consent of the venerated",
+     "start": 60.42,
+     "end": 63.763
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "object. Do you consent?",
-   "start": 57.299,
-   "end": 59.304
+   "start": 64.263,
+   "end": 66.05,
+   "chunks": [
+    {
+     "text": "object.",
+     "start": 64.263,
+     "end": 64.696
+    },
+    {
+     "text": "Do you consent?",
+     "start": 64.696,
+     "end": 66.05
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Consent recorded. (dry) First signature I've taken all",
-   "start": 59.584,
-   "end": 62.656
+   "start": 66.55,
+   "end": 69.55,
+   "chunks": [
+    {
+     "text": "Consent recorded.",
+     "start": 66.55,
+     "end": 67.985
+    },
+    {
+     "text": "(dry) First signature I've taken all",
+     "start": 67.985,
+     "end": 69.55
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "year that didn't argue.",
-   "start": 62.936,
-   "end": 64.878
+   "start": 70.05,
+   "end": 71.698,
+   "chunks": [
+    {
+     "text": "year that didn't argue.",
+     "start": 70.05,
+     "end": 71.698
+    }
+   ]
   }
  ],
- "total_s": 65.158
+ "total_s": 71.998
 }

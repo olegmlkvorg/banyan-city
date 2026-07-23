@@ -1,0 +1,48 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "So we test it. Like the patrol tests coins. (beat) If you can hear me\u2026 move one leaf.",
+   "start": 0.0,
+   "end": 4.501
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "One leaf for yes. Nothing for no. Deal?",
+   "start": 4.781,
+   "end": 7.235
+  },
+  {
+   "who": "VO",
+   "text": "He's building a protocol. This creature the patrol calls vermin has independently derived a one-bit communication protocol. I've onboarded senior engineers with less.",
+   "start": 7.515,
+   "end": 17.115
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Are you a spirit? (nothing) A demon? (nothing) A god? (nothing \u2014 then, reluctantly, half a tilt)",
+   "start": 17.395,
+   "end": 19.229
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026We'll circle back to that one.",
+   "start": 19.509,
+   "end": 21.152
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Were you the fruit? (yes) Did it hurt? (nothing) Did you MEAN to hit my head? (a very long pause \u2014 then yes)",
+   "start": 21.432,
+   "end": 24.077
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "I knew it!",
+   "start": 24.357,
+   "end": 24.955
+  }
+ ],
+ "total_s": 25.235
+}

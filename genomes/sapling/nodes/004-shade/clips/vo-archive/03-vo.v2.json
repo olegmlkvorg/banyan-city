@@ -1,0 +1,101 @@
+{
+ "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
+ "lines": [
+  {
+   "who": "FARMER",
+   "text": "\u2026You the one who's been keeping the weeds off this stretch?",
+   "start": 0.0,
+   "end": 3.334,
+   "chunks": [
+    {
+     "text": "\u2026You the one who's been keeping the",
+     "start": 0.0,
+     "end": 2.108
+    },
+    {
+     "text": "weeds off this stretch?",
+     "start": 2.108,
+     "end": 3.335
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Depends who's asking.",
+   "start": 3.834,
+   "end": 4.908,
+   "chunks": [
+    {
+     "text": "Depends who's asking.",
+     "start": 3.834,
+     "end": 4.908
+    }
+   ]
+  },
+  {
+   "who": "FARMER",
+   "text": "Man whose field started drinking again.",
+   "start": 5.408,
+   "end": 7.944,
+   "chunks": [
+    {
+     "text": "Man whose field started drinking again.",
+     "start": 5.408,
+     "end": 7.944
+    }
+   ]
+  },
+  {
+   "who": "FARMER",
+   "text": "Tell no one.",
+   "start": 8.444,
+   "end": 9.951,
+   "chunks": [
+    {
+     "text": "Tell no one.",
+     "start": 8.444,
+     "end": 9.951
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "He talks to it too! Oh, this is the best day of my\u2014",
+   "start": 10.451,
+   "end": 14.16,
+   "chunks": [
+    {
+     "text": "He talks to it too!",
+     "start": 10.451,
+     "end": 11.801
+    },
+    {
+     "text": "Oh, this is the best day of my\u2014",
+     "start": 11.801,
+     "end": 14.16
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "The system just\u2026 registered us. We're on the map.",
+   "start": 14.51,
+   "end": 17.893,
+   "chunks": [
+    {
+     "text": "The system just\u2026 registered us.",
+     "start": 14.51,
+     "end": 16.889
+    },
+    {
+     "text": "We're on the map.",
+     "start": 16.889,
+     "end": 17.893
+    }
+   ]
+  }
+ ],
+ "total_s": 18.193
+}

@@ -1,18 +1,44 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "VO",
    "text": "The farmer said \"after harvest.\" It is not after harvest. Which means",
    "start": 0.0,
-   "end": 4.629
+   "end": 4.584,
+   "chunks": [
+    {
+     "text": "The farmer said \"after harvest.\" It is",
+     "start": 0.0,
+     "end": 2.603
+    },
+    {
+     "text": "not after harvest. Which means",
+     "start": 2.603,
+     "end": 4.584
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "the kingdom's bureaucracy runs ahead of schedule. I have chills.",
-   "start": 4.909,
-   "end": 8.877
+   "start": 5.084,
+   "end": 8.722,
+   "chunks": [
+    {
+     "text": "the kingdom's bureaucracy runs ahead of schedule.",
+     "start": 5.084,
+     "end": 6.828
+    },
+    {
+     "text": "I have chills.",
+     "start": 6.828,
+     "end": 8.722
+    }
+   ]
   }
  ],
- "total_s": 9.157
+ "total_s": 9.022
 }

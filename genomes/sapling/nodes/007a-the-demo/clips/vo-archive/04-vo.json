@@ -1,0 +1,60 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026There's no trick, ma'am. He doesn't do wonders. He gives",
+   "start": 0.0,
+   "end": 2.965
+  },
+  {
+   "who": "VO",
+   "text": "things. Shade. Water. Answers. A fig, once \u2014 (he touches his chest where",
+   "start": 3.245,
+   "end": 7.704
+  },
+  {
+   "who": "VO",
+   "text": "it bonked him) \u2014 when nobody else in the world would give me anything.",
+   "start": 7.984,
+   "end": 11.675
+  },
+  {
+   "who": "VO",
+   "text": "That's all he does. That's the whole tree.",
+   "start": 11.955,
+   "end": 14.536
+  },
+  {
+   "who": "VO",
+   "text": "He said the fig was the whole tree. Fine. Then here's",
+   "start": 14.816,
+   "end": 18.827
+  },
+  {
+   "who": "VO",
+   "text": "the whole tree.",
+   "start": 19.107,
+   "end": 20.536
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "\"Wonder verified. Orchard, single specimen,",
+   "start": 20.816,
+   "end": 23.717
+  },
+  {
+   "who": "VO",
+   "text": "fruiting out of season before an officer of rank.\" (beat, quieter) \"\u2026And",
+   "start": 23.997,
+   "end": 27.667
+  },
+  {
+   "who": "VO",
+   "text": "it shares.\"",
+   "start": 27.947,
+   "end": 28.926
+  }
+ ],
+ "total_s": 29.206
+}

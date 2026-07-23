@@ -567,6 +567,8 @@ def main() -> int:
         sources.append({"beat": i, "slug": strip_inline_md(beat["slug"]),
                         "clip": "+".join(c.name for c in beat_clips) if beat_clips else "slate (no footage yet)",
                         "audio": audio.name if audio else "none",
+                        **({"voice_engine": manifest["engine"]}
+                           if manifest and manifest.get("engine") else {}),
                         **beat_provenance(beat_clips)})
 
     if not args.no_cards:

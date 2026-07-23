@@ -1,42 +1,106 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "MAGISTRATE",
    "text": "Settlement, Shade. Founded",
    "start": 0.0,
-   "end": 2.005
+   "end": 2.147,
+   "chunks": [
+    {
+     "text": "Settlement, Shade.",
+     "start": 0.0,
+     "end": 0.994
+    },
+    {
+     "text": "Founded",
+     "start": 0.994,
+     "end": 2.147
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "yesterday, structures one-ish, population three. (a page turns)",
-   "start": 2.285,
-   "end": 5.72
+   "start": 2.647,
+   "end": 5.758,
+   "chunks": [
+    {
+     "text": "yesterday, structures one-ish, population three.",
+     "start": 2.647,
+     "end": 5.255
+    },
+    {
+     "text": "(a page turns)",
+     "start": 5.255,
+     "end": 5.758
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Occupation of resident number three: \"answers questions.\"",
-   "start": 6.0,
-   "end": 9.819
+   "start": 6.258,
+   "end": 9.365,
+   "chunks": [
+    {
+     "text": "Occupation of resident number three: \"answers questions.\"",
+     "start": 6.258,
+     "end": 9.365
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Well?",
-   "start": 10.099,
-   "end": 11.053
+   "start": 9.865,
+   "end": 10.805,
+   "chunks": [
+    {
+     "text": "Well?",
+     "start": 9.865,
+     "end": 10.805
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "\u2026So the assessor hasn't been drinking. Pity. That was the",
-   "start": 11.333,
-   "end": 14.746
+   "start": 11.305,
+   "end": 15.143,
+   "chunks": [
+    {
+     "text": "\u2026So the assessor hasn't been drinking.",
+     "start": 11.305,
+     "end": 12.948
+    },
+    {
+     "text": "Pity.",
+     "start": 12.948,
+     "end": 13.612
+    },
+    {
+     "text": "That was the",
+     "start": 13.612,
+     "end": 15.143
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "tidy explanation.",
-   "start": 15.026,
-   "end": 16.946
+   "start": 15.643,
+   "end": 17.926,
+   "chunks": [
+    {
+     "text": "tidy explanation.",
+     "start": 15.643,
+     "end": 17.926
+    }
+   ]
   }
  ],
- "total_s": 17.226
+ "total_s": 18.226
 }

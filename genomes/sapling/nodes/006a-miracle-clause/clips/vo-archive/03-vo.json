@@ -1,0 +1,144 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "MAGISTRATE",
+   "text": "It cannot be a resident \u2014 residents owe hearth tax, and it",
+   "start": 0.0,
+   "end": 3.541
+  },
+  {
+   "who": "VO",
+   "text": "has no hearth. It cannot be property \u2014 property is claimed, and whoever",
+   "start": 3.821,
+   "end": 8.259
+  },
+  {
+   "who": "VO",
+   "text": "claims it inherits liability for one (1) documented apple incident.",
+   "start": 8.539,
+   "end": 12.827
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "No takers.",
+   "start": 13.107,
+   "end": 14.045
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Shocking. It cannot be livestock \u2014 livestock can be moved.",
+   "start": 14.325,
+   "end": 17.568
+  },
+  {
+   "who": "VO",
+   "text": "Can it be moved?",
+   "start": 17.848,
+   "end": 19.107
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "He's more of a roommate\u2014",
+   "start": 19.387,
+   "end": 20.496
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Roommates are a tenancy. Tenancies have deeds. Do you have",
+   "start": 20.776,
+   "end": 24.125
+  },
+  {
+   "who": "VO",
+   "text": "a deed?",
+   "start": 24.405,
+   "end": 25.31
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026I have a fig.",
+   "start": 25.59,
+   "end": 26.528
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "The kingdom has exactly one",
+   "start": 26.808,
+   "end": 28.728
+  },
+  {
+   "who": "VO",
+   "text": "category for a thing that stands in one place, belongs to no one, and",
+   "start": 29.008,
+   "end": 33.318
+  },
+  {
+   "who": "VO",
+   "text": "answers questions.",
+   "start": 33.598,
+   "end": 35.454
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Shrine.",
+   "start": 35.734,
+   "end": 36.566
+  },
+  {
+   "who": "VO",
+   "text": "Engineer. Tree. Town. And now a church. This career trajectory has",
+   "start": 36.846,
+   "end": 41.326
+  },
+  {
+   "who": "VO",
+   "text": "stopped being a line and become a scribble.",
+   "start": 41.606,
+   "end": 44.358
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Shrines have keepers. Congratulations.",
+   "start": 44.638,
+   "end": 47.326
+  },
+  {
+   "who": "VO",
+   "text": "Your community service is reclassified: employment.",
+   "start": 47.606,
+   "end": 51.254
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "I've never been a line item before.",
+   "start": 51.534,
+   "end": 53.496
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Registration requires consent of the venerated",
+   "start": 53.776,
+   "end": 57.019
+  },
+  {
+   "who": "VO",
+   "text": "object. Do you consent?",
+   "start": 57.299,
+   "end": 59.304
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Consent recorded. (dry) First signature I've taken all",
+   "start": 59.584,
+   "end": 62.656
+  },
+  {
+   "who": "VO",
+   "text": "year that didn't argue.",
+   "start": 62.936,
+   "end": 64.878
+  }
+ ],
+ "total_s": 65.158
+}

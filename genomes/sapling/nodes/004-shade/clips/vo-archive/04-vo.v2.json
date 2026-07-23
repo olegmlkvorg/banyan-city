@@ -1,0 +1,57 @@
+{
+ "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
+ "lines": [
+  {
+   "who": "FARMER",
+   "text": "You should know. After harvest, the assessor walks the valley. Counts everything with a name.",
+   "start": 0.0,
+   "end": 5.786,
+   "chunks": [
+    {
+     "text": "You should know.",
+     "start": 0.0,
+     "end": 0.951
+    },
+    {
+     "text": "After harvest, the assessor walks the valley.",
+     "start": 0.951,
+     "end": 3.941
+    },
+    {
+     "text": "Counts everything with a name.",
+     "start": 3.941,
+     "end": 5.786
+    }
+   ]
+  },
+  {
+   "who": "FARMER",
+   "text": "\u2026Yesterday there was nothing here to count.",
+   "start": 6.286,
+   "end": 8.666,
+   "chunks": [
+    {
+     "text": "\u2026Yesterday there was nothing here to count.",
+     "start": 6.286,
+     "end": 8.666
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Can you un-name a town?",
+   "start": 9.166,
+   "end": 10.652,
+   "chunks": [
+    {
+     "text": "\u2026Can you un-name a town?",
+     "start": 9.166,
+     "end": 10.652
+    }
+   ]
+  }
+ ],
+ "total_s": 10.953
+}

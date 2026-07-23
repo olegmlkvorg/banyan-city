@@ -1,12 +1,41 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "SCAVENGER",
    "text": "Okay. I've thought about it all night, and there are only two possibilities. One: I have finally lost it. Two: you're in there.",
    "start": 0.0,
-   "end": 6.635
+   "end": 7.137,
+   "chunks": [
+    {
+     "text": "Okay.",
+     "start": 0.0,
+     "end": 0.499
+    },
+    {
+     "text": "I've thought about it all night,",
+     "start": 0.499,
+     "end": 1.968
+    },
+    {
+     "text": "and there are only two possibilities.",
+     "start": 1.968,
+     "end": 3.792
+    },
+    {
+     "text": "One: I have finally lost it.",
+     "start": 3.792,
+     "end": 5.759
+    },
+    {
+     "text": "Two: you're in there.",
+     "start": 5.759,
+     "end": 7.137
+    }
+   ]
   }
  ],
- "total_s": 6.915
+ "total_s": 7.437
 }

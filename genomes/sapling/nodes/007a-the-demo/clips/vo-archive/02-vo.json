@@ -1,0 +1,42 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "From the top! And \u2014 ripple! (the ripple stalls halfway)",
+   "start": 0.0,
+   "end": 1.237
+  },
+  {
+   "who": "VO",
+   "text": "You dropped it at branch three again! Branch three is our weakest performer!",
+   "start": 1.517,
+   "end": 5.656
+  },
+  {
+   "who": "VO",
+   "text": "I am being given notes. By a goblin. With a stick. \u2026Branch three",
+   "start": 5.936,
+   "end": 10.053
+  },
+  {
+   "who": "VO",
+   "text": "is our weakest performer though.",
+   "start": 10.333,
+   "end": 12.573
+  },
+  {
+   "who": "FARMER",
+   "text": "Miracles don't rehearse.",
+   "start": 12.853,
+   "end": 14.795
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Everything rehearses. Sunrise rehearses. It's called dawn twilight.",
+   "start": 15.075,
+   "end": 18.808
+  }
+ ],
+ "total_s": 19.088
+}

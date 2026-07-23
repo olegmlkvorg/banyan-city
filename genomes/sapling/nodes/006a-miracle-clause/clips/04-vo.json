@@ -1,60 +1,175 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "MAGISTRATE",
    "text": "One formality. Registration is provisional until the shrine",
    "start": 0.0,
-   "end": 3.456
+   "end": 4.045,
+   "chunks": [
+    {
+     "text": "One formality.",
+     "start": 0.0,
+     "end": 0.434
+    },
+    {
+     "text": "Registration is provisional until the shrine",
+     "start": 0.434,
+     "end": 4.045
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "demonstrates one \u2014 (reading) \u2014 \"verified wonder, witnessed by an officer",
-   "start": 3.736,
-   "end": 7.896
+   "start": 4.545,
+   "end": 7.66,
+   "chunks": [
+    {
+     "text": "demonstrates one \u2014 (reading) \u2014",
+     "start": 4.545,
+     "end": 5.552
+    },
+    {
+     "text": "\"verified wonder, witnessed by an officer",
+     "start": 5.552,
+     "end": 7.66
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "of rank.\" I return at the full moon.",
-   "start": 8.176,
-   "end": 10.821
+   "start": 8.16,
+   "end": 10.308,
+   "chunks": [
+    {
+     "text": "of rank.\" I return at the full moon.",
+     "start": 8.16,
+     "end": 10.308
+    }
+   ]
   },
   {
    "who": "SCAVENGER",
    "text": "What\u2014 what qualifies? Is there a list? A form?",
-   "start": 11.101,
-   "end": 13.32
+   "start": 10.808,
+   "end": 13.344,
+   "chunks": [
+    {
+     "text": "What\u2014 what qualifies?",
+     "start": 10.808,
+     "end": 12.117
+    },
+    {
+     "text": "Is there a list?",
+     "start": 12.117,
+     "end": 12.83
+    },
+    {
+     "text": "A form?",
+     "start": 12.83,
+     "end": 13.344
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Surprise me.",
-   "start": 13.6,
-   "end": 14.816
+   "start": 13.844,
+   "end": 15.357,
+   "chunks": [
+    {
+     "text": "Surprise me.",
+     "start": 13.844,
+     "end": 15.357
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "The dedication line I leave blank. Shrines declare to whom",
-   "start": 15.096,
-   "end": 18.659
+   "start": 15.857,
+   "end": 19.464,
+   "chunks": [
+    {
+     "text": "The dedication line I leave blank.",
+     "start": 15.857,
+     "end": 17.862
+    },
+    {
+     "text": "Shrines declare to whom",
+     "start": 17.862,
+     "end": 19.464
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "at consecration. \u2026Think carefully. Those words outlive towns.",
-   "start": 18.939,
-   "end": 22.907
+   "start": 19.964,
+   "end": 23.644,
+   "chunks": [
+    {
+     "text": "at consecration.",
+     "start": 19.964,
+     "end": 20.804
+    },
+    {
+     "text": "\u2026Think carefully.",
+     "start": 20.804,
+     "end": 21.597
+    },
+    {
+     "text": "Those words outlive towns.",
+     "start": 21.597,
+     "end": 23.644
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Two weeks to ship a miracle. No spec. One reviewer. \u2026So \u2014 a normal",
-   "start": 23.187,
-   "end": 27.624
+   "start": 24.144,
+   "end": 28.857,
+   "chunks": [
+    {
+     "text": "Two weeks to ship a miracle.",
+     "start": 24.144,
+     "end": 25.861
+    },
+    {
+     "text": "No spec.",
+     "start": 25.861,
+     "end": 26.831
+    },
+    {
+     "text": "One reviewer.",
+     "start": 26.831,
+     "end": 27.764
+    },
+    {
+     "text": "\u2026So \u2014 a normal",
+     "start": 27.764,
+     "end": 28.857
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "release.",
-   "start": 27.904,
-   "end": 28.833
+   "start": 29.357,
+   "end": 30.24,
+   "chunks": [
+    {
+     "text": "release.",
+     "start": 29.357,
+     "end": 30.24
+    }
+   ]
   }
  ],
- "total_s": 29.113
+ "total_s": 30.54
 }

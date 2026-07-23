@@ -1,0 +1,60 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "MAGISTRATE",
+   "text": "One formality. Registration is provisional until the shrine",
+   "start": 0.0,
+   "end": 3.456
+  },
+  {
+   "who": "VO",
+   "text": "demonstrates one \u2014 (reading) \u2014 \"verified wonder, witnessed by an officer",
+   "start": 3.736,
+   "end": 7.896
+  },
+  {
+   "who": "VO",
+   "text": "of rank.\" I return at the full moon.",
+   "start": 8.176,
+   "end": 10.821
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "What\u2014 what qualifies? Is there a list? A form?",
+   "start": 11.101,
+   "end": 13.32
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Surprise me.",
+   "start": 13.6,
+   "end": 14.816
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "The dedication line I leave blank. Shrines declare to whom",
+   "start": 15.096,
+   "end": 18.659
+  },
+  {
+   "who": "VO",
+   "text": "at consecration. \u2026Think carefully. Those words outlive towns.",
+   "start": 18.939,
+   "end": 22.907
+  },
+  {
+   "who": "VO",
+   "text": "Two weeks to ship a miracle. No spec. One reviewer. \u2026So \u2014 a normal",
+   "start": 23.187,
+   "end": 27.624
+  },
+  {
+   "who": "VO",
+   "text": "release.",
+   "start": 27.904,
+   "end": 28.833
+  }
+ ],
+ "total_s": 29.113
+}

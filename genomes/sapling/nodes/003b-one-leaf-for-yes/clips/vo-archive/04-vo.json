@@ -1,0 +1,18 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "You know what this is now, right? A resident, a landmark, and a water source down the way. That's not a camp anymore.",
+   "start": 0.0,
+   "end": 6.293
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Every city needs a name. I hereby name this place\u2014",
+   "start": 6.573,
+   "end": 9.283
+  }
+ ],
+ "total_s": 9.563
+}

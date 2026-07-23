@@ -1,0 +1,24 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "FARMER",
+   "text": "Infrastructure.",
+   "start": 0.0,
+   "end": 1.195
+  },
+  {
+   "who": "VO",
+   "text": "I've seen this before. It's called audit prep. You cannot mop your",
+   "start": 1.475,
+   "end": 5.571
+  },
+  {
+   "who": "VO",
+   "text": "way out of one. Everyone tries.",
+   "start": 5.851,
+   "end": 8.261
+  }
+ ],
+ "total_s": 8.541
+}

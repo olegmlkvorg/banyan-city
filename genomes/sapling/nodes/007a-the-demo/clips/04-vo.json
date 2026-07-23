@@ -1,60 +1,195 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "SCAVENGER",
    "text": "\u2026There's no trick, ma'am. He doesn't do wonders. He gives",
    "start": 0.0,
-   "end": 2.965
+   "end": 3.805,
+   "chunks": [
+    {
+     "text": "\u2026There's no trick, ma'am.",
+     "start": 0.0,
+     "end": 1.401
+    },
+    {
+     "text": "He doesn't do wonders.",
+     "start": 1.401,
+     "end": 2.762
+    },
+    {
+     "text": "He gives",
+     "start": 2.762,
+     "end": 3.805
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "things. Shade. Water. Answers. A fig, once \u2014 (he touches his chest where",
-   "start": 3.245,
-   "end": 7.704
+   "start": 4.305,
+   "end": 9.951,
+   "chunks": [
+    {
+     "text": "things.",
+     "start": 4.305,
+     "end": 4.96
+    },
+    {
+     "text": "Shade.",
+     "start": 4.96,
+     "end": 5.429
+    },
+    {
+     "text": "Water.",
+     "start": 5.429,
+     "end": 6.04
+    },
+    {
+     "text": "Answers.",
+     "start": 6.04,
+     "end": 7.495
+    },
+    {
+     "text": "A fig, once \u2014",
+     "start": 7.495,
+     "end": 8.521
+    },
+    {
+     "text": "(he touches his chest where",
+     "start": 8.521,
+     "end": 9.951
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "it bonked him) \u2014 when nobody else in the world would give me anything.",
-   "start": 7.984,
-   "end": 11.675
+   "start": 10.451,
+   "end": 14.221,
+   "chunks": [
+    {
+     "text": "it bonked him) \u2014",
+     "start": 10.451,
+     "end": 11.315
+    },
+    {
+     "text": "when nobody else in the world would",
+     "start": 11.315,
+     "end": 13.23
+    },
+    {
+     "text": "give me anything.",
+     "start": 13.23,
+     "end": 14.221
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "That's all he does. That's the whole tree.",
-   "start": 11.955,
-   "end": 14.536
+   "start": 14.721,
+   "end": 16.725,
+   "chunks": [
+    {
+     "text": "That's all he does.",
+     "start": 14.721,
+     "end": 15.457
+    },
+    {
+     "text": "That's the whole tree.",
+     "start": 15.457,
+     "end": 16.725
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "He said the fig was the whole tree. Fine. Then here's",
-   "start": 14.816,
-   "end": 18.827
+   "start": 17.225,
+   "end": 20.124,
+   "chunks": [
+    {
+     "text": "He said the fig was the whole tree.",
+     "start": 17.225,
+     "end": 18.736
+    },
+    {
+     "text": "Fine.",
+     "start": 18.736,
+     "end": 19.231
+    },
+    {
+     "text": "Then here's",
+     "start": 19.231,
+     "end": 20.124
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "the whole tree.",
-   "start": 19.107,
-   "end": 20.536
+   "start": 20.624,
+   "end": 21.664,
+   "chunks": [
+    {
+     "text": "the whole tree.",
+     "start": 20.624,
+     "end": 21.664
+    }
+   ]
   },
   {
    "who": "MAGISTRATE",
    "text": "\"Wonder verified. Orchard, single specimen,",
-   "start": 20.816,
-   "end": 23.717
+   "start": 22.164,
+   "end": 25.617,
+   "chunks": [
+    {
+     "text": "\"Wonder verified.",
+     "start": 22.164,
+     "end": 23.993
+    },
+    {
+     "text": "Orchard, single specimen,",
+     "start": 23.993,
+     "end": 25.617
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "fruiting out of season before an officer of rank.\" (beat, quieter) \"\u2026And",
-   "start": 23.997,
-   "end": 27.667
+   "start": 25.967,
+   "end": 30.041,
+   "chunks": [
+    {
+     "text": "fruiting out of season before an officer",
+     "start": 25.967,
+     "end": 27.867
+    },
+    {
+     "text": "of rank.\" (beat, quieter) \"\u2026And",
+     "start": 27.867,
+     "end": 30.041
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "it shares.\"",
-   "start": 27.947,
-   "end": 28.926
+   "start": 30.541,
+   "end": 32.404,
+   "chunks": [
+    {
+     "text": "it shares.\"",
+     "start": 30.541,
+     "end": 32.404
+    }
+   ]
   }
  ],
- "total_s": 29.206
+ "total_s": 32.704
 }

@@ -1,0 +1,42 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "MAGISTRATE",
+   "text": "Settlement, Shade. Founded",
+   "start": 0.0,
+   "end": 2.005
+  },
+  {
+   "who": "VO",
+   "text": "yesterday, structures one-ish, population three. (a page turns)",
+   "start": 2.285,
+   "end": 5.72
+  },
+  {
+   "who": "VO",
+   "text": "Occupation of resident number three: \"answers questions.\"",
+   "start": 6.0,
+   "end": 9.819
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "Well?",
+   "start": 10.099,
+   "end": 11.053
+  },
+  {
+   "who": "MAGISTRATE",
+   "text": "\u2026So the assessor hasn't been drinking. Pity. That was the",
+   "start": 11.333,
+   "end": 14.746
+  },
+  {
+   "who": "VO",
+   "text": "tidy explanation.",
+   "start": 15.026,
+   "end": 16.946
+  }
+ ],
+ "total_s": 17.226
+}
