@@ -78,7 +78,8 @@ def test_caption_chunks():
     check("no chunk exceeds the cap (+orphan margin)",
           all(len(c.split()) <= t3.CAPTION_MAX_WORDS + 2 for c in chunks))
     check("wall becomes multiple units", len(chunks) >= 3)
-    check("short line stays one unit", t3.caption_chunks("Huh. Green.") == ["Huh. Green."])
+    check("short sentence stays one unit", t3.caption_chunks("Huh.") == ["Huh."])
+    check("sentences stay separate beats", t3.caption_chunks("Huh. Green.") == ["Huh.", "Green."])
     rapid = t3.caption_chunks("Newhaven! (no leaf) Greenrest? (nothing) Fig… holm? (aggressively nothing)")
     check("tiny sentences never fold across boundaries (004 caption wall)",
           rapid[0] == "Newhaven!" and len(rapid) == 5)
