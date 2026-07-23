@@ -7,48 +7,48 @@
    "who": "VO",
    "text": "Okay. Hospital ceiling. That's fine. Hospitals are green now.",
    "start": 0.0,
-   "end": 3.16,
+   "end": 3.384,
    "chunks": [
     {
      "text": "Okay. Hospital ceiling. That's fine.",
      "start": 0.0,
-     "end": 2.039
+     "end": 2.16
     },
     {
      "text": "Hospitals are green now.",
-     "start": 2.039,
-     "end": 3.16
+     "start": 2.16,
+     "end": 3.384
     }
    ]
   },
   {
    "who": "VO",
    "text": "Scream. \u2014 No mouth. Run. \u2014 No legs. Flail?? \u2014 \u2026I appear to be flailing one (1) leaf.",
-   "start": 3.66,
-   "end": 8.602,
+   "start": 3.884,
+   "end": 8.526,
    "chunks": [
     {
      "text": "Scream.",
-     "start": 3.66,
-     "end": 4.374
+     "start": 3.884,
+     "end": 4.465
     },
     {
      "text": "\u2014 No mouth. Run.",
-     "start": 4.374,
-     "end": 5.715
+     "start": 4.465,
+     "end": 5.67
     },
     {
      "text": "\u2014 No legs. Flail??",
-     "start": 5.715,
-     "end": 6.955
+     "start": 5.67,
+     "end": 6.78
     },
     {
      "text": "\u2014 \u2026I appear to be flailing one (1) leaf.",
-     "start": 6.955,
-     "end": 8.602
+     "start": 6.78,
+     "end": 8.526
     }
    ]
   }
  ],
- "total_s": 8.902
+ "total_s": 8.826
 }

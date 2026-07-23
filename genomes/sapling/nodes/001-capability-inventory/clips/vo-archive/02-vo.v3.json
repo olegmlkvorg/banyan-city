@@ -1,54 +1,53 @@
 {
  "cast": "voices.yaml",
- "engine": "chatterbox-0.5B",
- "directed": "synth_vo v2",
+ "directed": "synth_vo v1",
  "lines": [
   {
    "who": "VO",
    "text": "Okay. Hospital ceiling. That's fine. Hospitals are green now.",
    "start": 0.0,
-   "end": 3.16,
+   "end": 4.336,
    "chunks": [
     {
      "text": "Okay. Hospital ceiling. That's fine.",
      "start": 0.0,
-     "end": 2.039
+     "end": 2.498
     },
     {
      "text": "Hospitals are green now.",
-     "start": 2.039,
-     "end": 3.16
+     "start": 2.498,
+     "end": 4.336
     }
    ]
   },
   {
    "who": "VO",
    "text": "Scream. \u2014 No mouth. Run. \u2014 No legs. Flail?? \u2014 \u2026I appear to be flailing one (1) leaf.",
-   "start": 3.66,
-   "end": 8.602,
+   "start": 4.836,
+   "end": 9.676,
    "chunks": [
     {
      "text": "Scream.",
-     "start": 3.66,
-     "end": 4.374
+     "start": 4.836,
+     "end": 5.492
     },
     {
      "text": "\u2014 No mouth. Run.",
-     "start": 4.374,
-     "end": 5.715
+     "start": 5.492,
+     "end": 6.682
     },
     {
      "text": "\u2014 No legs. Flail??",
-     "start": 5.715,
-     "end": 6.955
+     "start": 6.682,
+     "end": 7.967
     },
     {
      "text": "\u2014 \u2026I appear to be flailing one (1) leaf.",
-     "start": 6.955,
-     "end": 8.602
+     "start": 7.967,
+     "end": 9.676
     }
    ]
   }
  ],
- "total_s": 8.902
+ "total_s": 9.976
 }

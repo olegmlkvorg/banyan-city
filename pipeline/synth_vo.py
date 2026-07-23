@@ -1,35 +1,40 @@
 #!/usr/bin/env python3
 """Directed VO synthesis — the voice track with performance direction.
 
-Promoted from the one-off scratchpad make-vo scripts after loop cycle 002
-opened (founder winces 2026-07-23: captions drift off the voice; delivery
-is metronome-flat). Same kokoro-82M local synthesis ($0), three upgrades:
+Two local engines, both $0:
 
-  trim       kokoro pads every line with engine silence; head/tail are
-             trimmed so every pause below is authored, not an artifact
-             (cycle-001 defect 14: constant ~0.9s gaps everywhere)
-  direction  deterministic delivery from script structure: gaps follow
-             dramatic intent — a standalone 'Beat.' stage direction
-             breathes ~1.2s, rapid short exchanges snap at ~0.18s,
-             trailing ellipses/dashes hang shorter than sentence ends —
-             and per-line speed eases with punctuation shape
-  chunks     each caption chunk (pipeline/captions.py) is synthesized solo
-             to MEASURE its spoken length, then mapped into the line's
-             real speech window and written to the manifest as
-             lines[].chunks — render_t3 burns captions on the voice, not
-             on a word-count guess
+  kokoro      kokoro-82M (the released season's cast). Fast, clean, but
+              cannot act — rhythm only. Runs under the kokoro TTS venv.
+  chatterbox  Chatterbox 0.5B (MIT, Resemble AI) on Apple-Silicon MPS.
+              Zero-shot voice cloning from per-character reference wavs
+              (built FROM the kokoro cast by build_refs.py, so every
+              character keeps their established voice) plus real emotion
+              control — per-line exaggeration/pace from script cues.
+              Outputs carry Resemble's Perth watermark (a responsible-AI
+              feature; the tree labels its AI content anyway, §7.2).
+              Runs under the chatterbox venv (torch/MPS, python3.11).
 
-kokoro has no true emotion control: this fixes rhythm, not acting. The
-acting upgrade (emotional TTS on a free GPU) is tracked in the loop.
+Shared direction layer (loop cycles 001-002):
+  trim        engine head/tail silence is cut — every pause is authored
+  gaps        a standalone 'Beat.' breathes ~1.2s, rapid short exchanges
+              snap at ~0.18s, trailing ellipses hang, sentence ends ~0.5s
+  emotion     (chatterbox) exaggeration/cfg from parenthetical hints
+              ('(quiet)', '(panicking)', '(without emotion)'),
+              punctuation shape, and caps emphasis
+  chunks      every caption chunk is synthesized SOLO to measure its
+              spoken length → manifest lines[].chunks → render_t3 burns
+              captions on the voice, not on a word-count guess
 
 Writes NN-vo.mp3 + NN-vo.json into the node's clips dir; existing takes
-are archived to clips/vo-archive/ first (R6: nothing deleted). Runs under
-the TTS venv (kokoro-onnx, soundfile, numpy):
+are archived to clips/vo-archive/ first (R6: nothing deleted).
 
-    <tts-venv>/bin/python3 pipeline/synth_vo.py <ffmpeg> <genome> <slug> […]
+    <engine-venv>/bin/python3 pipeline/synth_vo.py <ffmpeg> <genome> \
+        <node-slug> [...] [--engine kokoro|chatterbox]
 """
 
+import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -47,6 +52,78 @@ GAP_DEFAULT, GAP_TRAIL, GAP_SNAP, GAP_BEAT = 0.50, 0.35, 0.18, 1.2
 SNAP_WORDS = 4          # both lines this short → rapid exchange
 TRIM_THRESH = 0.003     # amplitude floor for head/tail engine silence
 TRIM_PAD_S = 0.04
+CACHE = Path.home() / ".cache" / "banyan-tts"
+
+# emotion vocabulary: parenthetical direction → (exaggeration, cfg_weight).
+# cfg lower = more deliberate/dramatic pacing; exaggeration 0.5 = neutral.
+EMOTION_HINTS = {
+    ("quiet", "whisper", "small", "soft"):        (0.42, 0.50),
+    ("flat", "deadpan", "without emotion"):       (0.30, 0.55),
+    ("panic", "scream", "frantic", "alarmed"):    (1.10, 0.25),
+    ("excited", "delighted", "joy", "triumphant"): (0.95, 0.28),
+    ("tired", "weary", "sigh"):                   (0.45, 0.45),
+    ("angry", "furious", "snaps"):                (1.00, 0.28),
+}
+EMOTION_DEFAULT = (0.65, 0.35)  # gentle storyteller lean, not monotone
+
+
+def direction_for(raw_who: str, text: str) -> tuple:
+    """(exaggeration, cfg_weight) from script cues; kokoro ignores this."""
+    hint = raw_who.lower() + " " + " ".join(re.findall(r"\(([^)]*)\)", text)).lower()
+    ex, cfg = EMOTION_DEFAULT
+    for keys, (e, c) in EMOTION_HINTS.items():
+        if any(k in hint for k in keys):
+            ex, cfg = e, c
+            break
+    if text.rstrip().endswith("!"):
+        ex += 0.15
+    elif text.rstrip().endswith("?"):
+        ex += 0.05
+    if "…" in text or "..." in text:
+        cfg += 0.05  # hesitation reads better a touch slower
+    if re.search(r"\b[A-Z]{3,}\b", text):
+        ex += 0.10   # caps emphasis
+    return min(max(ex, 0.30), 1.20), min(max(cfg, 0.20), 0.60)
+
+
+class KokoroEngine:
+    name = "kokoro-82M"
+
+    def __init__(self):
+        from kokoro_onnx import Kokoro
+        self.k = Kokoro(str(CACHE / "kokoro-v1.0.onnx"), str(CACHE / "voices-v1.0.bin"))
+
+    def synth(self, text: str, voice: str, speed: float, direction: tuple):
+        samples, sr = self.k.create(text, voice=voice, speed=speed, lang="en-us")
+        return np.asarray(samples), sr
+
+
+class ChatterboxEngine:
+    name = "chatterbox-0.5B"
+
+    def __init__(self):
+        import torch
+        _load = torch.load  # checkpoints are saved CUDA-side; map locally
+        torch.load = lambda *a, **kw: _load(*a, **{**kw, "map_location": "cpu"})
+        from chatterbox.tts import ChatterboxTTS
+        self.torch = torch
+        self.dev = "mps" if torch.backends.mps.is_available() else "cpu"
+        self.model = ChatterboxTTS.from_pretrained(device=self.dev)
+        self.refs = CACHE / "cb-refs"
+        if not self.refs.is_dir():
+            raise SystemExit("no reference voices — run pipeline/build_refs.py "
+                             "(kokoro venv) to build ~/.cache/banyan-tts/cb-refs/")
+
+    def synth(self, text: str, voice: str, speed: float, direction: tuple):
+        ref = self.refs / f"{voice}.wav"
+        if not ref.exists():
+            raise SystemExit(f"missing reference voice {ref} — extend build_refs.py")
+        ex, cfg = direction
+        # deterministic per line: same text + voice → same take (provenance)
+        self.torch.manual_seed(abs(hash((text, voice))) % (2 ** 31))
+        wav = self.model.generate(text, audio_prompt_path=str(ref),
+                                  exaggeration=ex, cfg_weight=cfg)
+        return wav.squeeze(0).cpu().numpy(), self.model.sr
 
 
 def trim_silence(x: np.ndarray, sr: int) -> np.ndarray:
@@ -59,7 +136,7 @@ def trim_silence(x: np.ndarray, sr: int) -> np.ndarray:
 
 
 def pacing(base: float, who: str, text: str) -> float:
-    """Per-line speed from delivery hints and punctuation shape."""
+    """Per-line speed from delivery hints and punctuation shape (kokoro)."""
     spd = base
     if any(w in who.lower() for w in ("quiet", "whisper", "small")):
         spd = max(0.92, spd - 0.10)
@@ -92,7 +169,7 @@ def is_beat_pause(action_text: str) -> bool:
     return bool(action_text) and action_text.strip().rstrip(".").lower() in ("beat", "a beat")
 
 
-def measured_chunks(k, text: str, voice: str, spd: float,
+def measured_chunks(engine, text: str, voice: str, spd: float, direction: tuple,
                     start: float, end: float) -> list:
     """Caption chunks timed by their own measured synthesis, scaled into
     the line's real speech window [start, end]."""
@@ -102,8 +179,8 @@ def measured_chunks(k, text: str, voice: str, spd: float,
     durs = []
     for c in chunks:
         speak = clean_speech(c) or c
-        samples, sr = k.create(speak, voice=voice, speed=spd, lang="en-us")
-        durs.append(len(trim_silence(np.asarray(samples), sr)) / sr)
+        samples, sr = engine.synth(speak, voice, spd, direction)
+        durs.append(len(trim_silence(samples, sr)) / sr)
     total = sum(durs) or 1.0
     spans, t = [], start
     for c, d in zip(chunks, durs):
@@ -128,16 +205,19 @@ def archive(clips_dir: Path, beat_num: int) -> None:
 
 
 def main() -> int:
-    if len(sys.argv) < 4:
-        raise SystemExit(__doc__)
-    ff, genome = sys.argv[1], sys.argv[2]
-    from kokoro_onnx import Kokoro
-    m = Path.home() / ".cache" / "banyan-tts"
-    k = Kokoro(str(m / "kokoro-v1.0.onnx"), str(m / "voices-v1.0.bin"))
-    genome_dir = REPO / "genomes" / genome
+    p = argparse.ArgumentParser(description=__doc__,
+                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("ffmpeg")
+    p.add_argument("genome")
+    p.add_argument("slugs", nargs="+")
+    p.add_argument("--engine", choices=["kokoro", "chatterbox"], default="kokoro")
+    args = p.parse_args()
+
+    engine = KokoroEngine() if args.engine == "kokoro" else ChatterboxEngine()
+    genome_dir = REPO / "genomes" / args.genome
     vcfg = load_voices(genome_dir)
 
-    for slug in sys.argv[3:]:
+    for slug in args.slugs:
         node_dir = genome_dir / "nodes" / slug
         frames = parse_frames(extract_script((node_dir / "node.md").read_text()))
         clips_dir = node_dir / "clips"
@@ -162,9 +242,9 @@ def main() -> int:
                 who = speaker_key(raw_who) or "VO"
                 voice, base = voice_for(who, vcfg)
                 spd = pacing(base, raw_who, text)
-                samples, sr = k.create(clean_speech(text), voice=voice,
-                                       speed=spd, lang="en-us")
-                samples = trim_silence(np.asarray(samples), sr)
+                direction = direction_for(raw_who, text)
+                samples, sr = engine.synth(clean_speech(text), voice, spd, direction)
+                samples = trim_silence(samples, sr)
                 gap = gap_before(prev_text, text, beat_pause)
                 if gap:
                     pieces.append(np.zeros(int(gap * sr), dtype=samples.dtype))
@@ -174,7 +254,8 @@ def main() -> int:
                 manifest.append({
                     "who": who, "text": text,
                     "start": round(start, 3), "end": round(cursor, 3),
-                    "chunks": measured_chunks(k, text, voice, spd, start, cursor),
+                    "chunks": measured_chunks(engine, text, voice, spd, direction,
+                                              start, cursor),
                 })
                 pieces.append(samples)
                 prev_text = text
@@ -187,13 +268,15 @@ def main() -> int:
             wav = clips_dir / "tmp.wav"
             sf.write(str(wav), audio, sr)
             mp3 = clips_dir / f"{beat_num:02d}-vo.mp3"
-            subprocess.run([ff, "-y", "-loglevel", "error", "-i", str(wav),
+            subprocess.run([args.ffmpeg, "-y", "-loglevel", "error", "-i", str(wav),
                             "-c:a", "libmp3lame", "-q:a", "4", str(mp3)], check=True)
             wav.unlink()
             (clips_dir / f"{beat_num:02d}-vo.json").write_text(json.dumps(
-                {"cast": "voices.yaml", "directed": "synth_vo v1",
-                 "lines": manifest, "total_s": round(cursor, 3)}, indent=1))
-            print(f"{slug} beat {beat_num:02d}: {len(entries)} lines, {cursor:.1f}s")
+                {"cast": "voices.yaml", "engine": engine.name,
+                 "directed": "synth_vo v2", "lines": manifest,
+                 "total_s": round(cursor, 3)}, indent=1))
+            print(f"{slug} beat {beat_num:02d}: {len(entries)} lines, "
+                  f"{cursor:.1f}s [{engine.name}]")
     print("VO_DONE")
     return 0
 
