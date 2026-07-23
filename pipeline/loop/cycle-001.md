@@ -34,17 +34,27 @@ only survivors listed as confirmed. Workflow `wf_4b4a7935-ebc`
   creature's shadow sweeps and engulfs the frame, timed to the VO. The
   reviewer under-sampled. End card is 3.0s, not 4s.
 
-## Pending verification (session limit; carry to next cycle)
+## Verification completed 2026-07-23 evening (9 more confirmed, 2 refuted)
 
-Visual consistency: goblin is a different creature in nearly every shot;
-art style re-rolls every clip; protagonist morphology drifts; recurring
-humans drift across episodes; attribute bleed between characters.
-Motion: first shot holds near-still; beat 3 ~10s motionless; climax
-replays its whole clip; loop restarts are hard jump-cuts.
-Captions: captions sit inside platform UI safe-area; 720x1280+CRF23
-veryfast masters soft after platform re-encode.
-(These match the founder's own winces — treated as plausible; the
-character-consistency fix is already the standing regrow-era priority.)
+Confirmed (adversarially checked against leaves/frames/code):
+- **Captions inside platform UI chrome** (sev 5) — FIXED same day:
+  CAPTION_MARGIN 22% of height, box ≤ WIDTH−160, leaves re-cut.
+- **Character drift cluster** (sev 5/4/3/3): the goblin is six different
+  creatures across two episodes; art style re-rolls per cut; protagonist
+  morphology + biome flip mid-episode; magistrate flips gender inside
+  007a; attribute bleed in multi-character shots. Root cause: prose
+  descriptors don't bind identity — needs reference-image conditioning
+  (canonical stills + i2v), the regrow-era rail.
+- **Motion cluster** (sev 4/4/2): first shot near-still ~7s (action verbs
+  buried at prompt end); climax replays its 10s clip verbatim (~16s of
+  replay); loop restarts are hard jump-cuts → ping-pong/crossfade seams.
+
+Refuted: 720p+CRF23 platform-softness (harm didn't reproduce); "beat 3
+motionless painting" (the sapling visibly grows across the hold —
+checker measured a 237→440px leaf span).
+
+These become the regrow-era backlog: character refs + keyframe pipeline
+first, then prompt motion grammar + loop seam treatment in render_t3.
 
 ## Cycle-1 fix selection (max 3, per loop.md)
 
