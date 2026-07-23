@@ -53,6 +53,7 @@ import yaml
 from PIL import Image, ImageDraw, ImageFont
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from captions import CAPTION_MAX_WORDS, caption_chunks, chunk_spans  # noqa: E402,F401 — shared with synth_vo
 from render_t1 import extract_script, parse_frames, strip_inline_md  # noqa: E402
 from render_t2 import ffmpeg_exe  # noqa: E402 — shared resolver: bundled imageio-ffmpeg, else PATH
 
@@ -64,7 +65,7 @@ MIN_SEC, MAX_SEC = 3.0, 12.0
 READ_CPS = 15.0
 GREEN, INK, BG = (111, 206, 138, 255), (230, 239, 232, 255), (10, 15, 11, 255)
 PANEL_BG, CAPTION_BG = (10, 15, 11, 200), (0, 0, 0, 200)
-CAPTION_SIZE, CAPTION_MAX_WORDS = 46, 7
+CAPTION_SIZE = 46
 
 MONO_FONTS = [
     "/System/Library/Fonts/Menlo.ttc",                       # macOS
@@ -273,49 +274,6 @@ def loudnorm_measure(track: Path) -> dict | None:
     return data
 
 
-def caption_chunks(text: str, max_words: int = CAPTION_MAX_WORDS) -> list:
-    """Split a VO line into short caption units. Whole lines burned in as
-    4-6-line paragraph blocks read as homework on a phone (loop cycle 001,
-    defects 8/11/12): break on sentence ends, then clause marks, then a hard
-    word cap, so each unit rasterizes to <=2 lines at caption size."""
-    units = []
-    for sent in re.split(r"(?<=[.!?…])\s+", text.strip()):
-        if not sent.split():
-            continue
-        buf = []
-        for clause in re.split(r"(?<=[,;:])\s+|\s+—\s+", sent):
-            for word in clause.split():
-                buf.append(word)
-                if len(buf) == max_words:
-                    units.append(" ".join(buf))
-                    buf = []
-            # a clause end past half the cap is a natural caption break
-            if len(buf) > max_words // 2:
-                units.append(" ".join(buf))
-                buf = []
-        if buf:
-            units.append(" ".join(buf))
-        # fold a 1-2 word orphan into its predecessor
-        if (len(units) >= 2 and len(units[-1].split()) <= 2
-                and len(units[-2].split()) + len(units[-1].split()) <= max_words + 2):
-            orphan = units.pop()
-            units[-1] += " " + orphan
-    return units or [text.strip()]
-
-
-def chunk_spans(text: str, w0: float, w1: float) -> list:
-    """Chunk a line and time each unit inside the line's audio window,
-    proportional to word count: (chunk, start, end) triples."""
-    chunks = caption_chunks(strip_inline_md(text))
-    total = sum(len(c.split()) for c in chunks) or 1
-    spans, t = [], w0
-    for c in chunks:
-        dt = (w1 - w0) * len(c.split()) / total
-        spans.append((c, t, t + dt))
-        t += dt
-    return spans
-
-
 def wrap(text: str, font: ImageFont.FreeTypeFont, max_w: int) -> list:
     out = []
     for raw in text.split("\n"):
@@ -469,17 +427,22 @@ def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
     if lines:
         timed = (manifest or {}).get("lines")
         for j, text in enumerate(lines):
-            if timed and len(timed) == len(lines):
-                # exact sync: the line spans its measured audio window,
-                # holding until the next line starts (last holds to slot end)
-                w0 = timed[j]["start"]
-                w1 = timed[j + 1]["start"] if j + 1 < len(timed) else dur
+            entry = timed[j] if (timed and len(timed) == len(lines)) else None
+            if entry and entry.get("chunks"):
+                # measured on the synthesized voice (synth_vo) — exact sync
+                spans = [(c["text"], c["start"], c["end"]) for c in entry["chunks"]]
+            elif entry:
+                # the window is the line's SPEECH span [start, end] — spanning
+                # to the next line's start dragged captions across the silent
+                # inter-line gap, lagging the voice (founder wince 2026-07-23)
+                spans = chunk_spans(strip_inline_md(text), entry["start"],
+                                    entry.get("end") or dur)
             else:
-                w0 = j * dur / len(lines)
-                w1 = (j + 1) * dur / len(lines) if j + 1 < len(lines) else dur
+                spans = chunk_spans(strip_inline_md(text), j * dur / len(lines),
+                                    (j + 1) * dur / len(lines))
             # half-open [start, end) windows per chunk avoid the 1-frame
             # flash where two captions overlap at an inclusive boundary
-            for k, (chunk, s, e) in enumerate(chunk_spans(text, w0, w1)):
+            for k, (chunk, s, e) in enumerate(spans):
                 png = text_png(chunk, workdir / f"cap-{num:02d}-{j}-{k}.png",
                                CAPTION_SIZE, INK, CAPTION_BG, bold=True)
                 layers.append((png, "(W-w)/2", "H-h-160",

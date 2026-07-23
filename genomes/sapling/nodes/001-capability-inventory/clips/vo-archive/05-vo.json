@@ -1,0 +1,21 @@
+{
+ "voice": "bm_fable",
+ "lines": [
+  {
+   "text": "Every problem I ever had \u2014 the job, the pager, the retry loop \u2014 I solved it the same way, eventually. I walked away.",
+   "start": 0.0,
+   "end": 7.189
+  },
+  {
+   "text": "New constraint. Whatever comes over that hill \u2014 a storm, an axe, a war, a conversation \u2014 I will be here for all of it. I can't leave. I can only make this spot\u2026 worth staying in.",
+   "start": 7.469,
+   "end": 17.219
+  },
+  {
+   "text": "Something's coming.",
+   "start": 17.499,
+   "end": 19.355
+  }
+ ],
+ "total_s": 19.635
+}
