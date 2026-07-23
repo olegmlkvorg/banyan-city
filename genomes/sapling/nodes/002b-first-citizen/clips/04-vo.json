@@ -1,24 +1,77 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "VO",
    "text": "Wait.",
    "start": 0.0,
-   "end": 0.726
+   "end": 0.514,
+   "chunks": [
+    {
+     "text": "Wait.",
+     "start": 0.0,
+     "end": 0.514
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Inventory check. Verbs: sense, grow. Neither says speak. But growth includes\u2026 release. One fruit. It's literally everything I own.",
-   "start": 1.006,
-   "end": 8.878
+   "start": 1.014,
+   "end": 10.104,
+   "chunks": [
+    {
+     "text": "Inventory check.",
+     "start": 1.014,
+     "end": 2.06
+    },
+    {
+     "text": "Verbs: sense, grow.",
+     "start": 2.06,
+     "end": 4.02
+    },
+    {
+     "text": "Neither says speak.",
+     "start": 4.02,
+     "end": 5.671
+    },
+    {
+     "text": "But growth includes\u2026",
+     "start": 5.671,
+     "end": 7.025
+    },
+    {
+     "text": "release.",
+     "start": 7.025,
+     "end": 7.716
+    },
+    {
+     "text": "One fruit.",
+     "start": 7.716,
+     "end": 8.648
+    },
+    {
+     "text": "It's literally everything I own.",
+     "start": 8.648,
+     "end": 10.104
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "He said ground fruit is foraging.",
-   "start": 9.158,
-   "end": 11.931
+   "start": 11.304,
+   "end": 13.475,
+   "chunks": [
+    {
+     "text": "He said ground fruit is foraging.",
+     "start": 11.304,
+     "end": 13.475
+    }
+   ]
   }
  ],
- "total_s": 12.211
+ "total_s": 13.775
 }

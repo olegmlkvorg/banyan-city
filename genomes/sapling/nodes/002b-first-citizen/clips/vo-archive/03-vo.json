@@ -1,0 +1,36 @@
+{
+ "cast": "voices.yaml",
+ "lines": [
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Thanks for the shade.",
+   "start": 0.0,
+   "end": 1.152
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "It was one apple. It fell off the cart. On the ground, that's \u2014 that's foraging. Everyone knows ground fruit is foraging.",
+   "start": 1.432,
+   "end": 8.195
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "You're a good listener. That's not a joke. The last three people I talked to filed a report.",
+   "start": 8.475,
+   "end": 13.253
+  },
+  {
+   "who": "VO",
+   "text": "He's talking to me. He knows I'm a plant and he's talking to me, because I'm the only thing in this field that won't file a report. Buddy, I wish I could file a report. I can't even wave.",
+   "start": 13.533,
+   "end": 23.304
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Anyway. Thanks. If anyone asks \u2014 you didn't see me. Which is true. You're a plant.",
+   "start": 23.584,
+   "end": 27.68
+  }
+ ],
+ "total_s": 27.96
+}

@@ -1,0 +1,53 @@
+# Leaf metadata — every render publishes its full provenance (§7.2)
+leaf: 002b-t3-b
+node: 002b
+tier: T3
+form: full-video-mp4
+content: 002b-t3-b.mp4
+author: pipeline/render_t3.py (assembly; per-beat footage sources below)
+model: "per-beat \u2014 see sources"
+prompt: "per-beat \u2014 see sources"
+seed: "per-beat \u2014 see sources"
+cost_usd: 0.0
+status: live
+platform_urls: []
+sources:
+- beat: 1
+  slug: "RECAP BEAT \u2014 0:00\u20130:05"
+  clip: 01-recap-arrival.mp4
+  audio: none
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-04-25
+  cost_usd: 0.0
+- beat: 2
+  slug: "THE FUGITIVE \u2014 0:05\u20130:20"
+  clip: 02-the-fugitive.mp4
+  audio: 02-vo.mp3
+  voice_engine: chatterbox-0.5B
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-04-25
+  cost_usd: 0.0
+- beat: 3
+  slug: "THE LONELY MONOLOGUE \u2014 0:20\u20130:50"
+  clip: 03-the-lonely-monologue.mp4
+  audio: 03-vo.mp3
+  voice_engine: chatterbox-0.5B
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-04-25
+  cost_usd: 0.0
+- beat: 4
+  slug: "THE ANSWER \u2014 0:50\u20131:10"
+  clip: 04-the-answer.mp4
+  audio: 04-vo.mp3
+  voice_engine: chatterbox-0.5B
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-04-25
+  cost_usd: 0.0
+- beat: 5
+  slug: "THE HOOK \u2014 1:10\u20131:25"
+  clip: 05-the-hook.mp4
+  audio: 05-vo.mp3
+  voice_engine: chatterbox-0.5B
+  platform: alibaba-model-studio
+  model: wan2.7-t2v-2026-04-25
+  cost_usd: 0.0

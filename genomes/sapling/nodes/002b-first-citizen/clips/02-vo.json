@@ -1,54 +1,177 @@
 {
  "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
  "lines": [
   {
    "who": "VO",
    "text": "A creature is using me as cover. I am forty centimeters tall. This is the worst stealth plan I have ever seen, and I once watched a senior architect hide a production outage in a footnote.",
    "start": 0.0,
-   "end": 9.899
+   "end": 13.627,
+   "chunks": [
+    {
+     "text": "A creature is using me as cover.",
+     "start": 0.0,
+     "end": 2.229
+    },
+    {
+     "text": "I am forty centimeters tall.",
+     "start": 2.229,
+     "end": 4.846
+    },
+    {
+     "text": "This is the worst stealth plan I",
+     "start": 4.846,
+     "end": 8.128
+    },
+    {
+     "text": "have ever seen, and I once watched",
+     "start": 8.128,
+     "end": 10.171
+    },
+    {
+     "text": "a senior architect hide a production outage",
+     "start": 10.171,
+     "end": 12.845
+    },
+    {
+     "text": "in a footnote.",
+     "start": 12.845,
+     "end": 13.627
+    }
+   ]
   },
   {
    "who": "GUARD 1",
    "text": "He went this way. I saw him. Apple thief.",
-   "start": 10.179,
-   "end": 12.461
+   "start": 14.127,
+   "end": 16.338,
+   "chunks": [
+    {
+     "text": "He went this way.",
+     "start": 14.127,
+     "end": 14.874
+    },
+    {
+     "text": "I saw him.",
+     "start": 14.874,
+     "end": 15.604
+    },
+    {
+     "text": "Apple thief.",
+     "start": 15.604,
+     "end": 16.337
+    }
+   ]
   },
   {
    "who": "GUARD 2",
    "text": "Technically not theft. He ate it on the spot. That reclassifies it as unlicensed consumption. Tax evasion.",
-   "start": 12.741,
-   "end": 19.504
+   "start": 16.838,
+   "end": 23.497,
+   "chunks": [
+    {
+     "text": "Technically not theft.",
+     "start": 16.838,
+     "end": 18.576
+    },
+    {
+     "text": "He ate it on the spot.",
+     "start": 18.576,
+     "end": 19.706
+    },
+    {
+     "text": "That reclassifies it as unlicensed consumption.",
+     "start": 19.706,
+     "end": 22.385
+    },
+    {
+     "text": "Tax evasion.",
+     "start": 22.385,
+     "end": 23.497
+    }
+   ]
   },
   {
    "who": "GUARD 1",
    "text": "So we confiscate the apple.",
-   "start": 19.784,
-   "end": 21.277
+   "start": 23.997,
+   "end": 25.41,
+   "chunks": [
+    {
+     "text": "So we confiscate the apple.",
+     "start": 23.997,
+     "end": 25.41
+    }
+   ]
   },
   {
    "who": "GUARD 2",
    "text": "The apple is inside him, Dren.",
-   "start": 21.557,
-   "end": 23.904
+   "start": 25.91,
+   "end": 27.749,
+   "chunks": [
+    {
+     "text": "The apple is inside him, Dren.",
+     "start": 25.91,
+     "end": 27.749
+    }
+   ]
   },
   {
    "who": "GUARD 1",
    "text": "\u2026We confiscate the goblin?",
-   "start": 24.184,
-   "end": 25.677
+   "start": 28.249,
+   "end": 29.611,
+   "chunks": [
+    {
+     "text": "\u2026We confiscate the goblin?",
+     "start": 28.249,
+     "end": 29.611
+    }
+   ]
   },
   {
    "who": "GUARD 2",
    "text": "There's no form for that. There's barely a form for the apple.",
-   "start": 25.957,
-   "end": 29.52
+   "start": 30.111,
+   "end": 33.309,
+   "chunks": [
+    {
+     "text": "There's no form for that.",
+     "start": 30.111,
+     "end": 31.221
+    },
+    {
+     "text": "There's barely a form for the apple.",
+     "start": 31.221,
+     "end": 33.309
+    }
+   ]
   },
   {
    "who": "VO",
    "text": "Nobody in this scene is evil. Everybody in this scene is trapped in a workflow. I have never related to a fantasy world more.",
-   "start": 29.8,
-   "end": 37.053
+   "start": 33.809,
+   "end": 41.846,
+   "chunks": [
+    {
+     "text": "Nobody in this scene is evil.",
+     "start": 33.809,
+     "end": 36.209
+    },
+    {
+     "text": "Everybody in this scene is trapped in a workflow.",
+     "start": 36.209,
+     "end": 38.665
+    },
+    {
+     "text": "I have never related to a fantasy world more.",
+     "start": 38.665,
+     "end": 41.846
+    }
+   ]
   }
  ],
- "total_s": 37.333
+ "total_s": 42.146
 }
