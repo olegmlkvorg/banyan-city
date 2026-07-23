@@ -119,8 +119,11 @@ class ChatterboxEngine:
         if not ref.exists():
             raise SystemExit(f"missing reference voice {ref} — extend build_refs.py")
         ex, cfg = direction
-        # deterministic per line: same text + voice → same take (provenance)
-        self.torch.manual_seed(abs(hash((text, voice))) % (2 ** 31))
+        # NO torch.manual_seed here: seeding the MPS generator kills the
+        # process silently at ~sampling step 250 (Metal pipeline dies, no
+        # traceback — verified empirically on 002b, five identical deaths;
+        # unseeded, the same generate succeeds). Takes are therefore
+        # non-deterministic on MPS; keep the take you like (R6 archives).
         wav = self.model.generate(text, audio_prompt_path=str(ref),
                                   exaggeration=ex, cfg_weight=cfg)
         out = wav.squeeze(0).cpu().numpy()
@@ -252,6 +255,8 @@ def main() -> int:
             for raw_who, text, beat_pause in entries:
                 who = speaker_key(raw_who) or "VO"
                 voice, base = voice_for(who, vcfg)
+                print(f"    {slug} b{beat_num:02d} {who} ({voice}) "
+                      f"{len(text.split())}w…", flush=True)
                 spd = pacing(base, raw_who, text)
                 direction = direction_for(raw_who, text)
                 samples, sr = engine.synth(clean_speech(text), voice, spd, direction)
