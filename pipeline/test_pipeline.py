@@ -84,6 +84,10 @@ def test_caption_chunks():
     check("tiny sentences never fold across boundaries (004 caption wall)",
           rapid[0] == "Newhaven!" and len(rapid) == 5)
     check("empty-ish input survives", t3.caption_chunks("  ") == [""])
+    check("captions clear the platform chrome (>=20% bottom margin)",
+          t3.CAPTION_MARGIN >= int(t3.HEIGHT * 0.20))
+    check("caption box narrower than the action-rail line",
+          t3.CAPTION_MAX_W <= t3.WIDTH - 140)
     spans = t3.chunk_spans("One two three. Four five six seven eight nine.", 2.0, 8.0)
     check("spans cover the window", abs(spans[0][1] - 2.0) < 1e-6 and abs(spans[-1][2] - 8.0) < 1e-6)
     check("spans are contiguous",

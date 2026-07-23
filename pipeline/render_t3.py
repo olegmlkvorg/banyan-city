@@ -65,7 +65,13 @@ MIN_SEC, MAX_SEC = 3.0, 12.0
 READ_CPS = 15.0
 GREEN, INK, BG = (111, 206, 138, 255), (230, 239, 232, 255), (10, 15, 11, 255)
 PANEL_BG, CAPTION_BG = (10, 15, 11, 200), (0, 0, 0, 200)
-CAPTION_SIZE = 46
+CAPTION_SIZE = 44
+# platform safe area (cycle-001 defect, verified): TikTok/Reels chrome covers
+# the bottom ~17-20% and a right-side action rail — captions anchored at
+# H-h-160 lost their last line under it. Keep blocks above the chrome and
+# narrower than the rail line.
+CAPTION_MARGIN = int(HEIGHT * 0.22)
+CAPTION_MAX_W = WIDTH - 160
 
 MONO_FONTS = [
     "/System/Library/Fonts/Menlo.ttc",                       # macOS
@@ -444,8 +450,9 @@ def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
             # flash where two captions overlap at an inclusive boundary
             for k, (chunk, s, e) in enumerate(spans):
                 png = text_png(chunk, workdir / f"cap-{num:02d}-{j}-{k}.png",
-                               CAPTION_SIZE, INK, CAPTION_BG, bold=True)
-                layers.append((png, "(W-w)/2", "H-h-160",
+                               CAPTION_SIZE, INK, CAPTION_BG,
+                               max_w=CAPTION_MAX_W, bold=True)
+                layers.append((png, "(W-w)/2", f"H-h-{CAPTION_MARGIN}",
                                f"gte(t,{s:.2f})*lt(t,{e:.2f})"))
 
     layers += list(extra_layers or [])
