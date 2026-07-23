@@ -89,6 +89,8 @@ def direction_for(raw_who: str, text: str) -> tuple:
 class KokoroEngine:
     name = "kokoro-82M"
 
+    sr = 24000
+
     def __init__(self):
         from kokoro_onnx import Kokoro
         self.k = Kokoro(str(CACHE / "kokoro-v1.0.onnx"), str(CACHE / "voices-v1.0.bin"))
@@ -109,6 +111,7 @@ class ChatterboxEngine:
         self.torch = torch
         self.dev = "mps" if torch.backends.mps.is_available() else "cpu"
         self.model = ChatterboxTTS.from_pretrained(device=self.dev)
+        self.sr = self.model.sr
         self.refs = CACHE / "cb-refs"
         if not self.refs.is_dir():
             raise SystemExit("no reference voices — run pipeline/build_refs.py "
@@ -178,6 +181,10 @@ def is_beat_pause(action_text: str) -> bool:
     return bool(action_text) and action_text.strip().rstrip(".").lower() in ("beat", "a beat")
 
 
+LONG_LINE_WORDS = 22   # chatterbox generations past ~250 sampling steps die
+CHUNK_JOIN_GAP = 0.12  # breath between stitched chunk takes
+
+
 def measured_chunks(engine, text: str, voice: str, spd: float, direction: tuple,
                     start: float, end: float) -> list:
     """Caption chunks timed by their own measured synthesis, scaled into
@@ -202,6 +209,51 @@ def measured_chunks(engine, text: str, voice: str, spd: float, direction: tuple,
         spans.append({"text": c, "start": round(t, 3), "end": round(t + dt, 3)})
         t += dt
     return spans
+
+
+def synth_line(engine, text: str, voice: str, spd: float, direction: tuple):
+    """One line's audio + caption spans (relative to the line's own start).
+
+    Short lines: one generate, chunks measured separately (their takes are
+    only used for timing). LONG lines on chatterbox are built by STITCHING
+    the chunk takes themselves: a single long generation dies silently on
+    MPS at ~250 sampling steps (the 002b saga — five identical deaths),
+    and stitching also makes caption timing exact rather than measured."""
+    chunks = caption_chunks(strip_inline_md(text))
+    speak_full = clean_speech(text)
+    long_line = (engine.name.startswith("chatterbox")
+                 and len(speak_full.split()) > LONG_LINE_WORDS
+                 and len(chunks) > 1)
+    if not long_line:
+        samples, sr = engine.synth(speak_full, voice, spd, direction)
+        samples = trim_silence(samples, sr)
+        dur = len(samples) / sr
+        return samples, sr, measured_chunks(engine, text, voice, spd,
+                                            direction, 0.0, dur)
+    takes = []
+    for c in chunks:
+        speak = clean_speech(c)
+        if not speak:
+            takes.append((c, None))
+            continue
+        s, sr = engine.synth(speak, voice, spd, direction)
+        takes.append((c, trim_silence(s, sr)))
+    sr = engine.sr
+    ref = next(s for _, s in takes if s is not None)
+    gap = np.zeros(int(CHUNK_JOIN_GAP * sr), dtype=ref.dtype)
+    hold = np.zeros(int(0.5 * sr), dtype=ref.dtype)  # display-only chunk
+    pieces, spans, t = [], [], 0.0
+    for i, (c, s) in enumerate(takes):
+        seg = s if s is not None else hold
+        spans.append({"text": c, "start": round(t, 3),
+                      "end": round(t + len(seg) / sr + CHUNK_JOIN_GAP, 3)})
+        pieces.append(seg)
+        t += len(seg) / sr
+        if i < len(takes) - 1:
+            pieces.append(gap)
+            t += CHUNK_JOIN_GAP
+    spans[-1]["end"] = round(t, 3)
+    return np.concatenate(pieces), sr, spans
 
 
 def archive(clips_dir: Path, beat_num: int) -> None:
@@ -259,8 +311,7 @@ def main() -> int:
                       f"{len(text.split())}w…", flush=True)
                 spd = pacing(base, raw_who, text)
                 direction = direction_for(raw_who, text)
-                samples, sr = engine.synth(clean_speech(text), voice, spd, direction)
-                samples = trim_silence(samples, sr)
+                samples, sr, rel_spans = synth_line(engine, text, voice, spd, direction)
                 gap = gap_before(prev_text, text, beat_pause)
                 if gap:
                     pieces.append(np.zeros(int(gap * sr), dtype=samples.dtype))
@@ -270,8 +321,10 @@ def main() -> int:
                 manifest.append({
                     "who": who, "text": text,
                     "start": round(start, 3), "end": round(cursor, 3),
-                    "chunks": measured_chunks(engine, text, voice, spd, direction,
-                                              start, cursor),
+                    "chunks": [{"text": c["text"],
+                                "start": round(start + c["start"], 3),
+                                "end": round(start + c["end"], 3)}
+                               for c in rel_spans],
                 })
                 pieces.append(samples)
                 prev_text = text
