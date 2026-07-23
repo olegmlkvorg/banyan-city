@@ -35,6 +35,17 @@ body:
       placeholder: "@yourhandle"
     validations:
       required: true
+  - type: dropdown
+    id: provenance
+    attributes:
+      label: How was it written?
+      description: "The tree labels all authorship honestly (§7.2) — steward episodes say they're model-written, yours says how it was made. No answer is wrong."
+      options:
+        - Entirely by me
+        - By me, with AI help
+        - Mostly AI, under my direction
+    validations:
+      required: true
   - type: checkboxes
     id: license
     attributes:
