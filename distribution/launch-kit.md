@@ -181,7 +181,7 @@ rival next episode yourself. Declaring the parent episode is the only rule.
 
 ---
 
-## 5 · Fork day runbook (Fri 2026-07-24 target, after ep-5 drops)
+## 5 · Fork day runbook (Mon 2026-07-27 target, after the Sun finale)
 
 UPDATE 2026-07-22: the trunk call is MADE — 006a "The Miracle Clause" is
 canon (edl.md, steward under founder delegation). Reframe the posts: not
