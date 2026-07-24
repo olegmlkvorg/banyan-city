@@ -161,7 +161,7 @@ def lint_shots(genome_name: str, shots_file: Path) -> None:
                 # motion grammar (loop cycles 001/005, verified): WARN-only so
                 # the already-filmed season stays lint-clean; future shot
                 # lists should fix these before generating.
-                first_sentence = re.split(r"(?<=[.!?])\s", prompt.strip(), 1)[0]
+                first_sentence = re.split(r"(?<=[.!?])\s", prompt.strip(), maxsplit=1)[0]
                 if not MOTION_VERBS.search(first_sentence):
                     warn(f"{where}: {beat_label} prompt's FIRST sentence has no visible "
                          "motion — models front-load stillness (cycle-001 defect: "
