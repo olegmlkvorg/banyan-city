@@ -398,6 +398,9 @@ def test_t3_fit_duration():
     # footage beats: slot = max(sequence, VO + 0.4) — never the paper timing
     check("footage sizes its slot", t3.fit_duration(12.0, 10.0, 0.0) == 10.0)
     check("footage stretches for VO", t3.fit_duration(12.0, 10.0, 11.0) == 11.4)
+    check("voice leads: long footage capped at VO + tail (cycle 004)",
+          t3.fit_duration(12.0, 10.0, 4.6) == 6.6)
+    check("short voiceless tail kept whole", t3.fit_duration(12.0, 5.0, 4.0) == 5.0)
     # slate beats: script timing, but a longer VO is never trimmed mid-sentence
     check("slate keeps script timing", t3.fit_duration(12.0, 0.0, 0.0) == 12.0)
     check("slate holds for longer VO", t3.fit_duration(12.0, 0.0, 14.0) == 14.4)

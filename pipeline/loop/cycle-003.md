@@ -48,3 +48,17 @@ Emotion direction is still *rule-based* (punctuation + parentheticals).
 The scripts under-specify performance; a future cycle could add explicit
 per-line direction cues to the script grammar (an R4-adjacent question —
 direction is taste).
+
+---
+
+# Loop cycle 004 — voice-led beat slots (2026-07-24, morning)
+
+Founder wince on the ep-4 drop file: "no sound for like 3 seconds
+straight staring at the random ai animation." Cause in `fit_duration`:
+beat slots ran the FULL clip regardless of voice length (10s clip over
+4.6s of dialogue = 5.4s of wind). Fix: with voice present, the slot
+follows the voice — footage beats out at most 2.0s past the last word
+(`VOICELESS_TAIL_MAX`); voice-less beats keep their footage; looping for
+long VO unchanged. +2 tests. Season re-cut (episodes tightened 3-12s
+each), drops re-staged. Verdict: pending founder screening of the
+re-posted ep 4.

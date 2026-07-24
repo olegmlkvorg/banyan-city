@@ -193,13 +193,22 @@ def video_duration(f: Path) -> float | None:
     return media_duration(f)
 
 
+VOICELESS_TAIL_MAX = 2.0  # footage may beat out this long after the last word
+
+
 def fit_duration(script_s: float, cdur: float, vdur: float) -> float:
-    """A beat slot sized to its material. Footage beats run exactly as long as
-    the clip sequence and the FULL voice track — max(footage, VO + 0.4s pad).
-    Slate beats (cdur 0) keep the script's paper timing, stretching only when
-    the VO runs longer; dialogue is never hard-trimmed mid-sentence."""
+    """A beat slot sized to its material, VOICE-led. Playing the full clip
+    regardless of VO length left multi-second dead-air tails (10s clip over
+    4.6s of dialogue — founder wince, loop cycle 004): with voice present,
+    footage may run at most VOICELESS_TAIL_MAX past it (visual beat-out),
+    and still loops longer when the VO outruns the clip. Voice-less footage
+    beats keep their full clip; slate beats (cdur 0) keep the script's paper
+    timing, stretching only when the VO runs longer; dialogue is never
+    hard-trimmed mid-sentence."""
     if cdur:
-        return round(max(cdur, vdur + 0.4), 2)
+        if not vdur:
+            return round(cdur, 2)
+        return round(max(min(cdur, vdur + VOICELESS_TAIL_MAX), vdur + 0.4), 2)
     if vdur:
         return round(max(script_s, vdur + 0.4), 2)
     return script_s
