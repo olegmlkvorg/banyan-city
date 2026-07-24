@@ -7,92 +7,92 @@
    "who": "SCAVENGER",
    "text": "\u2026Who's that?",
    "start": 0.0,
-   "end": 1.385,
+   "end": 1.579,
    "chunks": [
     {
      "text": "\u2026Who's that?",
      "start": 0.0,
-     "end": 1.385
+     "end": 1.579
     }
    ]
   },
   {
    "who": "FARMER",
    "text": "Word travels. That's the first one.",
-   "start": 1.885,
-   "end": 4.383,
+   "start": 2.079,
+   "end": 4.413,
    "chunks": [
     {
      "text": "Word travels.",
-     "start": 1.885,
-     "end": 3.149
+     "start": 2.079,
+     "end": 3.212
     },
     {
      "text": "That's the first one.",
-     "start": 3.149,
-     "end": 4.383
+     "start": 3.212,
+     "end": 4.413
     }
    ]
   },
   {
    "who": "SCAVENGER",
    "text": "First what?",
-   "start": 4.883,
-   "end": 5.76,
+   "start": 4.913,
+   "end": 5.981,
    "chunks": [
     {
      "text": "First what?",
-     "start": 4.883,
-     "end": 5.76
+     "start": 4.913,
+     "end": 5.981
     }
    ]
   },
   {
    "who": "VO",
    "text": "Patrol wanted taxes. Assessor wanted a count. Magistrate wanted a",
-   "start": 6.26,
-   "end": 10.232,
+   "start": 6.481,
+   "end": 11.244,
    "chunks": [
     {
      "text": "Patrol wanted taxes.",
-     "start": 6.26,
-     "end": 7.443
+     "start": 6.481,
+     "end": 8.037
     },
     {
      "text": "Assessor wanted a count.",
-     "start": 7.443,
-     "end": 8.658
+     "start": 8.037,
+     "end": 9.447
     },
     {
      "text": "Magistrate wanted a",
-     "start": 8.658,
-     "end": 10.232
+     "start": 9.447,
+     "end": 11.244
     }
    ]
   },
   {
    "who": "VO",
    "text": "category. I could give all of those. \u2026What does she want?",
-   "start": 10.732,
-   "end": 14.096,
+   "start": 11.744,
+   "end": 15.423,
    "chunks": [
     {
      "text": "category.",
-     "start": 10.732,
-     "end": 11.631
+     "start": 11.744,
+     "end": 12.717
     },
     {
      "text": "I could give all of those.",
-     "start": 11.631,
-     "end": 13.054
+     "start": 12.717,
+     "end": 14.398
     },
     {
      "text": "\u2026What does she want?",
-     "start": 13.054,
-     "end": 14.096
+     "start": 14.398,
+     "end": 15.423
     }
    ]
   }
  ],
- "total_s": 14.396
+ "total_s": 15.723
 }

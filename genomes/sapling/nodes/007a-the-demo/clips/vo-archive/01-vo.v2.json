@@ -1,0 +1,44 @@
+{
+ "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
+ "lines": [
+  {
+   "who": "VO",
+   "text": "Two weeks to ship a miracle. So we did what every team does with an",
+   "start": 0.0,
+   "end": 4.341,
+   "chunks": [
+    {
+     "text": "Two weeks to ship a miracle.",
+     "start": 0.0,
+     "end": 1.985
+    },
+    {
+     "text": "So we did what every team does with an",
+     "start": 1.985,
+     "end": 4.341
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "impossible deadline: cut scope until the miracle was a demo.",
+   "start": 4.841,
+   "end": 8.402,
+   "chunks": [
+    {
+     "text": "impossible deadline: cut scope until the miracle",
+     "start": 4.841,
+     "end": 7.544
+    },
+    {
+     "text": "was a demo.",
+     "start": 7.544,
+     "end": 8.402
+    }
+   ]
+  }
+ ],
+ "total_s": 8.702
+}

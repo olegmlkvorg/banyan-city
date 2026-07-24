@@ -1,0 +1,62 @@
+{
+ "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
+ "lines": [
+  {
+   "who": "FARMER",
+   "text": "Infrastructure.",
+   "start": 0.0,
+   "end": 0.876,
+   "chunks": [
+    {
+     "text": "Infrastructure.",
+     "start": 0.0,
+     "end": 0.876
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "I've seen this before. It's called audit prep. You cannot mop your",
+   "start": 1.376,
+   "end": 4.998,
+   "chunks": [
+    {
+     "text": "I've seen this before.",
+     "start": 1.376,
+     "end": 2.494
+    },
+    {
+     "text": "It's called audit prep.",
+     "start": 2.494,
+     "end": 3.855
+    },
+    {
+     "text": "You cannot mop your",
+     "start": 3.855,
+     "end": 4.998
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "way out of one. Everyone tries.",
+   "start": 5.498,
+   "end": 7.434,
+   "chunks": [
+    {
+     "text": "way out of one.",
+     "start": 5.498,
+     "end": 6.496
+    },
+    {
+     "text": "Everyone tries.",
+     "start": 6.496,
+     "end": 7.434
+    }
+   ]
+  }
+ ],
+ "total_s": 7.734
+}

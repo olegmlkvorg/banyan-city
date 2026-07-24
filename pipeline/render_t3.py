@@ -275,7 +275,7 @@ def loudnorm_measure(track: Path) -> dict | None:
     """First pass of two-pass loudnorm: measured levels for a linear-gain
     second pass (dynamic single-pass loudnorm pumps on dialogue)."""
     r = subprocess.run([FFMPEG, "-i", str(track), "-af",
-                        "loudnorm=I=-14:TP=-1.0:LRA=11:print_format=json",
+                        "loudnorm=I=-14:TP=-1.5:LRA=11:print_format=json",
                         "-f", "null", "-"], capture_output=True, text=True)
     m = re.search(r"\{[^{}]*\"input_i\"[^{}]*\}", r.stderr, re.S)
     if not m:
@@ -651,16 +651,17 @@ def main() -> int:
             capture_output=True, text=True)
         if r.returncode:
             raise SystemExit(f"bed mix failed:\n{r.stderr[-1500:]}")
-        af = "loudnorm=I=-14:TP=-1.0:LRA=11"
+        af = "loudnorm=I=-14:TP=-1.5:LRA=11"
         measured = loudnorm_measure(mixed)
         if measured:  # linear gain — dynamic single-pass pumps on dialogue
             af += (f":measured_I={measured['input_i']}:measured_TP={measured['input_tp']}"
                    f":measured_LRA={measured['input_lra']}"
                    f":measured_thresh={measured['input_thresh']}"
                    f":offset={measured['target_offset']}:linear=true")
-        # ~-1.3 dB ceiling; level=0: no auto-makeup. AAC encoding overshoots
-        # the sample peak (001-t3-c measured -0.4 dBTP through a 0.891
-        # limiter — caught by qa_episode) — leave true-peak headroom.
+        # limiter runs at loudnorm's internal 192k — limiting AFTER the final
+        # downsample flat-tops the wave and true peak explodes (+1.5 dBTP
+        # measured; caught by qa_episode). The ~0.5 dB left after the 44.1k
+        # resample is absorbed by the lower loudnorm TP target above.
         af += ",alimiter=limit=0.86:level=0"
         r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-i", str(mixed),
                             "-map", "0:v", "-map", "1:a", "-c:v", "copy",

@@ -7,119 +7,119 @@
    "who": "SCAVENGER",
    "text": "The patrol comes through here every few days. Everywhere else, I'm\u2026 (he gestures at all of himself) \u2026a filing problem. A thing with no form.",
    "start": 0.0,
-   "end": 6.121,
+   "end": 5.96,
    "chunks": [
     {
      "text": "The patrol comes through here every few days.",
      "start": 0.0,
-     "end": 2.294
+     "end": 1.853
     },
     {
      "text": "Everywhere else, I'm\u2026",
-     "start": 2.294,
-     "end": 3.806
+     "start": 1.853,
+     "end": 3.366
     },
     {
      "text": "(he gestures at all of himself) \u2026a filing problem.",
-     "start": 3.806,
-     "end": 4.925
+     "start": 3.366,
+     "end": 4.692
     },
     {
      "text": "A thing with no form.",
-     "start": 4.925,
-     "end": 6.121
+     "start": 4.692,
+     "end": 5.96
     }
    ]
   },
   {
    "who": "SCAVENGER",
    "text": "Can I stay? Here. By you. I'd keep the weeds off. I'm quiet. Mostly.",
-   "start": 6.621,
-   "end": 10.658,
+   "start": 6.46,
+   "end": 10.997,
    "chunks": [
     {
      "text": "Can I stay?",
-     "start": 6.621,
-     "end": 7.283
+     "start": 6.46,
+     "end": 7.213
     },
     {
      "text": "Here.",
-     "start": 7.283,
-     "end": 7.834
+     "start": 7.213,
+     "end": 8.167
     },
     {
      "text": "By you.",
-     "start": 7.834,
-     "end": 8.404
+     "start": 8.167,
+     "end": 8.77
     },
     {
      "text": "I'd keep the weeds off.",
-     "start": 8.404,
-     "end": 9.241
+     "start": 8.77,
+     "end": 9.673
     },
     {
      "text": "I'm quiet.",
-     "start": 9.241,
-     "end": 10.179
+     "start": 9.673,
+     "end": 10.585
     },
     {
      "text": "Mostly.",
-     "start": 10.179,
-     "end": 10.658
+     "start": 10.585,
+     "end": 10.997
     }
    ]
   },
   {
    "who": "VO",
    "text": "Every problem I ever had, I solved by walking away. He can't walk away either \u2014 everywhere he goes is somebody else's field. Verbs: sense, grow. Neither one says shelter.",
-   "start": 11.158,
-   "end": 20.303,
+   "start": 11.497,
+   "end": 23.847,
    "chunks": [
     {
      "text": "Every problem I ever had,",
-     "start": 11.158,
-     "end": 12.55
+     "start": 11.497,
+     "end": 13.44
     },
     {
      "text": "I solved by walking away.",
-     "start": 12.55,
-     "end": 13.829
+     "start": 13.44,
+     "end": 15.313
     },
     {
      "text": "He can't walk away either \u2014",
-     "start": 13.829,
-     "end": 15.208
+     "start": 15.313,
+     "end": 16.927
     },
     {
      "text": "everywhere he goes is somebody else's field.",
-     "start": 15.208,
-     "end": 17.228
+     "start": 16.927,
+     "end": 20.346
     },
     {
      "text": "Verbs: sense, grow.",
-     "start": 17.228,
-     "end": 19.016
+     "start": 20.346,
+     "end": 22.367
     },
     {
      "text": "Neither one says shelter.",
-     "start": 19.016,
-     "end": 20.303
+     "start": 22.367,
+     "end": 23.847
     }
    ]
   },
   {
    "who": "VO",
    "text": "\u2026Growth includes deciding what to grow toward.",
-   "start": 20.803,
-   "end": 23.748,
+   "start": 24.347,
+   "end": 27.153,
    "chunks": [
     {
      "text": "\u2026Growth includes deciding what to grow toward.",
-     "start": 20.803,
-     "end": 23.748
+     "start": 24.347,
+     "end": 27.153
     }
    ]
   }
  ],
- "total_s": 24.048
+ "total_s": 27.453
 }

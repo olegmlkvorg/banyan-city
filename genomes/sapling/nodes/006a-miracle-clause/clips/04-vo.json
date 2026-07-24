@@ -7,169 +7,169 @@
    "who": "MAGISTRATE",
    "text": "One formality. Registration is provisional until the shrine",
    "start": 0.0,
-   "end": 4.045,
+   "end": 3.851,
    "chunks": [
     {
      "text": "One formality.",
      "start": 0.0,
-     "end": 0.434
+     "end": 1.073
     },
     {
      "text": "Registration is provisional until the shrine",
-     "start": 0.434,
-     "end": 4.045
+     "start": 1.073,
+     "end": 3.851
     }
    ]
   },
   {
    "who": "VO",
    "text": "demonstrates one \u2014 (reading) \u2014 \"verified wonder, witnessed by an officer",
-   "start": 4.545,
-   "end": 7.66,
+   "start": 4.351,
+   "end": 7.814,
    "chunks": [
     {
      "text": "demonstrates one \u2014 (reading) \u2014",
-     "start": 4.545,
-     "end": 5.552
+     "start": 4.351,
+     "end": 5.826
     },
     {
      "text": "\"verified wonder, witnessed by an officer",
-     "start": 5.552,
-     "end": 7.66
+     "start": 5.826,
+     "end": 7.814
     }
    ]
   },
   {
    "who": "VO",
    "text": "of rank.\" I return at the full moon.",
-   "start": 8.16,
-   "end": 10.308,
+   "start": 8.314,
+   "end": 10.553,
    "chunks": [
     {
      "text": "of rank.\" I return at the full moon.",
-     "start": 8.16,
-     "end": 10.308
+     "start": 8.314,
+     "end": 10.553
     }
    ]
   },
   {
    "who": "SCAVENGER",
    "text": "What\u2014 what qualifies? Is there a list? A form?",
-   "start": 10.808,
-   "end": 13.344,
+   "start": 11.053,
+   "end": 13.962,
    "chunks": [
     {
      "text": "What\u2014 what qualifies?",
-     "start": 10.808,
-     "end": 12.117
+     "start": 11.053,
+     "end": 12.504
     },
     {
      "text": "Is there a list?",
-     "start": 12.117,
-     "end": 12.83
+     "start": 12.504,
+     "end": 13.35
     },
     {
      "text": "A form?",
-     "start": 12.83,
-     "end": 13.344
+     "start": 13.35,
+     "end": 13.962
     }
    ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Surprise me.",
-   "start": 13.844,
-   "end": 15.357,
+   "start": 14.462,
+   "end": 15.778,
    "chunks": [
     {
      "text": "Surprise me.",
-     "start": 13.844,
-     "end": 15.357
+     "start": 14.462,
+     "end": 15.777
     }
    ]
   },
   {
    "who": "MAGISTRATE",
    "text": "The dedication line I leave blank. Shrines declare to whom",
-   "start": 15.857,
-   "end": 19.464,
+   "start": 16.278,
+   "end": 20.468,
    "chunks": [
     {
      "text": "The dedication line I leave blank.",
-     "start": 15.857,
-     "end": 17.862
+     "start": 16.278,
+     "end": 18.584
     },
     {
      "text": "Shrines declare to whom",
-     "start": 17.862,
-     "end": 19.464
+     "start": 18.584,
+     "end": 20.468
     }
    ]
   },
   {
    "who": "VO",
    "text": "at consecration. \u2026Think carefully. Those words outlive towns.",
-   "start": 19.964,
-   "end": 23.644,
+   "start": 20.968,
+   "end": 25.117,
    "chunks": [
     {
      "text": "at consecration.",
-     "start": 19.964,
-     "end": 20.804
+     "start": 20.968,
+     "end": 22.829
     },
     {
      "text": "\u2026Think carefully.",
-     "start": 20.804,
-     "end": 21.597
+     "start": 22.829,
+     "end": 23.692
     },
     {
      "text": "Those words outlive towns.",
-     "start": 21.597,
-     "end": 23.644
+     "start": 23.692,
+     "end": 25.118
     }
    ]
   },
   {
    "who": "VO",
    "text": "Two weeks to ship a miracle. No spec. One reviewer. \u2026So \u2014 a normal",
-   "start": 24.144,
-   "end": 28.857,
+   "start": 25.617,
+   "end": 30.043,
    "chunks": [
     {
      "text": "Two weeks to ship a miracle.",
-     "start": 24.144,
-     "end": 25.861
+     "start": 25.617,
+     "end": 27.399
     },
     {
      "text": "No spec.",
-     "start": 25.861,
-     "end": 26.831
+     "start": 27.399,
+     "end": 28.15
     },
     {
      "text": "One reviewer.",
-     "start": 26.831,
-     "end": 27.764
+     "start": 28.15,
+     "end": 28.97
     },
     {
      "text": "\u2026So \u2014 a normal",
-     "start": 27.764,
-     "end": 28.857
+     "start": 28.97,
+     "end": 30.043
     }
    ]
   },
   {
    "who": "VO",
    "text": "release.",
-   "start": 29.357,
-   "end": 30.24,
+   "start": 30.543,
+   "end": 31.488,
    "chunks": [
     {
      "text": "release.",
-     "start": 29.357,
-     "end": 30.24
+     "start": 30.543,
+     "end": 31.488
     }
    ]
   }
  ],
- "total_s": 30.54
+ "total_s": 31.788
 }

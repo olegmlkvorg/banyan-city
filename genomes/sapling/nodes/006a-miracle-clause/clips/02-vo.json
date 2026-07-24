@@ -7,100 +7,100 @@
    "who": "MAGISTRATE",
    "text": "Settlement, Shade. Founded",
    "start": 0.0,
-   "end": 2.147,
+   "end": 2.235,
    "chunks": [
     {
      "text": "Settlement, Shade.",
      "start": 0.0,
-     "end": 0.994
+     "end": 1.605
     },
     {
      "text": "Founded",
-     "start": 0.994,
-     "end": 2.147
+     "start": 1.605,
+     "end": 2.235
     }
    ]
   },
   {
    "who": "VO",
    "text": "yesterday, structures one-ish, population three. (a page turns)",
-   "start": 2.647,
-   "end": 5.758,
+   "start": 2.735,
+   "end": 5.736,
    "chunks": [
     {
      "text": "yesterday, structures one-ish, population three.",
-     "start": 2.647,
-     "end": 5.255
+     "start": 2.735,
+     "end": 5.25
     },
     {
      "text": "(a page turns)",
-     "start": 5.255,
-     "end": 5.758
+     "start": 5.25,
+     "end": 5.735
     }
    ]
   },
   {
    "who": "VO",
    "text": "Occupation of resident number three: \"answers questions.\"",
-   "start": 6.258,
-   "end": 9.365,
+   "start": 6.236,
+   "end": 9.588,
    "chunks": [
     {
      "text": "Occupation of resident number three: \"answers questions.\"",
-     "start": 6.258,
-     "end": 9.365
+     "start": 6.236,
+     "end": 9.588
     }
    ]
   },
   {
    "who": "MAGISTRATE",
    "text": "Well?",
-   "start": 9.865,
-   "end": 10.805,
+   "start": 10.088,
+   "end": 10.728,
    "chunks": [
     {
      "text": "Well?",
-     "start": 9.865,
-     "end": 10.805
+     "start": 10.088,
+     "end": 10.728
     }
    ]
   },
   {
    "who": "MAGISTRATE",
    "text": "\u2026So the assessor hasn't been drinking. Pity. That was the",
-   "start": 11.305,
-   "end": 15.143,
+   "start": 11.228,
+   "end": 14.085,
    "chunks": [
     {
      "text": "\u2026So the assessor hasn't been drinking.",
-     "start": 11.305,
-     "end": 12.948
+     "start": 11.228,
+     "end": 12.898
     },
     {
      "text": "Pity.",
-     "start": 12.948,
-     "end": 13.612
+     "start": 12.898,
+     "end": 13.375
     },
     {
      "text": "That was the",
-     "start": 13.612,
-     "end": 15.143
+     "start": 13.375,
+     "end": 14.085
     }
    ]
   },
   {
    "who": "VO",
    "text": "tidy explanation.",
-   "start": 15.643,
-   "end": 17.926,
+   "start": 14.585,
+   "end": 15.846,
    "chunks": [
     {
      "text": "tidy explanation.",
-     "start": 15.643,
-     "end": 17.926
+     "start": 14.585,
+     "end": 15.846
     }
    ]
   }
  ],
- "total_s": 18.226
+ "total_s": 16.146
 }

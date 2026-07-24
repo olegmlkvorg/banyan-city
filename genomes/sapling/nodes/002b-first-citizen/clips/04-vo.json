@@ -7,71 +7,71 @@
    "who": "VO",
    "text": "Wait.",
    "start": 0.0,
-   "end": 0.514,
+   "end": 0.474,
    "chunks": [
     {
      "text": "Wait.",
      "start": 0.0,
-     "end": 0.514
+     "end": 0.474
     }
    ]
   },
   {
    "who": "VO",
    "text": "Inventory check. Verbs: sense, grow. Neither says speak. But growth includes\u2026 release. One fruit. It's literally everything I own.",
-   "start": 1.014,
-   "end": 10.104,
+   "start": 0.974,
+   "end": 8.93,
    "chunks": [
     {
      "text": "Inventory check.",
-     "start": 1.014,
-     "end": 2.06
+     "start": 0.974,
+     "end": 1.833
     },
     {
      "text": "Verbs: sense, grow.",
-     "start": 2.06,
-     "end": 4.02
+     "start": 1.833,
+     "end": 3.249
     },
     {
      "text": "Neither says speak.",
-     "start": 4.02,
-     "end": 5.671
+     "start": 3.249,
+     "end": 4.604
     },
     {
      "text": "But growth includes\u2026",
-     "start": 5.671,
-     "end": 7.025
+     "start": 4.604,
+     "end": 5.704
     },
     {
      "text": "release.",
-     "start": 7.025,
-     "end": 7.716
+     "start": 5.704,
+     "end": 6.652
     },
     {
      "text": "One fruit.",
-     "start": 7.716,
-     "end": 8.648
+     "start": 6.652,
+     "end": 7.32
     },
     {
      "text": "It's literally everything I own.",
-     "start": 8.648,
-     "end": 10.104
+     "start": 7.32,
+     "end": 8.93
     }
    ]
   },
   {
    "who": "VO",
    "text": "He said ground fruit is foraging.",
-   "start": 11.304,
-   "end": 13.475,
+   "start": 10.13,
+   "end": 11.992,
    "chunks": [
     {
      "text": "He said ground fruit is foraging.",
-     "start": 11.304,
-     "end": 13.475
+     "start": 10.13,
+     "end": 11.993
     }
    ]
   }
  ],
- "total_s": 13.775
+ "total_s": 12.292
 }

@@ -7,35 +7,35 @@
    "who": "SCAVENGER",
    "text": "Okay. I've thought about it all night, and there are only two possibilities. One: I have finally lost it. Two: you're in there.",
    "start": 0.0,
-   "end": 7.137,
+   "end": 8.799,
    "chunks": [
     {
      "text": "Okay.",
      "start": 0.0,
-     "end": 0.499
+     "end": 0.928
     },
     {
      "text": "I've thought about it all night,",
-     "start": 0.499,
-     "end": 1.968
+     "start": 0.928,
+     "end": 2.96
     },
     {
      "text": "and there are only two possibilities.",
-     "start": 1.968,
-     "end": 3.792
+     "start": 2.96,
+     "end": 5.098
     },
     {
      "text": "One: I have finally lost it.",
-     "start": 3.792,
-     "end": 5.759
+     "start": 5.098,
+     "end": 7.222
     },
     {
      "text": "Two: you're in there.",
-     "start": 5.759,
-     "end": 7.137
+     "start": 7.222,
+     "end": 8.799
     }
    ]
   }
  ],
- "total_s": 7.437
+ "total_s": 9.099
 }

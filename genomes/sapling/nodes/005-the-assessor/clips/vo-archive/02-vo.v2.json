@@ -1,0 +1,231 @@
+{
+ "cast": "voices.yaml",
+ "engine": "chatterbox-0.5B",
+ "directed": "synth_vo v2",
+ "lines": [
+  {
+   "who": "ASSESSOR",
+   "text": "Settlement name?",
+   "start": 0.0,
+   "end": 0.971,
+   "chunks": [
+    {
+     "text": "Settlement name?",
+     "start": 0.0,
+     "end": 0.971
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "\u2026Shade.",
+   "start": 1.151,
+   "end": 1.944,
+   "chunks": [
+    {
+     "text": "\u2026Shade.",
+     "start": 1.151,
+     "end": 1.944
+    }
+   ]
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Shade. Founded?",
+   "start": 2.124,
+   "end": 3.631,
+   "chunks": [
+    {
+     "text": "Shade. Founded?",
+     "start": 2.124,
+     "end": 3.631
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "Yesterday.",
+   "start": 3.811,
+   "end": 4.61,
+   "chunks": [
+    {
+     "text": "Yesterday.",
+     "start": 3.811,
+     "end": 4.61
+    }
+   ]
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Structures?",
+   "start": 4.79,
+   "end": 5.621,
+   "chunks": [
+    {
+     "text": "Structures?",
+     "start": 4.79,
+     "end": 5.621
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "One. Ish.",
+   "start": 5.801,
+   "end": 6.847,
+   "chunks": [
+    {
+     "text": "One. Ish.",
+     "start": 5.801,
+     "end": 6.847
+    }
+   ]
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\"Ish\" is not a load rating.",
+   "start": 7.347,
+   "end": 9.322,
+   "chunks": [
+    {
+     "text": "\"Ish\" is not a load rating.",
+     "start": 7.347,
+     "end": 9.322
+    }
+   ]
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "Orchard, single specimen. Yield?",
+   "start": 9.822,
+   "end": 12.053,
+   "chunks": [
+    {
+     "text": "Orchard, single specimen. Yield?",
+     "start": 9.822,
+     "end": 12.053
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "None! No yield. Zero fruit. Historically.",
+   "start": 12.553,
+   "end": 16.903,
+   "chunks": [
+    {
+     "text": "None! No yield. Zero fruit. Historically.",
+     "start": 12.553,
+     "end": 16.903
+    }
+   ]
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\u2026I have here a prior record. One",
+   "start": 17.403,
+   "end": 20.158,
+   "chunks": [
+    {
+     "text": "\u2026I have here a prior record. One",
+     "start": 17.403,
+     "end": 20.158
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "apple. Unlicensed consumption. Subject: (he looks at the scavenger for a",
+   "start": 20.658,
+   "end": 24.858,
+   "chunks": [
+    {
+     "text": "apple. Unlicensed consumption.",
+     "start": 20.658,
+     "end": 22.502
+    },
+    {
+     "text": "Subject: (he looks at the scavenger for a",
+     "start": 22.502,
+     "end": 24.858
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "long, terrible moment) \u2026description matches.",
+   "start": 25.358,
+   "end": 28.42,
+   "chunks": [
+    {
+     "text": "long, terrible moment) \u2026description matches.",
+     "start": 25.358,
+     "end": 28.42
+    }
+   ]
+  },
+  {
+   "who": "SCAVENGER",
+   "text": "It fell off the cart. Ground fruit is foraging.",
+   "start": 28.92,
+   "end": 31.672,
+   "chunks": [
+    {
+     "text": "It fell off the cart.",
+     "start": 28.92,
+     "end": 30.033
+    },
+    {
+     "text": "Ground fruit is foraging.",
+     "start": 30.033,
+     "end": 31.672
+    }
+   ]
+  },
+  {
+   "who": "FARMER",
+   "text": "He keeps the weeds off. Whole stretch.",
+   "start": 32.172,
+   "end": 34.73,
+   "chunks": [
+    {
+     "text": "He keeps the weeds off. Whole stretch.",
+     "start": 32.172,
+     "end": 34.73
+    }
+   ]
+  },
+  {
+   "who": "ASSESSOR",
+   "text": "\"Community service. Ongoing.\"",
+   "start": 35.23,
+   "end": 37.584,
+   "chunks": [
+    {
+     "text": "\"Community service. Ongoing.\"",
+     "start": 35.23,
+     "end": 37.584
+    }
+   ]
+  },
+  {
+   "who": "VO",
+   "text": "That's not mercy. That's worse. That's a payment plan.",
+   "start": 38.084,
+   "end": 41.624,
+   "chunks": [
+    {
+     "text": "That's not mercy. That's worse.",
+     "start": 38.084,
+     "end": 40.327
+    },
+    {
+     "text": "That's a payment plan.",
+     "start": 40.327,
+     "end": 41.624
+    }
+   ]
+  }
+ ],
+ "total_s": 41.924
+}
