@@ -30,6 +30,11 @@ The episode being remade is just the loop's test bench.
   than 3 things per cycle; you can't tell what worked.
 - Old versions are never deleted (R6) — v1/v2 stay as leaves; the site
   shows the latest.
+- **QA gate (2026-07-24, founder directive):** every re-render passes
+  `pipeline/qa_episode.py` — the end-to-end test encoding every
+  confirmed defect class (faststart, loudness/peak, dead air, frozen or
+  dark opens, captions vs platform chrome, manifest engine/chunks) —
+  before it is staged for a drop or published as a leaf.
 - Diagnosis is model-run; **taste verdicts stay the founder's** (R4):
   the loop proposes, the screening decides.
 - Every re-render publishes provenance like any leaf (§7.2).

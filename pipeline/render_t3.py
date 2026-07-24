@@ -658,7 +658,10 @@ def main() -> int:
                    f":measured_LRA={measured['input_lra']}"
                    f":measured_thresh={measured['input_thresh']}"
                    f":offset={measured['target_offset']}:linear=true")
-        af += ",alimiter=limit=0.891:level=0"  # ~-1 dB ceiling; level=0: no auto-makeup
+        # ~-1.3 dB ceiling; level=0: no auto-makeup. AAC encoding overshoots
+        # the sample peak (001-t3-c measured -0.4 dBTP through a 0.891
+        # limiter — caught by qa_episode) — leave true-peak headroom.
+        af += ",alimiter=limit=0.86:level=0"
         r = subprocess.run([FFMPEG, "-y", "-i", str(video), "-i", str(mixed),
                             "-map", "0:v", "-map", "1:a", "-c:v", "copy",
                             "-af", af, "-ar", str(AUDIO_SR),
