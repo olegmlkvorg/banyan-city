@@ -62,3 +62,30 @@ follows the voice — footage beats out at most 2.0s past the last word
 long VO unchanged. +2 tests. Season re-cut (episodes tightened 3-12s
 each), drops re-staged. Verdict: pending founder screening of the
 re-posted ep 4.
+
+---
+
+# Loop cycle 005 — loop seams + motion grammar (2026-07-24)
+
+(Cycle 004b interlude, same day: cast refs reshaped after the founder's
+"voices are mixed up" wince — assignment was verified correct, the
+failure was clone convergence from one shared neutral ref passage.
+`build_refs.py` now uses in-character text, cast speeds, small pitch
+offsets. Ep 4 recast, founder posted it; rest of season recasting.)
+
+Two verified cycle-1 defects, both fixed while the GPU recasts:
+
+1. **Loop restarts are hard jump-cuts** — when a slot outruns footage,
+   `render_beat` now loops a palindrome (clip + itself reversed): every
+   seam is motion-continuous, first pass still plays forward. Sources
+   over 16s skip it (ffmpeg `reverse` buffers raw frames). Voice-led
+   slots (cycle 004) already made loops rarer; now the remaining ones
+   read as an intentional hold, not a glitch.
+2. **Motion prompt grammar** — style.md production conventions: primary
+   action in the FIRST sentence (models front-load stillness);
+   stillness only with secondary motion. `lint_genome` warns
+   advisory-only; the shipped season is not re-judged retroactively.
+
+Remaining verified backlog: character reference-image conditioning
+(needs render capacity — Kaggle floor or watering) and per-beat
+material sufficiency in generate_shots (same constraint).
