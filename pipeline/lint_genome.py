@@ -36,9 +36,25 @@ LEDGER_HEADER = ["date", "node", "leaf", "citizen", "type", "amount_usd", "compu
 
 errors = []
 
+# visible-motion vocabulary for the first-sentence check (cycle 005) —
+# generation models front-load whatever the opening sentence describes
+MOTION_VERBS = re.compile(
+    r"\b(walk|run|turn|fall|collaps|sweep|pan|tilt|drift|rise|rising|flicker|"
+    r"sway|push|pull|zoom|track|lean|land|drop|open|close|reach|throw|toss|"
+    r"catch|jump|climb|slide|spin|shake|nod|wave|point|stumble|burst|slam|"
+    r"scatter|flutter|ripple|pour|spill|swing|dash|crash|mid-action|moves|"
+    r"moving|gestur|breath)\w*\b", re.I)
+
 
 def err(msg: str) -> None:
     errors.append(msg)
+
+
+def warn(msg: str) -> None:
+    """Advisory only — printed, never counted as a violation. For rules
+    adopted after content already shipped (the tree is never re-judged
+    retroactively; new growth follows the current bar)."""
+    print(f"  ⚠ {msg}")
 
 
 def lint_genome(genome_dir: Path) -> None:
@@ -142,6 +158,18 @@ def lint_shots(genome_name: str, shots_file: Path) -> None:
                         err(f"{where}: {beat_label} prompt missing '{phrase}' (base-footage contract)")
                 if "no photorealism" not in prompt:
                     err(f"{where}: {beat_label} prompt missing 'No photorealism' (style bible — genomes/sapling/style.md)")
+                # motion grammar (loop cycles 001/005, verified): WARN-only so
+                # the already-filmed season stays lint-clean; future shot
+                # lists should fix these before generating.
+                first_sentence = re.split(r"(?<=[.!?])\s", prompt.strip(), 1)[0]
+                if not MOTION_VERBS.search(first_sentence):
+                    warn(f"{where}: {beat_label} prompt's FIRST sentence has no visible "
+                         "motion — models front-load stillness (cycle-001 defect: "
+                         "near-still hook shots)")
+                if re.search(r"completely still|motionless|frozen in place", prompt) \
+                        and not re.search(r"cloud|grass|wind|ripple|light shift|breath|drift|sway", prompt):
+                    warn(f"{where}: {beat_label} asks for stillness with no secondary "
+                         "motion clause — reads as a freeze-frame on a phone")
             block = None
             continue
         if block is not None:

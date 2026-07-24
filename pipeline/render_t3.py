@@ -72,6 +72,7 @@ CAPTION_SIZE = 44
 # narrower than the rail line.
 CAPTION_MARGIN = int(HEIGHT * 0.22)
 CAPTION_MAX_W = WIDTH - 160
+PINGPONG_MAX_S = 16.0  # reverse buffers raw frames; skip palindrome past this
 
 MONO_FONTS = [
     "/System/Library/Fonts/Menlo.ttc",                       # macOS
@@ -421,6 +422,23 @@ def render_beat(beat: dict, num: int, dur: float, clips: list, workdir: Path,
             raise SystemExit(f"beat {num} sequence concat failed:\n{r.stderr[-800:]}")
         clip = seq
     if clip:
+        # looping footage restarts as a hard jump-cut mid-shot (verified,
+        # loop cycle 005): when the slot outruns the material, loop a
+        # PALINDROME (clip + itself reversed) so every seam is
+        # motion-continuous. First pass still plays forward from frame 1.
+        # reverse buffers raw frames — cap the source length it applies to.
+        cdur = video_duration(clip) or 0
+        if cdur and dur > cdur + 0.05 and cdur <= PINGPONG_MAX_S:
+            pp = workdir / f"pp-{num:02d}.mp4"
+            r = subprocess.run(
+                [FFMPEG, "-y", "-i", str(clip), "-filter_complex",
+                 "[0:v]split[a][b];[b]reverse[r];[a][r]concat=n=2:v=1:a=0[out]",
+                 "-map", "[out]", "-an", "-c:v", "libx264",
+                 "-preset", "veryfast", "-crf", "23", str(pp)],
+                capture_output=True, text=True)
+            if r.returncode:
+                raise SystemExit(f"beat {num} ping-pong failed:\n{r.stderr[-800:]}")
+            clip = pp
         inputs += ["-stream_loop", "-1", "-i", str(clip)]
         chains.append(
             f"[0:v]scale={WIDTH}:{HEIGHT}:force_original_aspect_ratio=increase,"

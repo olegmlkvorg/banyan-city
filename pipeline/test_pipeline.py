@@ -463,6 +463,40 @@ def test_t3_check_clips_dir(tmp: Path):
     check("--clips with footage passes", not aborts(d))
 
 
+def test_pingpong_loop_seams(tmp: Path):
+    """Loop cycle 005: when the slot outruns the footage, render_beat loops
+    a palindrome (clip+reversed) so restarts are motion-continuous; footage
+    that covers its slot is never touched."""
+    calls = []
+
+    def fake_run(cmd, **kw):
+        calls.append([str(c) for c in cmd])
+        out = Path(cmd[-1])
+        if out.suffix == ".mp4":
+            out.write_bytes(b"x")
+        class R:
+            returncode = 0
+            stderr = ""
+        return R()
+
+    clip = tmp / "01-shot.mp4"
+    clip.write_bytes(b"v")
+    beat = {"slug": "TEST — 0:00–0:08", "items": []}
+    orig_run, orig_vd = t3.subprocess.run, t3.video_duration
+    t3.subprocess.run = fake_run
+    t3.video_duration = lambda f: 3.0
+    try:
+        t3.render_beat(beat, 1, 8.0, [clip], tmp)
+        looped = any("reverse" in " ".join(c) for c in calls)
+        calls.clear()
+        t3.render_beat(beat, 2, 2.5, [clip], tmp)
+        covered = any("reverse" in " ".join(c) for c in calls)
+    finally:
+        t3.subprocess.run, t3.video_duration = orig_run, orig_vd
+    check("looping beat gets a palindrome", looped)
+    check("covered beat is never ping-ponged", not covered)
+
+
 def main():
     import tempfile
     test_beat_duration_from_timecode()
@@ -471,6 +505,8 @@ def main():
         test_find_clip_naming(Path(td))
     with tempfile.TemporaryDirectory() as td:
         test_find_audio_naming(Path(td))
+    with tempfile.TemporaryDirectory() as td:
+        test_pingpong_loop_seams(Path(td))
     test_wrap_never_drops_words()
     test_caption_chunks()
     test_parse_frames_bold_emphasis_in_quote()

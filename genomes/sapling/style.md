@@ -73,3 +73,20 @@ with full provenance at `/trials/` and in the 001 T3 leaf — they are v1
 evidence, not canon style. Remaking them in v2 anime is a founder render
 session (free tier) or a D8-funded run; the rewritten prompts sit ready in
 `nodes/001-capability-inventory/shots.md`.
+
+## Shot-prompt motion grammar (production convention, steward-drafted 2026-07-24)
+
+Adopted from loop cycles 001/005 (verified on frames: near-still hook
+shots, 10-second freeze-frames). These are PRODUCTION rules, not taste —
+the founder's visual bible above always wins on look.
+
+1. **The first sentence carries the primary action.** Generation models
+   front-load whatever the opening describes: "A tired engineer sits at a
+   desk… then collapses" renders 6 seconds of sitting. Write "An engineer
+   collapses out of frame mid-keystroke; the mug tips…" — the shot is
+   already mid-action at frame 1.
+2. **Stillness is expressed through secondary motion.** Never "completely
+   still / motionless" alone — pair with drifting clouds, grass ripple,
+   shifting light, one leaf breathing, plus a perceptible camera move.
+   A held breath must still be alive on a phone screen.
+3. `pipeline/lint_genome.py` warns (advisory, never failing) on both.
